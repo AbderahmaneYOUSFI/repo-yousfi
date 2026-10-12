@@ -21,7 +21,7 @@ Production-quality developer portfolio built with:
 2. Identify assumptions and missing information.
 3. Propose a plan before non-trivial changes.
 4. Modify only files within the approved scope.
-5. Add tests when appropriate.
+5. Add tests when appropriate and when a test framework or script exists.
 6. Run available verification commands.
 7. Report changes, test results and remaining risks.
 
@@ -37,7 +37,12 @@ Production-quality developer portfolio built with:
 - pnpm exec tsc --noEmit
 - pnpm build
 
-Never claim a command passed unless executed.
+On Windows PowerShell, if `pnpm.ps1` is blocked by execution policy, use:
+- pnpm.cmd lint
+- pnpm.cmd exec tsc --noEmit
+- pnpm.cmd build
+
+No automated test framework is currently configured. Never claim tests passed unless an actual test command was executed, and never claim a command passed unless executed.
 
 ## Security
 - Never expose secrets.
