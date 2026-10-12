@@ -1,9 +1,45 @@
-<!-- BEGIN:nextjs-agent-rules -->
 
-## This is NOT the Next.js you know
+# AI-Native Portfolio — Agent Instructions
 
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+## Project
+Production-quality developer portfolio built with:
+- Next.js App Router
+- React
+- TypeScript
+- Tailwind CSS
 
-This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+## Architecture Rules
+- Prefer Server Components by default.
+- Use Client Components only when required.
+- Keep components small and focused.
+- Follow the existing project structure.
+- Avoid unnecessary abstractions.
+- Do not add dependencies without approval.
 
-<!-- END:nextjs-agent-rules -->
+## Agent Workflow
+1. Inspect relevant files before acting.
+2. Identify assumptions and missing information.
+3. Propose a plan before non-trivial changes.
+4. Modify only files within the approved scope.
+5. Add tests when appropriate.
+6. Run available verification commands.
+7. Report changes, test results and remaining risks.
+
+## Coding Standards
+- Use strict TypeScript.
+- Avoid `any`.
+- Prefer semantic HTML.
+- Ensure responsive layouts.
+- Follow accessibility best practices.
+
+## Verification
+- pnpm lint
+- pnpm exec tsc --noEmit
+- pnpm build
+
+Never claim a command passed unless executed.
+
+## Security
+- Never expose secrets.
+- Never commit credentials.
+- Request approval before destructive operations.
