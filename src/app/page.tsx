@@ -1,10 +1,12 @@
 import { Hero } from "@/components/hero";
+import { CareerPathCards } from "@/components/career-path-cards";
 import { profile } from "@/data/profile";
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       <Hero />
+      <CareerPathCards />
 
       <section
         id="projects"
