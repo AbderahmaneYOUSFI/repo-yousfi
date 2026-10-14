@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { careerPaths, careerPathHref, getCareerPath, type CareerPathSlug } from "@/data/career-paths";
 import { profile } from "@/data/profile";
 import { careerPathStyles, pathLinkFocus } from "@/components/career-path-styles";
+import { ProjectList } from "@/components/project-list";
+import { getProjectsForPath } from "@/data/projects";
 
 export function careerPathMetadata(slug: CareerPathSlug): Metadata {
   const path = getCareerPath(slug);
@@ -37,6 +39,10 @@ export function CareerPathPage({ slug }: { slug: CareerPathSlug }) {
             <a href="/#projects" className={`inline-flex min-h-12 items-center rounded-full bg-zinc-950 px-6 font-semibold text-white dark:bg-zinc-50 dark:text-zinc-950 ${pathLinkFocus}`}>Projects on the homepage</a>
             <a href="/#contact" className={`inline-flex min-h-12 items-center rounded-full border border-zinc-500 px-6 font-semibold ${pathLinkFocus}`}>Contact</a>
           </div>
+        </section>
+        <section aria-labelledby="path-projects-heading" className="mt-12">
+          <h2 id="path-projects-heading" className="text-3xl font-semibold">Projects</h2>
+          <ProjectList projects={getProjectsForPath(slug)} />
         </section>
       </div>
     </main>

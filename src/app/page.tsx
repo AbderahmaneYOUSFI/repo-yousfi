@@ -1,5 +1,7 @@
 import { Hero } from "@/components/hero";
 import { CareerPathCards } from "@/components/career-path-cards";
+import { ProjectList } from "@/components/project-list";
+import { projects } from "@/data/projects";
 import { profile } from "@/data/profile";
 
 export default function Home() {
@@ -26,6 +28,7 @@ export default function Home() {
           <p className="mt-4 max-w-2xl text-base leading-7 text-zinc-700 dark:text-zinc-300">
             {profile.projectSummary}
           </p>
+          <ProjectList projects={projects} />
         </div>
       </section>
 
