@@ -1,26 +1,71 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: dark;
+  --background: #141618;
+  --surface: #1c1f22;
+  --surface-hover: #25292d;
+  --border: #383e44;
+  --foreground: #f2f0eb;
+  --muted: #adb4bd;
+  --focus: #e0e7ef;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
+  --color-border: var(--border);
   --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-focus: var(--focus);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), sans-serif;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 4px;
+}
+
+section[id] {
+  scroll-margin-top: 2rem;
+}
+
+@layer components {
+  .portfolio-section {
+    @apply border-t border-border px-5 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24;
+  }
+
+  .eyebrow {
+    @apply text-xs font-medium uppercase tracking-[0.16em] text-muted;
+  }
+
+  .section-heading {
+    @apply text-3xl font-semibold leading-tight tracking-tight sm:text-4xl;
+  }
+
+  .button {
+    @apply inline-flex min-h-12 items-center justify-center rounded-lg border border-border px-5 py-3 text-sm font-semibold transition-colors hover:bg-surface-hover;
+  }
+
+  .button-primary {
+    @apply border-foreground bg-foreground text-background hover:border-muted hover:bg-muted;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
+  }
 }

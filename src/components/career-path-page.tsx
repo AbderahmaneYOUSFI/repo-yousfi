@@ -1,8 +1,8 @@
-/* eslint-disable @next/next/no-html-link-for-pages -- Feature 002 uses native links for full-document navigation without client-side React. */
+/* eslint-disable @next/next/no-html-link-for-pages -- Native links preserve full-document navigation established in Feature 002. */
 import type { Metadata } from "next";
 import { careerPaths, careerPathHref, getCareerPath, type CareerPathSlug } from "@/data/career-paths";
 import { profile } from "@/data/profile";
-import { careerPathStyles, pathLinkFocus } from "@/components/career-path-styles";
+import { careerPathStyles, careerPathTextStyles } from "@/components/career-path-styles";
 import { ProjectList } from "@/components/project-list";
 import { getProjectsForPath } from "@/data/projects";
 
@@ -15,33 +15,37 @@ export function CareerPathPage({ slug }: { slug: CareerPathSlug }) {
   const path = getCareerPath(slug);
 
   return (
-    <main className="min-h-screen bg-background px-6 py-12 text-foreground sm:px-8 lg:px-12">
+    <main className="min-h-screen bg-background px-5 py-8 text-foreground sm:px-8 sm:py-12 lg:px-12">
       <div className="mx-auto max-w-6xl">
-        <nav aria-label="Career paths" className="mb-12">
-          <ul className="flex flex-wrap items-center gap-4">
-            <li><a href="/" className={`inline-flex min-h-11 items-center rounded-lg px-3 underline underline-offset-4 ${pathLinkFocus}`}>Home</a></li>
+        <nav aria-label="Career paths" className="mb-12 sm:mb-16">
+          <ul className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
+            <li><a href="/" className="inline-flex min-h-12 items-center rounded-lg px-4 py-3 text-sm text-muted underline underline-offset-4 transition-colors hover:bg-surface-hover hover:text-foreground">Home</a></li>
             {careerPaths.map((entry) => (
-              <li key={entry.slug}>
-                <a href={careerPathHref(entry.slug)} aria-current={entry.slug === slug ? "page" : undefined} className={`inline-flex min-h-11 flex-wrap items-center gap-2 rounded-lg px-3 py-2 underline underline-offset-4 ${entry.slug === slug ? "bg-zinc-100 font-semibold dark:bg-zinc-900" : "text-zinc-700 dark:text-zinc-300"} ${pathLinkFocus}`}>
+              <li key={entry.slug} className="min-w-0">
+                <a
+                  href={careerPathHref(entry.slug)}
+                  aria-current={entry.slug === slug ? "page" : undefined}
+                  className={`inline-flex min-h-12 w-full flex-wrap items-center gap-2 rounded-lg border px-4 py-3 text-sm transition-colors hover:bg-surface-hover sm:w-auto ${entry.slug === slug ? `border-border bg-surface font-semibold ${careerPathTextStyles[entry.accent]}` : "border-transparent text-muted hover:text-foreground"}`}
+                >
                   {entry.name}
-                  {entry.slug === slug && <span className="text-xs">(Current)</span>}
+                  {entry.slug === slug && <span className="text-xs font-normal text-foreground">(Current)</span>}
                 </a>
               </li>
             ))}
           </ul>
         </nav>
 
-        <section aria-labelledby="path-heading" className={`rounded-2xl border border-t-4 border-zinc-200 p-6 dark:border-zinc-800 sm:p-10 ${careerPathStyles[path.accent]}`}>
-          <p className="text-sm font-medium text-zinc-600 dark:text-zinc-400">{profile.name} · {profile.role}</p>
-          <h1 id="path-heading" className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">{path.name}</h1>
-          <p className="mt-6 max-w-3xl text-lg leading-8 text-zinc-700 dark:text-zinc-300">{path.introduction}</p>
-          <div className="mt-8 flex flex-wrap gap-4">
-            <a href="/#projects" className={`inline-flex min-h-12 items-center rounded-full bg-zinc-950 px-6 font-semibold text-white dark:bg-zinc-50 dark:text-zinc-950 ${pathLinkFocus}`}>Projects on the homepage</a>
-            <a href="/#contact" className={`inline-flex min-h-12 items-center rounded-full border border-zinc-500 px-6 font-semibold ${pathLinkFocus}`}>Contact</a>
+        <section aria-labelledby="path-heading" className={`border-t-2 pt-8 sm:pt-10 ${careerPathStyles[path.accent]}`}>
+          <p className="text-sm leading-6 text-muted">{profile.name} · {profile.role}</p>
+          <h1 id="path-heading" className="mt-4 break-words text-4xl font-semibold leading-tight tracking-tight sm:text-5xl lg:text-6xl">{path.name}</h1>
+          <p className="mt-6 max-w-3xl text-lg leading-8 text-muted">{path.introduction}</p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <a href="/#projects" className="button button-primary">Projects on the homepage</a>
+            <a href="/#contact" className="button">Contact</a>
           </div>
         </section>
-        <section aria-labelledby="path-projects-heading" className="mt-12">
-          <h2 id="path-projects-heading" className="text-3xl font-semibold">Projects</h2>
+        <section aria-labelledby="path-projects-heading" className="mt-16 border-t border-border py-12 sm:mt-20 sm:py-16">
+          <h2 id="path-projects-heading" className="section-heading">Projects</h2>
           <ProjectList projects={getProjectsForPath(slug)} />
         </section>
       </div>

@@ -1,104 +1,65 @@
 # Architecture
 
-This document describes the current implementation only. It is intended for future coding agents working in this repository.
+This document describes the current implementation for future coding agents.
 
-## Relevant Existing Files
+## Stack and runtime
 
-- `AGENTS.md` - agent workflow, coding standards, and verification expectations.
-- `package.json` - scripts and dependency versions.
-- `pnpm-lock.yaml`, `pnpm-workspace.yaml` - pnpm lockfile and workspace/build policy.
-- `tsconfig.json` - strict TypeScript and Next.js compiler configuration.
-- `next.config.ts` - Next.js configuration, including component caching, partial prefetching, and Tailwind CSS Turbopack handling.
-- `eslint.config.mjs` - Next.js core-web-vitals and TypeScript ESLint configuration.
-- `src/app/layout.tsx` - root layout, metadata, font setup, and global CSS import.
-- `src/app/page.tsx` - homepage composition.
-- `src/app/globals.css` - Tailwind import, theme tokens, color-scheme variables, and global body styles.
-- `src/app/favicon.ico` - app favicon.
-- `src/components/hero.tsx` - portfolio hero component.
-- `src/data/profile.ts` - centralized placeholder portfolio content.
-- `docs/specs/001-hero.md` - Feature 001 hero specification.
-- `docs/agent-evals/001-hero-review.md` - Feature 001 review and acceptance record.
-- `docs/architecture.md` - this file.
+- Next.js App Router in `src/app`, React 19, strict TypeScript and Tailwind CSS 4.
+- pnpm is the package manager; `package.json` defines lint, build and development scripts.
+- `next.config.ts` configures component caching, partial prefetching and Tailwind's Turbopack integration.
+- `src/app/layout.tsx` loads Geist and Geist Mono through `next/font/google`, imports global CSS and derives root metadata from `profile`.
+- All current pages and components are Server Components. Static markup and native links require no client state, effects or event handlers.
+- No backend, database, CMS, authentication, analytics or automated test framework is configured.
 
-## Tech Stack and Runtime Model
+## Routes and composition
 
-- Next.js App Router using `src/app`.
-- React 19 with TypeScript.
-- Tailwind CSS 4 via `@import "tailwindcss"` in `src/app/globals.css`.
-- pnpm 12.11.2 as the configured package manager.
-- ESLint 9 with `eslint-config-next` core web vitals and TypeScript presets.
-- Next.js font optimization with `Geist` and `Geist_Mono` from `next/font/google`.
-- No backend API, database, authentication, CMS, or test framework exists in the current implementation.
+- `/`: `src/app/page.tsx` composes `Hero`, `CareerPathCards`, the shared `ProjectList` in `#projects`, and the `#contact` section.
+- `/paths/ai-data`, `/paths/software`, `/paths/digital`: each static route delegates rendering to `CareerPathPage` with its typed slug and exports path-specific metadata through `careerPathMetadata`.
+- `CareerPathPage` renders shared path navigation, an introduction, homepage project/contact actions and projects filtered for that path.
+- Navigation uses native anchors for full-document navigation. The active path has `aria-current="page"`, a visible `(Current)` label, heavier text and a surface/border treatment in addition to its accent.
+- Hero actions target the existing homepage anchors. No project detail routes or fabricated external destinations are present.
 
-The app currently renders a single homepage. `src/app/layout.tsx`, `src/app/page.tsx`, and `src/components/hero.tsx` do not use `"use client"`, React state, effects, browser-only APIs, or event handlers, so they are Server Components under the App Router default.
+## Content and data flow
 
-## Directory Structure and Responsibilities
+`src/data/profile.ts` exports readonly identity, role, introduction, metadata, CTA targets and section copy. The root layout, Hero, homepage and career path page consume it. Identity and contact content still contain placeholders.
 
-- `src/app/` contains App Router entry points and global styles.
-  - `layout.tsx` defines the HTML shell, font CSS variables, metadata, and body wrapper.
-  - `page.tsx` composes the homepage with `Hero`, `#projects`, and `#contact` sections.
-  - `globals.css` defines Tailwind setup and global color/font tokens.
-- `src/components/` contains reusable UI components. Currently it only contains `Hero`.
-- `src/data/` contains static application data. Currently `profile.ts` exports all visible portfolio copy and CTA targets.
-- `docs/specs/` contains feature specifications.
-- `docs/agent-evals/` contains independent agent review and acceptance records.
-- `public/` contains default static SVG assets from the starter project; they are not referenced by the current app code.
+`src/data/career-paths.ts` defines the typed `CareerPathSlug`, `CareerPathAccent` and readonly `CareerPath` model. The shared `careerPaths` array owns each path's name, description, introduction, accent and metadata description. `careerPathHref` builds route URLs; `getCareerPath` resolves a slug and throws if its definition is missing.
 
-## Server vs Client Component Policy
+`src/data/projects.ts` defines readonly `Project` and `ProjectLink` models. Each project has an ID, title, description, technologies, career path memberships and links. Link URLs are typed as HTTP or HTTPS. The homepage renders all projects in data order; `getProjectsForPath` filters by membership without changing that order or duplicating facts. Projects can appear in multiple paths.
 
-- Prefer Server Components by default, matching `AGENTS.md`.
-- Add `"use client"` only for components that require client-side React behavior such as state, effects, event handlers, browser APIs, or interactive libraries.
-- Keep data reads from `src/data/profile.ts` in Server Components when possible.
-- Do not introduce client components for static layout, links, metadata, or presentational markup.
+Project topics are recorded, but details, technologies and links await confirmation; path assignments are provisional editorial choices. `ProjectList` renders semantic list items and articles, technology metadata and available link actions. Empty technologies and links have plain confirmation messages, without fake badges, disabled buttons or invented URLs. An empty filtered list has an explicit message. Action/status footers sit at the bottom of cards within each grid row.
 
-## Data Flow
+All content is static and bundled with the app. There is no runtime fetch or persistence layer. Preserve the shared models and verified facts when refining presentation.
 
-`src/data/profile.ts` exports a readonly `profile` object with placeholder identity, role, intro copy, metadata description, CTA labels/hrefs, and temporary section summaries.
+## Design conventions (Feature 004)
 
-Current consumers:
+The current presentation is consistently dark, independent of the operating system theme: quiet charcoal surfaces, off-white text, generous spacing and restrained path accents.
 
-- `src/app/layout.tsx`
-  - Imports `profile`.
-  - Builds `metadata.title` from `profile.name` and `profile.role`.
-  - Uses `profile.metadataDescription` for the page description.
-- `src/components/hero.tsx`
-  - Imports `profile`.
-  - Renders role, name, intro, and both CTA links.
-  - CTA destinations are `profile.ctas.projects.href` and `profile.ctas.contact.href`.
-- `src/app/page.tsx`
-  - Imports `profile`.
-  - Renders `Hero`.
-  - Provides matching `#projects` and `#contact` sections for the hero CTAs.
-  - Uses `profile.projectSummary` and `profile.contactSummary` for temporary section copy.
+- `src/app/globals.css` defines semantic CSS variables for background, surface, hover surface, border, foreground, muted text and focus. `@theme inline` exposes them as Tailwind color utilities; `color-scheme: dark` aligns browser-rendered controls.
+- The body uses the loaded Geist Sans variable. Geist Mono is reserved for technology labels, rather than paragraphs or headings.
+- Small shared CSS component classes (`portfolio-section`, `eyebrow`, `section-heading`, `button`, `button-primary`) keep section spacing, typography and CTA treatments consistent. Other styling stays in Tailwind utilities.
+- Content containers use `max-w-6xl`; prose uses narrower widths and generous line height. Headings use tight tracking. Mobile layouts stack actions and navigation, with project grids expanding at medium/large widths and path cards at large widths.
+- `career-path-styles.ts` maps the typed accents to subtle cyan, indigo and teal top borders and readable accent text. Color supplements named paths and the explicit current-page indicator.
+- The Hero is text and actions only; its former decorative skeleton panel has been removed.
+- Cards use restrained borders and rounded corners. Project titles and summaries take precedence over subdued technology metadata and link status.
 
-The profile data is static and bundled with the app. There is no runtime fetch, API layer, environment-variable dependency, or persistence layer.
+## Accessibility and interaction
 
-## Styling and Accessibility Conventions
+- Use semantic landmarks, heading hierarchy and sections labelled with `aria-labelledby`.
+- Global `:focus-visible` supplies a consistent two-pixel outline with a four-pixel offset. Do not remove it without an equally visible replacement.
+- Buttons and path navigation have at least 48px height; project links have at least 44px height and horizontal padding. Path card links use their entire card as the target.
+- Hover feedback uses subtle color changes, without movement or decorative animation.
+- A global reduced-motion media query disables transitions and animations and keeps scrolling instant when requested.
+- In-page destinations have scroll margin. Long headings and card content wrap; grid items allow shrinking.
+- Project links include the project title in their accessible names. Missing-data messages remain readable text, not interactive controls.
 
-- Styling is implemented with Tailwind utility classes.
-- Global semantic color tokens are defined as CSS variables: `--background` and `--foreground`.
-- Dark mode follows `prefers-color-scheme` in `globals.css` and Tailwind `dark:` variants in components.
-- Layouts use responsive Tailwind prefixes such as `sm:` and `lg:`.
-- The current page uses semantic landmarks and sections: `<main>`, `<section>`, `<h1>`, `<h2>`, and links.
-- Sections use `aria-labelledby` with matching heading IDs.
-- The decorative hero preview is marked `aria-hidden="true"`.
-- CTA links include visible focus outlines via `focus-visible` classes.
-- Transitions include `motion-reduce:transition-none` where used.
+## Development and verification
 
-## Feature Development Workflow
+Follow `AGENTS.md`: inspect relevant files, state assumptions, propose a plan before non-trivial changes, keep changes scoped and avoid new dependencies without approval. Prefer Server Components; add `use client` only when actual browser-side React behavior is required.
 
-Use the workflow demonstrated by Feature 001 and required by `AGENTS.md`:
+Feature specs live in `docs/specs/`, the product brief in `docs/product/portfolio-brief.md`, and review records in `docs/agent-evals/`. Keep architecture documentation aligned with the current implementation.
 
-1. Spec: define objective, requirements, constraints, acceptance criteria, and out-of-scope items in `docs/specs/`.
-2. Plan: inspect relevant files, identify assumptions or missing information, and propose a short plan before non-trivial changes.
-3. Implementation: modify only approved files and keep components focused.
-4. Verification: run available checks and record exact outcomes.
-5. Independent review: use a separate review pass or conversation to inspect the spec, implementation, and working tree.
-6. Human approval: a human decides whether findings block the feature or are accepted limitations.
-
-## Quality Gates
-
-Run these from the repository root in Windows PowerShell:
+Run from the repository root in Windows PowerShell:
 
 ```powershell
 pnpm.cmd lint
@@ -106,14 +67,12 @@ pnpm.cmd exec tsc --noEmit
 pnpm.cmd build
 ```
 
-Do not claim a gate passed unless it was actually executed. Direct `pnpm` may be blocked by PowerShell execution policy on this machine; use `pnpm.cmd`.
+Do not claim a gate passed unless executed. No automated test framework is currently configured. Browser review should cover all four routes, narrow and wide viewports, keyboard focus/navigation, active path indicators, text zoom, contrast and reduced-motion preferences.
 
-## Known Limitations and Deferred Decisions
+## Remaining limitations
 
-- `profile.name`, project copy, and contact copy are placeholders and must be replaced before public release.
-- No automated tests are configured.
-- No project listing, contact method, CMS, backend API, analytics, deployment configuration, or authentication exists.
-- `README.md` still contains the default create-next-app content and references `app/page.tsx` instead of the current `src/app/page.tsx` structure.
-- The current visual hero preview is decorative markup, not a real project preview or image asset.
-- `public/*.svg` starter assets exist but are not currently used.
-- Feature 001 browser checks at 375px and 1440px are recorded as developer-reported in `docs/agent-evals/001-hero-review.md`; this document did not independently re-run browser viewport checks.
+- Identity, biography and contact details need verification before public release.
+- Project details, technologies, evidence links and path assignments need confirmation.
+- No project detail pages, CV assets or additional contact destinations are implemented.
+- Bilingual content, advanced visual effects and interactive architecture diagrams remain deferred.
+- Starter SVG assets in `public/` are unused; `README.md` still contains starter documentation.

@@ -13,19 +13,19 @@ export default function Home() {
       <section
         id="projects"
         aria-labelledby="projects-heading"
-        className="border-t border-zinc-200 px-6 py-16 dark:border-zinc-800 sm:px-8 lg:px-12"
+        className="portfolio-section"
       >
         <div className="mx-auto max-w-6xl">
-          <p className="text-sm font-medium uppercase tracking-[0.18em] text-zinc-600 dark:text-zinc-400">
+          <p className="eyebrow">
             Selected work
           </p>
           <h2
             id="projects-heading"
-            className="mt-3 text-3xl font-semibold text-zinc-950 dark:text-zinc-50"
+            className="section-heading mt-3"
           >
             Projects
           </h2>
-          <p className="mt-4 max-w-2xl text-base leading-7 text-zinc-700 dark:text-zinc-300">
+          <p className="mt-4 max-w-2xl text-base leading-7 text-muted">
             {profile.projectSummary}
           </p>
           <ProjectList projects={projects} />
@@ -35,19 +35,19 @@ export default function Home() {
       <section
         id="contact"
         aria-labelledby="contact-heading"
-        className="border-t border-zinc-200 px-6 py-16 dark:border-zinc-800 sm:px-8 lg:px-12"
+        className="portfolio-section"
       >
         <div className="mx-auto max-w-6xl">
-          <p className="text-sm font-medium uppercase tracking-[0.18em] text-zinc-600 dark:text-zinc-400">
+          <p className="eyebrow">
             Start a conversation
           </p>
           <h2
             id="contact-heading"
-            className="mt-3 text-3xl font-semibold text-zinc-950 dark:text-zinc-50"
+            className="section-heading mt-3"
           >
             Contact
           </h2>
-          <p className="mt-4 max-w-2xl text-base leading-7 text-zinc-700 dark:text-zinc-300">
+          <p className="mt-4 max-w-2xl text-base leading-7 text-muted">
             {profile.contactSummary}
           </p>
         </div>

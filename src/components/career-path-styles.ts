@@ -1,9 +1,13 @@
 import type { CareerPathAccent } from "@/data/career-paths";
 
 export const careerPathStyles = {
-  cyan: "border-t-cyan-700 dark:border-t-cyan-400",
-  indigo: "border-t-indigo-700 dark:border-t-indigo-400",
-  teal: "border-t-teal-700 dark:border-t-teal-400",
+  cyan: "border-t-cyan-400/50",
+  indigo: "border-t-indigo-400/50",
+  teal: "border-t-teal-400/50",
 } satisfies Record<CareerPathAccent, string>;
 
-export const pathLinkFocus = "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-zinc-950 dark:focus-visible:outline-zinc-50";
+export const careerPathTextStyles = {
+  cyan: "text-cyan-300",
+  indigo: "text-indigo-300",
+  teal: "text-teal-300",
+} satisfies Record<CareerPathAccent, string>;
