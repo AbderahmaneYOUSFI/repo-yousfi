@@ -1,3 +1,13 @@
+export type ProfileContact = {
+  readonly email?: `${string}@${string}`;
+  readonly github?: `https://${string}`;
+  readonly linkedin?: `https://${string}`;
+  readonly cv?: `/${string}.pdf`;
+};
+
+// Add only confirmed personal destinations and an existing PDF from public/.
+const contact: ProfileContact = {};
+
 export const profile = {
   name: "Your Name",
   role: "AI-Native Software Engineer",
@@ -18,5 +28,6 @@ export const profile = {
   projectSummary:
     "Selected project case studies will highlight product thinking, technical decisions, and measurable outcomes.",
   contactSummary:
-    "Contact details and preferred ways to connect will be added here as the portfolio content is finalized.",
+    "Contact links and a CV download appear here when available.",
+  contact,
 } as const;

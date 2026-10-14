@@ -5,6 +5,10 @@ import { profile } from "@/data/profile";
 import { careerPathStyles, careerPathTextStyles } from "@/components/career-path-styles";
 import { ProjectList } from "@/components/project-list";
 import { getProjectsForPath } from "@/data/projects";
+import { ExperienceList } from "@/components/experience-list";
+import { SkillList } from "@/components/skill-list";
+import { getExperiencesForPath } from "@/data/experiences";
+import { getSkillsForPath } from "@/data/skills";
 
 export function careerPathMetadata(slug: CareerPathSlug): Metadata {
   const path = getCareerPath(slug);
@@ -47,6 +51,14 @@ export function CareerPathPage({ slug }: { slug: CareerPathSlug }) {
         <section aria-labelledby="path-projects-heading" className="mt-16 border-t border-border py-12 sm:mt-20 sm:py-16">
           <h2 id="path-projects-heading" className="section-heading">Projects</h2>
           <ProjectList projects={getProjectsForPath(slug)} />
+        </section>
+        <section id="experiences" aria-labelledby="path-experiences-heading" className="border-t border-border py-12 sm:py-16">
+          <h2 id="path-experiences-heading" className="section-heading">Experiences</h2>
+          <ExperienceList experiences={getExperiencesForPath(slug)} />
+        </section>
+        <section id="skills" aria-labelledby="path-skills-heading" className="border-t border-border py-12 sm:py-16">
+          <h2 id="path-skills-heading" className="section-heading">Skills</h2>
+          <SkillList skills={getSkillsForPath(slug)} />
         </section>
       </div>
     </main>

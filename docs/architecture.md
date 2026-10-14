@@ -13,9 +13,9 @@ This document describes the current implementation for future coding agents.
 
 ## Routes and composition
 
-- `/`: `src/app/page.tsx` composes `Hero`, `CareerPathCards`, the shared `ProjectList` in `#projects`, and the `#contact` section.
+- `/`: `src/app/page.tsx` composes `Hero`, `CareerPathCards`, the shared `ProjectList` in `#projects`, `ExperienceList` in `#experiences`, `SkillList` in `#skills`, and the `#contact` section.
 - `/paths/ai-data`, `/paths/software`, `/paths/digital`: each static route delegates rendering to `CareerPathPage` with its typed slug and exports path-specific metadata through `careerPathMetadata`.
-- `CareerPathPage` renders shared path navigation, an introduction, homepage project/contact actions and projects filtered for that path.
+- `CareerPathPage` renders shared path navigation, an introduction, homepage project/contact actions and projects, experiences and skills filtered for that path.
 - Navigation uses native anchors for full-document navigation. The active path has `aria-current="page"`, a visible `(Current)` label, heavier text and a surface/border treatment in addition to its accent.
 - Hero actions target the existing homepage anchors. No project detail routes or fabricated external destinations are present.
 
@@ -23,11 +23,19 @@ This document describes the current implementation for future coding agents.
 
 `src/data/profile.ts` exports readonly identity, role, introduction, metadata, CTA targets and section copy. The root layout, Hero, homepage and career path page consume it. Identity and contact content still contain placeholders.
 
+Feature 006 adds `profile.contact`, typed by the readonly `ProfileContact` model: optional email address, HTTPS GitHub/LinkedIn URLs and a root-relative local CV PDF URL. Populate only confirmed personal destinations and an existing PDF in `public/`; URL types alone do not verify ownership or file existence. Contact data currently starts empty because no verified destinations or CV asset are present.
+
+`ContactSection` is a Server Component on the homepage at the preserved `#contact` anchor. It uses native `mailto:` and HTTPS profile anchors and a local CV link with `download`, rendering only populated fields. Missing professional contact details and an unavailable CV have plain availability messages, without fake actions or an empty list. Actions stack on small screens and wrap on larger screens using existing button/focus styles. Hero CTAs and the shared career-path `/#contact` action are preserved.
+
 `src/data/career-paths.ts` defines the typed `CareerPathSlug`, `CareerPathAccent` and readonly `CareerPath` model. The shared `careerPaths` array owns each path's name, description, introduction, accent and metadata description. `careerPathHref` builds route URLs; `getCareerPath` resolves a slug and throws if its definition is missing.
 
 `src/data/projects.ts` defines readonly `Project` and `ProjectLink` models. Each project has an ID, title, description, technologies, career path memberships and links. Link URLs are typed as HTTP or HTTPS. The homepage renders all projects in data order; `getProjectsForPath` filters by membership without changing that order or duplicating facts. Projects can appear in multiple paths.
 
 Project topics are recorded, but details, technologies and links await confirmation; path assignments are provisional editorial choices. `ProjectList` renders semantic list items and articles, technology metadata and available link actions. Empty technologies and links have plain confirmation messages, without fake badges, disabled buttons or invented URLs. An empty filtered list has an explicit message. Action/status footers sit at the bottom of cards within each grid row.
+
+`src/data/experiences.ts` defines readonly `Experience` records with an ID, organization, optional role/period/summary and career-path memberships. `src/data/skills.ts` defines readonly `Skill` records with an ID, name, optional evidence/context and memberships; there are no proficiency ratings. `getExperiencesForPath` and `getSkillsForPath` filter by membership, preserving source order and shared facts. Empty memberships allow homepage-only records until relevance is confirmed.
+
+`ExperienceList` and `SkillList` are shared Server Components. They omit unknown optional fields and show clearly labelled editorial confirmation messages for empty selections. Both datasets currently start empty: repository material does not establish professional experience or a personal skill inventory. ICOSNET is only a project topic, Schneider Electric has no source entry, and academic positioning or repository dependencies must not be converted into skill claims. Add only confirmed facts; do not infer chronology, employment relationships or proficiency.
 
 All content is static and bundled with the app. There is no runtime fetch or persistence layer. Preserve the shared models and verified facts when refining presentation.
 
@@ -73,6 +81,7 @@ Do not claim a gate passed unless executed. No automated test framework is curre
 
 - Identity, biography and contact details need verification before public release.
 - Project details, technologies, evidence links and path assignments need confirmation.
-- No project detail pages, CV assets or additional contact destinations are implemented.
+- Experience organizations, roles, periods, responsibilities/results, skill evidence and their career-path memberships need confirmation before populating the new datasets.
+- No project detail pages or CV assets are present; contact/CV actions are supported but await verified destinations and a real PDF.
 - Bilingual content, advanced visual effects and interactive architecture diagrams remain deferred.
 - Starter SVG assets in `public/` are unused; `README.md` still contains starter documentation.
