@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "next typegen && tsc --noEmit",
     "mcp:build": "tsc -p mcp/tsconfig.json",
     "mcp:start": "node build/mcp/mcp/index.js",
     "mcp:test": "pnpm run mcp:build && node --test build/mcp/mcp/server.test.js"
