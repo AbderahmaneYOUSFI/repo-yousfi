@@ -1,0 +1,237 @@
+%!TEX program = pdflatex
+\documentclass[a4paper,11pt]{article}
+
+% ─── Packages ────────────────────────────────────────────────────────────────
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[left=4mm, right=0mm, top=0mm, bottom=0mm]{geometry}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{parskip}
+\usepackage{hyperref}
+\usepackage{calc}
+\usepackage{pgffor}
+\usepackage{fontawesome5}
+
+% ─── Color Palette ────────────────────────────────────────────────────────────
+\definecolor{sidecolor}{HTML}{E8EDF2}    % Gris clair (remplace le bleu marine)
+\definecolor{accent}{HTML}{2471A3}       % Bleu un peu plus foncé
+\definecolor{highlight}{HTML}{C0392B}    % Rouge élégant (remplace l'orange)
+\definecolor{lightbg}{HTML}{FAFBFC}     % Blanc cassé
+\definecolor{textlight}{HTML}{1A2E4A}   % Texte sombre (remplace blanc — car fond clair maintenant)
+\definecolor{textdark}{HTML}{2C3E50}
+\definecolor{subtle}{HTML}{000000}
+
+\hypersetup{colorlinks=fase, urlcolor=accent, linkcolor=accent}
+
+% ─── Dimensions ───────────────────────────────────────────────────────────────
+\newlength{\sideW}  \setlength{\sideW}{60mm}
+\newlength{\mainW}  \setlength{\mainW}{145mm}
+
+% ─── Macros ───────────────────────────────────────────────────────────────────
+\newcommand{\sidesec}[1]{%
+  \vspace{5pt}%
+  {\color{highlight}\small\bfseries\MakeUppercase{#1}}\\[-3pt]%
+  {\color{highlight!50}\rule{\linewidth}{0.4pt}}%
+  \vspace{2pt}%
+}
+
+\newcommand{\mainsec}[1]{%
+  \vspace{5pt}%
+  {\color{accent}\normalsize\bfseries\MakeUppercase{#1}}\\[-4pt]%
+  {\color{highlight}\rule{\linewidth}{1.4pt}}%
+  \vspace{2pt}%
+}
+
+\newcommand{\expblock}[4]{%
+  \noindent{\color{textdark}\small\bfseries #1}\hfill{\color{highlight}\scriptsize\itshape #3}\\[-2pt]%
+  {\color{accent}\scriptsize\itshape #2}%
+  \vspace{1pt}%
+  #4%
+  \vspace{3pt}%
+}
+
+\newcommand{\cvbullet}[1]{%
+  \noindent\hspace{1.5mm}{\color{accent}\scriptsize$\triangleright$}\ {\scriptsize #1}\\[-2pt]%
+}
+\newcommand{\cvbullett}[1]{%
+  \noindent\hspace{1.5mm}{\color{accent}\scriptsize$\triangleright$}\ {\small #1}\\%
+}
+
+
+\newcommand{\tagpill}[1]{%
+  \tikz[baseline=(t.base)]\node[fill=accent!25,text=accent,rounded corners=2pt,
+    inner xsep=3pt,inner ysep=1pt,font=\scriptsize\bfseries](t){#1};%
+  \hspace{-1pt}%
+}
+
+\newcommand{\skillbar}[2]{%
+  \noindent{\color{textlight}\small #1}\hfill
+  \foreach \i in {1,...,5}{%
+    \ifnum\i>#2
+      \begin{tikzpicture}[baseline=-0.6ex]\fill[sidecolor!35](0,0)circle(2.2pt);\end{tikzpicture}%
+    \else
+      \begin{tikzpicture}[baseline=-0.6ex]\fill[highlight](0,0)circle(2.2pt);\end{tikzpicture}%
+    \fi
+  }\\[1pt]%
+}
+
+\newcommand{\projrow}[3]{%
+  \noindent{\color{textdark}\scriptsize\bfseries #1}\ {\color{subtle}\tiny[#2]}\\[-2pt]%
+  \noindent\hspace{1.5mm}{\color{accent}\tiny$\triangleright$}\ {\scriptsize #3}\\[1pt]%
+}
+
+% ─── Document ─────────────────────────────────────────────────────────────────
+\pagestyle{empty}
+\setlength{\parskip}{0pt}
+\begin{document}
+
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[sidecolor](current page.north west)rectangle([xshift=\sideW +5mm]current page.south west);
+  \fill[lightbg]([xshift=\sideW +4mm]current page.north west)rectangle(current page.south east);
+\end{tikzpicture}
+
+\noindent
+%══════════════════ SIDEBAR ══════════════════
+\begin{minipage}[t]{\sideW}
+\vspace{1mm}
+\begin{center}
+
+  \begin{tikzpicture}
+    \clip(0,0)circle(1.7cm);
+    % Replace the two lines below with your photo:
+    \node at (0,0){\includegraphics[width=3.4cm,height=3.4cm]{GC 6.png}};
+  \end{tikzpicture}
+
+  \vspace{3mm}
+  {\color{textlight}\huge\bfseries YOUSFI}\\[1pt]
+  {\color{textlight}\LARGE\bfseries Abderrahmane}\\[3pt]
+{\color{highlight}\itshape Stage Développeur AI }\\[1pt]
+  {\color{textlight}Disponibilité : Janvier 2027}
+
+\end{center}
+
+\vspace{3mm}
+\hspace{3mm}\begin{minipage}{\sideW-6mm}
+
+\sidesec{Contact}
+{\color{textlight}\small
+  \textbf{\color{highlight}T\'el}\ \ 07 44 64 61 67\\[1.5pt]
+  \textbf{\color{highlight}Loc}\ \ Nice (06) \\[1.5pt]
+  \textbf{\color{highlight} \faEnvelope}\ \href{mailto:yousfi.abderrahmane02@gmail.com}{yousfi.abderrahmane02@gmail.com}\\[1.5pt]
+  \textbf{\color{highlight} \faLinkedin  }\ \ \ \href{https://linkedin.com/in/abderrahmane02-yousfi}{ \color{textlight} \hspace{3pt}abderrahmane02-yousfi}\\[1.5pt]
+  \textbf{\color{highlight} \faGithub }\ \ \ \href{https://github.com/AbderahmaneYOUSFI}{\hspace{5pt}AbderahmaneYOUSFI}%
+}
+
+\sidesec{Comp\'etences}
+
+{\color{textlight}\small\bfseries Langages}\\[1.5pt]
+\tagpill{Python} \tagpill{Java} \tagpill{C/C++} \tagpill{SQL}\\[1pt]
+\tagpill{JavaScript} \tagpill{TypeScript} \tagpill{R}
+
+\vspace{3pt}
+{\color{textlight}\small\bfseries Frameworks}\\[1.5pt]
+\tagpill{Angular} \tagpill{Spring Boot} \tagpill{Node.js}\\[1pt]
+\tagpill{Express} \tagpill{REST API} 
+
+\vspace{3pt}
+{\color{textlight}\small\bfseries Data \& IA}\\[1.5pt]
+\tagpill{MCP} \tagpill{PyTorch} \tagpill{TensorFlow} \tagpill{XGBoost} \tagpill{Scikit-learn} \tagpill{Pandas} \tagpill{NumPy} \tagpill{Streamlit} \tagpill{ETL}
+
+\vspace{3pt}
+{\color{textlight}\small\bfseries Bases de donn\'ees}\\[1.5pt]
+\tagpill{MySQL} \tagpill{Oracle} \tagpill{MongoDB} \tagpill{SQLite} 
+
+\vspace{3pt}
+{\color{textlight}\small\bfseries Outils}\\[1.5pt]
+\tagpill{Git} \tagpill{Docker} \tagpill{AWS} \tagpill{Jira} \\[1pt] \tagpill{MATLAB} \tagpill{Postman} \tagpill{SAP}
+
+\sidesec{M\'ethodes}
+{\color{textlight}\small
+  UML $\cdot$ BPMN $\cdot$ Archimate\\[1pt]
+  Agile/Scrum $\cdot$ MS Project\\[1pt]
+  ISO 9001 $\cdot$ 27001 $\cdot$ 14001\\[1pt]
+  Lean $\cdot$ Six Sigma%
+}
+
+\sidesec{Langues}
+\skillbar{Fran\c{c}ais (C1)}{5}
+\skillbar{Anglais (C1)}{5}
+\skillbar{Arabe (natif)}{5}
+
+\sidesec{Engagements}
+{\color{textlight}\small
+  Green E-Club $\cdot$ GDSC\\[1pt]
+  Club d'\'echecs $\cdot$ E-commerce%
+}
+
+\end{minipage}
+\end{minipage}%
+%══════════════════ MAIN COLUMN ══════════════════
+\begin{minipage}[t]{\mainW}
+\vspace{5mm}
+\hspace{5mm}\begin{minipage}{\mainW-10mm}
+
+\mainsec{Profil}
+{\small\color{textdark}
+Étudiant en Master 2 MIAGE, Parcours IA2 (Intelligence Artificielle Appliquée) et diplômé en génie industriel, je combine des compétences en développement full-stack, intelligence artificielle et systèmes d'information. J'ai conçu des solutions concrètes allant du pipeline ML au jeu multijoueur en microservices, en passant par des outils NLP locaux. Je recherche un stage pour contribuer à des projets techniques à fort impact.}
+
+
+\mainsec{Formation}
+
+\expblock{Master MIAGE}{Universit\'e C\^ote d'Azur, Sophia Antipolis}{2025 -- pr\'esent}{}
+\vspace{2pt}
+
+\expblock{Ing\'enieur d'\'Etat --- G\'enie Industriel}{ENSTA Alger}{2025}{}
+
+\mainsec{Exp\'eriences Professionnelles}
+
+\expblock{Stage --- Management des Syst\`emes d'Information}{ICOSNET SPA}{Janv. -- Mai 2025}{%
+  \\
+  \cvbullet{Analyse et mod\'elisation BPMN du processus de d\'eveloppement logiciel.}%
+  \cvbullet{Structuration des donn\'ees de suivi projet et d\'efinition de KPI pour l'analyse de performance.}%
+  \cvbullet{Mise en place d'une d\'emarche d'am\'elioration continue bas\'ee sur des indicateurs quantitatifs.}%
+}
+
+\expblock{Stage --- Analyste Qualité}{Schneider Electric Alg\'erie}{Mars -- Avr. 2024}
+{% 
+  \\
+  \cvbullet{Analyse de donn\'ees qualit\'e issues des audits ISO 9001 et identification d'axes d'am\'elioration.}%
+  \cvbullet{Suivi d'indicateurs qualit\'e et contribution \`a l'am\'elioration continue.}%
+}
+
+\expblock{Stage --- Processus \& Production}{Schneider Electric Alg\'erie}{Mars -- Avr. 2023}{%
+  \\
+  \cvbullet{Analyse de flux de production et exploitation de donn\'ees pour optimiser les performances.}%
+  }
+  
+\mainsec{Projets Techniques} 
+
+\projrow{PicoxIA --- Dicat\'ee vocale multilingue}{Python, Flask, React, Whisper, Ollama, MongoDB}{Outil NLP open source (14 langues) : transcription hybride Whisper/Vosk et enrichissement IA local (LLM qwen2.5).} \vspace{-0.3cm}
+
+\projrow{Faraway --- Jeu de cartes multijoueur}{Angular, Spring Boot, FastAPI, Docker, WebSocket, Eureka}{Architecture microservices complete (auth, lobby, game, IA) avec bots Python, WebSocket temps r\'eel et CI/CD Docker.} \vspace{-0.3cm}
+
+\projrow{Pr\'ediction de consommation \'energ\'etique}{Python, ARIMA, Prophet, XGBoost, Streamlit}{Conception d'un pipeline ML complet (ETL, mod\'elisation, \'evaluation) avec dashboard interactif.} \vspace{-0.3cm}
+
+\projrow{Serveur MCP --- Int\'egration PMS H\^otelier}{Node.js, TypeScript, JWT}{Traitement et s\'ecurisation des flux de donn\'ees via API REST pour int\'egration avec Claude Desktop.} \vspace{-0.3cm}
+
+\projrow{Simulation SGBD type Oracle}{Python}{Impl\'ementation des m\'ecanismes de gestion des donn\'ees : buffer, transactions, ACID.} \vspace{-0.3cm}
+
+
+\mainsec{Certifications}
+
+\cvbullett{Lean Six Sigma Yellow Belt (Process Improvement, Data Analysis)} \vspace{-0.2cm}
+
+\cvbullett{Scrum Foundations (Agile Project Management)} \vspace{-0.2cm}
+
+\cvbullett{Green Computing \& Sustainable Software Engineering} \vspace{-0.2cm}
+
+\cvbullett{AWS Academy Cloud Foundations \& Cloud Developing } \vspace{-0.2cm}
+
+\cvbullett{Microsoft Power BI (en cours)}
+
+\end{minipage}
+\end{minipage}
+
+\end{document}

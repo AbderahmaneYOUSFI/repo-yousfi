@@ -2,7 +2,7 @@ import type { Experience } from "@/data/experiences";
 
 export function ExperienceList({ experiences }: { experiences: readonly Experience[] }) {
   if (experiences.length === 0) {
-    return <p className="mt-6 max-w-2xl leading-7 text-muted">Editorial placeholder: professional experience details and career-path relevance await confirmation.</p>;
+    return <p className="mt-6 max-w-2xl leading-7 text-muted">Professional internships are presented in the Digital Transformation perspective and on the homepage.</p>;
   }
 
   return (

@@ -2,7 +2,7 @@ import type { Skill } from "@/data/skills";
 
 export function SkillList({ skills }: { skills: readonly Skill[] }) {
   if (skills.length === 0) {
-    return <p className="mt-6 max-w-2xl leading-7 text-muted">Editorial placeholder: skill evidence and career-path relevance await confirmation.</p>;
+    return <p className="mt-6 max-w-2xl leading-7 text-muted">No skills listed for this perspective yet.</p>;
   }
 
   return (

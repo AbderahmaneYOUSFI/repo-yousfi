@@ -6,15 +6,19 @@ export type ProfileContact = {
 };
 
 // Add only confirmed personal destinations and an existing PDF from public/.
-const contact: ProfileContact = {};
+const contact: ProfileContact = {
+  email: "yousfi.abderrahmane02@gmail.com",
+  github: "https://github.com/AbderahmaneYOUSFI",
+  linkedin: "https://linkedin.com/in/abderrahmane02-yousfi",
+};
 
 export const profile = {
-  name: "Your Name",
-  role: "AI-Native Software Engineer",
+  name: "Abderrahmane Yousfi",
+  role: "M2 MIAGE · Applied AI & Industrial Engineering",
   intro:
-    "I design and build thoughtful digital products with modern web tools, clear systems thinking, and an eye for production quality.",
+    "Based in Nice, I am a Master 2 MIAGE student in the Applied Artificial Intelligence (IA2) track at Université Côte d’Azur, Sophia Antipolis (2025–present), and a 2025 Industrial Engineering graduate of ENSTA Alger. I combine full-stack development, AI and information systems, with projects spanning ML pipelines, multiplayer microservices and local NLP tools. I am seeking an AI developer internship starting in January 2027.",
   metadataDescription:
-    "Portfolio for Your Name, an AI-Native Software Engineer building thoughtful digital products.",
+    "Abderrahmane Yousfi — M2 MIAGE Applied AI student and Industrial Engineering graduate in Nice. Seeking an AI developer internship from January 2027.",
   ctas: {
     projects: {
       label: "View Projects",
@@ -26,8 +30,8 @@ export const profile = {
     },
   },
   projectSummary:
-    "Selected project case studies will highlight product thinking, technical decisions, and measurable outcomes.",
+    "Projects spanning multilingual transcription, multiplayer software, energy forecasting, information systems and database internals.",
   contactSummary:
-    "Contact links and a CV download appear here when available.",
+    "I am available for an AI developer internship starting in January 2027. Get in touch by email or connect with me on GitHub and LinkedIn.",
   contact,
 } as const;
