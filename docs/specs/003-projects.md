@@ -1,5 +1,8 @@
 # Feature 003 — Projects Experience
 
+## Supersession note
+The original seed requirements below are retained as history. The later [CV integration review](../content/content-review.md) supersedes the six-card limit (requirement and criterion 1), empty-technology assumption and provisional memberships: the shared source now has eight projects with CV-supported details where available. Projects now have a typed `published` boolean: Reactis and Quiz Game are unpublished records retained in `src/data/projects.ts` for future completion. The shared `ProjectList` renderer excludes unpublished records from all public project lists, including Home and career-path selections; this publication rule also qualifies criterion 2 below. MCP and forecasting identities remain open questions. Project URLs are still absent. Current styling is fixed dark, superseding the light/dark expectations in the requirements, criterion 5 and verification plan. The remaining acceptance criteria still apply.
+
 ## Goal
 Let visitors discover all projects on Home and relevant projects through career paths, using one consistent factual source.
 

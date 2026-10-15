@@ -1,13 +1,15 @@
 import type { Project } from "@/data/projects";
 
 export function ProjectList({ projects }: { projects: readonly Project[] }) {
-  if (projects.length === 0) {
+  const publishedProjects = projects.filter((project) => project.published);
+
+  if (publishedProjects.length === 0) {
     return <p className="mt-6 leading-7 text-muted">No projects listed for this path yet.</p>;
   }
 
   return (
     <ul className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {projects.map((project) => (
+      {publishedProjects.map((project) => (
         <li key={project.id} className="min-w-0">
           <article className="flex h-full flex-col rounded-xl border border-border bg-surface p-6">
             <h3 className="break-words text-xl font-semibold leading-snug tracking-tight">{project.title}</h3>
