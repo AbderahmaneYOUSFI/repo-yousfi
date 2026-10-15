@@ -1,6 +1,6 @@
 # CV content integration review
 
-Factual source: `cv-source.tex`, supplied by the portfolio owner. The website keeps its existing English language, so French roles and contributions are translated without adding outcomes or metrics. No external research was used to infer personal facts.
+This document tracks unresolved editorial decisions and the rationale for CV integration; see [document authority](../../README.md#documentation). Personal facts come from the owner's self-reported [CV source](cv-source.tex), without independent verification. The website keeps its existing English language, so French roles and contributions are translated without adding outcomes or metrics. No external research was used to infer personal facts.
 
 ## Identity and contact
 

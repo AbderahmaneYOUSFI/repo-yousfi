@@ -17,6 +17,8 @@ Production-quality developer portfolio built with:
 - Do not add dependencies without approval.
 
 ## Agent Workflow
+Read global instructions and the current task first, then load only directly relevant source files, specs and factual references. Do not read all documentation by default.
+
 1. Inspect relevant files before acting.
 2. Identify assumptions and missing information.
 3. Propose a plan before non-trivial changes.

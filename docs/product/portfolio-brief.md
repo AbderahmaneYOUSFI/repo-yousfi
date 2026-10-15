@@ -5,6 +5,8 @@
 **Primary audience:** Recruiters, hiring managers, technical leads
 **Primary objective:** Secure internship or apprenticeship opportunities
 
+This brief records product intent. Its proposed scope and original open decisions are historical planning context; consult [document authority](../../README.md#documentation), [feature specs](../specs/), [architecture](../architecture.md) and [content review](../content/content-review.md) for requirements, implemented scope and unresolved editorial decisions.
+
 ## 1. Product Vision
 
 Build a modern, credible, interactive portfolio that presents one engineering profile through three complementary professional perspectives.

@@ -1,4 +1,7 @@
-﻿# Feature 002 — Career Paths Foundation
+# Feature 002 — Career Paths Foundation
+
+## Supersession note
+This foundation spec preserves its original assumptions. Current source uses a fixed dark design, superseding the light/dark expectations below, and CV integration has replaced the placeholder identity; see [architecture](../architecture.md) and [content review](../content/content-review.md). The out-of-scope list describes this feature's delivery boundary: Features 003 and 005 subsequently added project, experience and skill lists. Other acceptance criteria remain applicable.
 
 ## Goal and Scope
 Help recruiters explore one shared profile through three English-only perspectives:

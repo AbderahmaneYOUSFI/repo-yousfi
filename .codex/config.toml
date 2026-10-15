@@ -1,0 +1,3 @@
+[mcp_servers.portfolio]
+command = 'C:\Program Files\nodejs\node.exe'
+args = ['C:\Users\Hp\Documents\VSCode\PORTFOLIO\ai-native-portfolio\build\mcp\mcp\index.js']

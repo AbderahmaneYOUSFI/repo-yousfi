@@ -2,6 +2,9 @@
 
 **Status:** Draft for human review; implementation requested alongside this spec.
 
+## Supersession note
+The status and empty-contact audit below describe the original feature request. The later [CV integration review](../content/content-review.md) supersedes the empty-contact requirement, criterion 3's current-data premise and the email/profile open questions: email, GitHub and LinkedIn are now populated from the owner's self-reported CV and render as native links. Criterion 3 remains applicable when data is empty; the other acceptance criteria remain applicable. No CV PDF exists in `public/`, so the missing-CV message remains and the download action is absent. Supplying a public PDF remains open; copied contact destinations do not imply independent ownership verification.
+
 ## User goal
 Let recruiters reach verified professional contact channels and download an available CV from the shared profile, including when arriving through a career path.
 

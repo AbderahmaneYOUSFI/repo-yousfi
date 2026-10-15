@@ -2,6 +2,9 @@
 
 **Status:** Draft for human review; implementation requested alongside this spec.
 
+## Supersession note
+The status and initial audit below describe the original feature request. The later [CV integration review](../content/content-review.md) supersedes the empty-data assumptions and related open questions: the source now contains three CV-reported internships (ICOSNET and Schneider Electric) and populated skill groups. All internships are assigned to Digital Transformation. Criterion 3's editorial-confirmation wording is superseded: empty experience selections now direct visitors to that perspective and Home; empty skill selections show a plain availability message. Other acceptance criteria, including the prohibition on fabricated claims and technical proficiency ratings, remain applicable. Memberships are editorial decisions, not additional CV facts.
+
 ## User goal
 Help visitors find professional experience and skills across one shared profile and its career paths, without unsupported claims.
 
