@@ -71,7 +71,7 @@ export const projects: readonly Project[] = [
     title: "MCP Server — Hotel PMS integration",
     description: "Processed and secured data flows through REST APIs to integrate a hotel property management system with Claude Desktop.",
     technologies: ["Node.js", "TypeScript", "JWT", "REST API", "MCP"],
-    careerPaths: ["software"],
+    careerPaths: ["ai-data"],
     links: [],
   },
   {
