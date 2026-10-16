@@ -17,15 +17,15 @@ function data(name: string, args?: unknown) {
 
 test("confirmed catalogue preserves unique stable ids, publication policy and memberships", () => {
   const publishedIds = ["picoxia", "forecasting", "icosnet", "thais-mcp-server", "faraway", "database-simulation"];
-  const draftIds = ["reactis", "quiz-game", "marble-madness", "angular-assignment-management", "big-data", "spring-boot-web-application"];
-  assert.equal(projects.length, 12);
-  assert.equal(new Set(projects.map((project) => project.id)).size, 12);
+  const draftIds = ["reactis", "marble-madness", "angular-assignment-management"];
+  assert.equal(projects.length, 9);
+  assert.equal(new Set(projects.map((project) => project.id)).size, 9);
   assert.deepEqual(projects.filter((project) => project.published).map((project) => project.id), publishedIds);
   assert.deepEqual(projects.filter((project) => !project.published).map((project) => project.id), draftIds);
 
   const memberships = {
-    "ai-data": ["picoxia", "reactis", "forecasting", "thais-mcp-server", "big-data"],
-    software: ["picoxia", "quiz-game", "faraway", "database-simulation", "marble-madness", "angular-assignment-management", "spring-boot-web-application"],
+    "ai-data": ["picoxia", "reactis", "forecasting", "thais-mcp-server"],
+    software: ["picoxia", "faraway", "database-simulation", "marble-madness", "angular-assignment-management"],
     digital: ["reactis", "icosnet", "faraway"],
   } as const;
   const publicMemberships = {
@@ -33,8 +33,10 @@ test("confirmed catalogue preserves unique stable ids, publication policy and me
     software: ["picoxia", "faraway", "database-simulation"],
     digital: ["icosnet", "faraway"],
   } as const;
+  const targetCounts = { "ai-data": 4, software: 5, digital: 3 } as const;
   for (const path of careerPaths) {
     const selected = getProjectsForPath(path.slug);
+    assert.equal(selected.length, targetCounts[path.slug]);
     assert.deepEqual(selected.map((project) => project.id), memberships[path.slug]);
     assert.deepEqual(selected.filter((project) => project.published).map((project) => project.id), publicMemberships[path.slug]);
     assert.deepEqual(data("list_projects", { careerPath: path.slug }), {
@@ -47,6 +49,16 @@ test("confirmed catalogue preserves unique stable ids, publication policy and me
   for (const project of projects) {
     assert.equal(new Set(project.careerPaths).size, project.careerPaths.length);
     assert.ok(project.careerPaths.every((slug) => careerPaths.some((path) => path.slug === slug)));
+  }
+});
+
+test("excluded projects are absent from the active catalogue and MCP", () => {
+  const missing = callTool("get_project", { id: "does-not-exist" });
+  const listings = [data("list_projects"), ...careerPaths.map((path) => data("list_projects", { careerPath: path.slug }))];
+  for (const id of ["big-data", "spring-boot-web-application", "quiz-game"]) {
+    assert.ok(projects.every((project) => project.id !== id));
+    assert.deepEqual(callTool("get_project", { id }), missing);
+    for (const listing of listings) assert.ok(!JSON.stringify(listing).includes(id));
   }
 });
 

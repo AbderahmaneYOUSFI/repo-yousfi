@@ -37,15 +37,6 @@ export const projects: readonly Project[] = [
     links: [],
   },
   {
-    id: "quiz-game",
-    published: false,
-    title: "Quiz Game",
-    description: "A quiz game. Project details to be confirmed.",
-    technologies: [],
-    careerPaths: ["software"],
-    links: [],
-  },
-  {
     id: "forecasting",
     published: true,
     title: "Energy Consumption Forecasting",
@@ -107,24 +98,6 @@ export const projects: readonly Project[] = [
     technologies: ["Angular 20", "TypeScript", "RxJS", "Render"],
     careerPaths: ["software"],
     links: [{ label: "GitHub", href: "https://github.com/AbderahmaneYOUSFI/yousfiFirstRepoM1miage2025" }],
-  },
-  {
-    id: "big-data",
-    published: false,
-    title: "Big Data Project",
-    description: "A big data project using Java and Docker. Data frameworks and capabilities remain to be confirmed.",
-    technologies: ["Java", "Docker"],
-    careerPaths: ["ai-data"],
-    links: [],
-  },
-  {
-    id: "spring-boot-web-application",
-    published: false,
-    title: "Spring Boot Web Application (provisional)",
-    description: "A Java and Spring Boot web application with HTML. The business domain and database or REST API details remain to be confirmed.",
-    technologies: ["Java", "Spring Boot", "HTML"],
-    careerPaths: ["software"],
-    links: [],
   },
 ];
 

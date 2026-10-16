@@ -13,7 +13,7 @@ This document tracks unresolved editorial decisions and the rationale for CV int
 
 ## Projects and path review
 
-There are 12 distinct project records: six published and six unpublished. All eight existing IDs are preserved. These owner-confirmed memberships describe relevance, not additional achievements:
+The owner corrected the approved inventory to nine distinct project records: six published and three unpublished. The nine retained projects preserve their IDs, URLs, verified descriptions and technologies from commit `1db8329`. These owner-confirmed memberships describe relevance, not additional achievements:
 
 | Project (stable ID) | Status | Career paths | Content boundaries |
 | --- | --- | --- | --- |
@@ -26,11 +26,10 @@ There are 12 distinct project records: six published and six unpublished. All ei
 | Réactis (`reactis`) | Unpublished | AI & Data, Digital Transformation | Research and benchmarking across functional/business testing, including a Claude Code agent benchmark. No verified improvements, metrics or completed outcomes. |
 | Marble Madness (`marble-madness`) | Unpublished | Software Engineering | 3D browser physics game; keyboard/mobile controls, levels, scoring and enemies. |
 | Angular Assignment Management (`angular-assignment-management`) | Unpublished | Software Engineering | Angular 20 application deployed on Render; no deployment URL supplied. |
-| Big Data Project (`big-data`) | Unpublished | AI & Data | Only Java and Docker confirmed; no inferred Spark, Hadoop or Kafka capabilities. |
-| Spring Boot Web Application (`spring-boot-web-application`) | Unpublished | Software Engineering | Provisional descriptive title. “Oil” is a module name; business domain and database/REST details are unknown. |
-| Quiz Game (`quiz-game`) | Unpublished | Software Engineering | Existing limited description retained; distinct from Faraway. |
 
-Published counts are AI & Data **3**, Software Engineering **3**, Digital Transformation **2**. Full catalogue memberships are respectively **5**, **7** and **3**; overlapping memberships are intentional. All six drafts require explicit owner approval before publication and are excluded from public lists and MCP details. `getProjectsForPath` still selects all memberships; public consumers apply the existing publication filter.
+Published counts remain AI & Data **3**, Software Engineering **3**, Digital Transformation **2**. If all three drafts are approved for publication, the target counts will be respectively **4**, **5** and **3**, matching the full catalogue memberships; overlapping memberships are intentional. Réactis, Marble Madness and Angular Assignment Management remain unpublished and require explicit owner approval before publication. They are excluded from public lists and MCP details. `getProjectsForPath` still selects all memberships; public consumers apply the existing publication filter.
+
+Big Data Project (`big-data`), Spring Boot Web Application (`spring-boot-web-application`) and Quiz Game (`quiz-game`) are excluded from the active catalogue by owner instruction. They are not publication candidates in this inventory and must not appear in generated routes or MCP results. Their previous records remain available in Git history.
 
 Five GitHub links are copied exactly from the owner's inventory into `src/data/projects.ts`: PicoxIA, forecasting, Thaïs, SSE/ICOSNET and Angular Assignment Management. Other projects have no supplied repository or demo URLs. No URLs are inferred from titles.
 
@@ -45,8 +44,6 @@ Skills are grouped using the existing name/context cards. Group-level path membe
 ## Remaining information
 
 - Confirm Réactis findings, implementation stack and personal contributions before adding outcomes.
-- Supply Quiz Game scope, stack and contributions.
-- Confirm Big Data frameworks/capabilities and the Spring Boot application's final title, business domain and database/API details.
 - Supply missing project repositories/demos and a public CV PDF if desired.
 - Approve each unpublished project's publication explicitly when ready.
 - Provide any project dates, personal responsibility boundaries, limitations or measured outcomes before adding them.
