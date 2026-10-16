@@ -9,6 +9,11 @@
   --foreground: #f2f0eb;
   --muted: #adb4bd;
   --focus: #e0e7ef;
+  --organic-ivory: #f5f2e9;
+  --organic-forest: #203d32;
+  --organic-muted: #526358;
+  --organic-sage: #c5cebb;
+  --organic-terracotta: #a45b43;
 }
 
 @theme inline {

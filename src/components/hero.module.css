@@ -1,0 +1,97 @@
+.hero {
+  /* Reuse existing text/button utilities within this light surface only. */
+  --background: var(--organic-ivory);
+  --foreground: var(--organic-forest);
+  --muted: var(--organic-muted);
+  --border: var(--organic-muted);
+  --surface-hover: var(--organic-sage);
+  --focus: var(--organic-forest);
+
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  color-scheme: light;
+  color: var(--foreground);
+  background: var(--background);
+  border-bottom: 1px solid var(--organic-sage);
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+.heading {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  letter-spacing: -0.045em;
+}
+
+.artwork {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+  width: clamp(22rem, 42vw, 42rem);
+  top: 50%;
+  right: -3%;
+  transform: translateY(-50%);
+}
+
+.artwork svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+.silhouette {
+  fill: var(--organic-sage);
+  opacity: 0.48;
+  transform-origin: 55% 50%;
+  animation: paper-sway 28s ease-in-out infinite alternate;
+}
+
+.contour {
+  stroke: var(--organic-terracotta);
+  stroke-width: 1.25;
+  opacity: 0.65;
+  transform-origin: 55% 50%;
+  animation: paper-sway 32s ease-in-out -12s infinite alternate-reverse;
+}
+
+.stem {
+  stroke: var(--organic-forest);
+  stroke-width: 1;
+  opacity: 0.3;
+}
+
+@keyframes paper-sway {
+  from {
+    transform: translateY(-6px) rotate(-2deg);
+  }
+  to {
+    transform: translateY(6px) rotate(2deg);
+  }
+}
+
+@media (max-width: 63.999rem) {
+  .artwork {
+    right: -10rem;
+    opacity: 0.4;
+  }
+}
+
+@media (max-width: 39.999rem) {
+  .artwork {
+    top: 30%;
+    right: -14rem;
+    opacity: 0.3;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .silhouette,
+  .contour {
+    animation: none;
+  }
+}
