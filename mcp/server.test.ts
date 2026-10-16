@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { createInterface } from "node:readline";
 import { test } from "node:test";
 import { careerPaths } from "../src/data/career-paths";
-import { projects, type Project } from "../src/data/projects";
+import { getProjectsForPath, projects, type Project } from "../src/data/projects";
 import { callTool } from "./server";
 
 function data(name: string, args?: unknown) {
@@ -14,6 +14,57 @@ function data(name: string, args?: unknown) {
   assert.deepEqual(response.content, [{ type: "text", text: JSON.stringify(response.structuredContent) }]);
   return response.structuredContent;
 }
+
+test("confirmed catalogue preserves unique stable ids, publication policy and memberships", () => {
+  const publishedIds = ["picoxia", "forecasting", "icosnet", "thais-mcp-server", "faraway", "database-simulation"];
+  const draftIds = ["reactis", "quiz-game", "marble-madness", "angular-assignment-management", "big-data", "spring-boot-web-application"];
+  assert.equal(projects.length, 12);
+  assert.equal(new Set(projects.map((project) => project.id)).size, 12);
+  assert.deepEqual(projects.filter((project) => project.published).map((project) => project.id), publishedIds);
+  assert.deepEqual(projects.filter((project) => !project.published).map((project) => project.id), draftIds);
+
+  const memberships = {
+    "ai-data": ["picoxia", "reactis", "forecasting", "thais-mcp-server", "big-data"],
+    software: ["picoxia", "quiz-game", "faraway", "database-simulation", "marble-madness", "angular-assignment-management", "spring-boot-web-application"],
+    digital: ["reactis", "icosnet", "faraway"],
+  } as const;
+  const publicMemberships = {
+    "ai-data": ["picoxia", "forecasting", "thais-mcp-server"],
+    software: ["picoxia", "faraway", "database-simulation"],
+    digital: ["icosnet", "faraway"],
+  } as const;
+  for (const path of careerPaths) {
+    const selected = getProjectsForPath(path.slug);
+    assert.deepEqual(selected.map((project) => project.id), memberships[path.slug]);
+    assert.deepEqual(selected.filter((project) => project.published).map((project) => project.id), publicMemberships[path.slug]);
+    assert.deepEqual(data("list_projects", { careerPath: path.slug }), {
+      projects: publicMemberships[path.slug].map((id) => {
+        const project = projects.find((entry) => entry.id === id)!;
+        return { id, title: project.title, careerPaths: [...project.careerPaths] };
+      }),
+    });
+  }
+  for (const project of projects) {
+    assert.equal(new Set(project.careerPaths).size, project.careerPaths.length);
+    assert.ok(project.careerPaths.every((slug) => careerPaths.some((path) => path.slug === slug)));
+  }
+});
+
+test("project links match only owner-supplied repositories", () => {
+  const repositories: Readonly<Record<string, string>> = {
+    picoxia: "picoxia_LLM",
+    forecasting: "energy_predection_repo",
+    icosnet: "SustainableSoftwareEngineering",
+    "thais-mcp-server": "ModelContextProtocol_Thais_API",
+    "angular-assignment-management": "yousfiFirstRepoM1miage2025",
+  };
+  for (const project of projects) {
+    const repository = repositories[project.id];
+    assert.deepEqual(project.links, repository ? [{
+      label: "GitHub", href: `https://github.com/AbderahmaneYOUSFI/${repository}`,
+    }] : []);
+  }
+});
 
 test("lists only published projects with exact summary fields and valid path filters", () => {
   const expected = projects.filter((project) => project.published === true);
