@@ -126,7 +126,7 @@
     padding: 64px 0 48px;
     min-height: 720px;
   }
-  .globalLayout > .hero { align-self: start; min-width: 0; padding: 0; border-bottom: 0; }
+  .globalLayout > .hero { align-self: start; min-width: 0; padding: 0; border-bottom: 0; overflow-clip-margin: 8px; }
   .globalLayout > .atlas { width: auto; max-width: none; margin: 0; padding: 0; }
   .globalLayout .artwork {
     right: -28%;

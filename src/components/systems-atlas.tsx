@@ -14,7 +14,7 @@ export function SystemsAtlas({ slug }: { slug?: CareerPathSlug }) {
   const published = projects.filter(project => project.published);
   const projectAnchor = (id: string) => `${slug ? "/" : ""}#${encodeURIComponent(id)}`;
   const description = (path: CareerPathSlug) => `${careerPaths.find(entry => entry.slug === path)?.name}: ${published.filter(project => project.careerPaths.includes(path)).length} active projects. ${published.filter(project => project.careerPaths.includes(path)).map(project => atlasLabels[project.id] ?? project.title).join(", ")}. Other projects remain visible; select another perspective or All projects to open them.`;
-  const caption = `All ${published.length} published projects are available. Shared projects appear in each of their perspectives on mobile.`;
+  const caption = `Global perspective: ${published.length} active projects.`;
   return <AtlasInteraction selected={slug ?? null} caption={caption} descriptions={{ "ai-data": description("ai-data"), software: description("software"), digital: description("digital") }}>
     <div className="atlas-top"><span className="atlas-word">Systems Atlas</span><AtlasProjectCount total={published.length} counts={{ "ai-data": published.filter(project => project.careerPaths.includes("ai-data")).length, software: published.filter(project => project.careerPaths.includes("software")).length, digital: published.filter(project => project.careerPaths.includes("digital")).length }} /></div>
     <div className="atlas-toolbar"><p>Choose a perspective, then open a highlighted project.</p><AtlasPathControl path={null} className="atlas-all">All projects</AtlasPathControl></div>

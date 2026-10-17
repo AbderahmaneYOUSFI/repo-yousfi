@@ -81,7 +81,7 @@ function AtlasFigure({ caption, descriptions, children }: {
   return <figure className="atlas" aria-label="Systems Atlas project network"
       data-active={selected ? pathIdentity[selected] : ""} data-selection={selected ?? "all"}>
       {children}
-      <figcaption className="atlas-caption" aria-live="polite" aria-atomic="true">
+      <figcaption className={selected ? "atlas-caption" : "sr-only"} aria-live="polite" aria-atomic="true">
         {selected ? descriptions[selected] : caption}
       </figcaption>
     </figure>;
