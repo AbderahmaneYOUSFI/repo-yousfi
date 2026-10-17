@@ -21,7 +21,7 @@ The owner has explicitly approved publication of all nine distinct project recor
 | Energy Consumption Forecasting (`forecasting`) | Published | AI & Data | Existing pipeline identity confirmed; seven-day forecasts and model comparison. |
 | Thaïs Hotel MCP (`thais-mcp-server`) | Published | AI & Data | Existing hotel PMS identity confirmed; availability, room types, pricing, reservations and email confirmation. |
 | Faraway (`faraway`) | Published | Software Engineering, Digital Transformation | Physical card game adapted into a multiplayer web application. |
-| Mini-SGBD — Oracle Simulation (`database-simulation`) | Published | Software Engineering | FSGDB is an alias of this educational DBMS, not another project. |
+| Mini-SGBD — Oracle Simulation (`database-simulation`) | Published | Software Engineering | Educational Python DBMS, retained as one project. |
 | Sustainable Software Engineering @ ICOSNET (`icosnet`) | Published | Digital Transformation | One project combining SSE research and its industrial e-commerce case study; expected impact evaluated through simulation, without a proven deployment claim. Paper, poster and thesis are related deliverables. |
 | Réactis (`reactis`) | Published | AI & Data, Digital Transformation | Research and benchmarking across functional/business testing, including a Claude Code agent benchmark. No verified improvements, metrics or completed outcomes. |
 | Marble Madness (`marble-madness`) | Published | Software Engineering | 3D browser physics game; keyboard/mobile controls, levels, scoring and enemies. |

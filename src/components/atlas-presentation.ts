@@ -10,7 +10,7 @@ export const pathIdentity: Record<CareerPathSlug, Exclude<Identity, "home">> = {
 export const atlasLabels: Readonly<Record<string, string>> = {
   picoxia: "PicoxIA", reactis: "Réactis", forecasting: "Energy forecasting",
   icosnet: "SSE @ ICOSNET", "thais-mcp-server": "Thaïs Hotel MCP", faraway: "Faraway",
-  "database-simulation": "Mini-SGBD / FSGDB", "marble-madness": "Marble Madness",
+  "database-simulation": "Mini-SGBD", "marble-madness": "Marble Madness",
   "angular-assignment-management": "Angular Assignment Management",
 };
 

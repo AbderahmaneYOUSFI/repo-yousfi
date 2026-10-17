@@ -76,7 +76,7 @@ export const projects: readonly Project[] = [
     id: "database-simulation",
     published: true,
     title: "Mini-SGBD — Oracle Simulation",
-    description: "An educational Python DBMS, also known as FSGDB, exploring disk pages, buffer management, locking, ACID transactions, write-ahead logging (WAL), rollback and REDO/UNDO crash recovery.",
+    description: "An educational Python DBMS exploring disk pages, buffer management, locking, ACID transactions, write-ahead logging (WAL), rollback and REDO/UNDO crash recovery.",
     technologies: ["Python"],
     careerPaths: ["software"],
     links: [{ label: "GitHub", href: "https://github.com/AbderahmaneYOUSFI/SGBD_ORACLE_Simulation" }],

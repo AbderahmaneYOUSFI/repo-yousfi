@@ -148,7 +148,7 @@
     "id": "database-simulation",
     "published": true,
     "title": "Mini-SGBD \u2014 Oracle Simulation",
-    "description": "An educational Python DBMS, also known as FSGDB, exploring disk pages, buffer management, locking, ACID transactions, write-ahead logging (WAL), rollback and REDO/UNDO crash recovery.",
+    "description": "An educational Python DBMS exploring disk pages, buffer management, locking, ACID transactions, write-ahead logging (WAL), rollback and REDO/UNDO crash recovery.",
     "technologies": [
       "Python"
     ],

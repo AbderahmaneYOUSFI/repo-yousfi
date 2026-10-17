@@ -38,7 +38,7 @@ const details: Readonly<Record<string, ProjectDetail>> = {
     focus: "A multiplayer web adaptation of Faraway with authentication, lobbies, real-time WebSocket communication and Python bots. The application combines game and AI microservices with Docker CI/CD, and is available through its live app and source repository.",
   },
   "database-simulation": {
-    context: "Mini-SGBD, also known as FSGDB, is an educational Python DBMS exploring the internals of database storage and transaction management.",
+    context: "Mini-SGBD is an educational Python DBMS exploring the internals of database storage and transaction management.",
     work: ["Disk pages, buffer management and locking.", "ACID transactions and write-ahead logging.", "Rollback and REDO/UNDO crash recovery."],
     focus: "An educational Python DBMS implementing disk pages, buffer management, locking, ACID transactions and write-ahead logging, with rollback and REDO/UNDO crash recovery. The source code makes these database mechanisms available to explore.",
   },
