@@ -631,6 +631,7 @@ to{opacity:1;transform:translateY(0)}
 }
 
 .work > .study[id] { scroll-margin-top: calc(var(--header-offset, 0px) + 28px); }
+#projects:has(+ #education) > .study:last-child { margin-bottom: 0; }
 @media (prefers-reduced-motion: reduce) {
   .atlas .relation { transition: none; }
 }

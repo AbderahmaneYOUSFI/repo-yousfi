@@ -217,6 +217,8 @@ test('atlas changes preserve desktop markup and CSS except the light project-nam
   assert.ok(afterCSS.replaceAll('\r\n', '\n').includes(lightNames), 'only project names in light mode receive the weight adjustment');
   const outsideMobile = css => {
     css = css.replaceAll('\r\n', '\n');
+    // The Home section-spacing fix is independent of the atlas presentation.
+    css = css.replace('#projects:has(+ #education) > .study:last-child { margin-bottom: 0; }\n', '');
     const start = css.indexOf('@media (max-width: 800px) {\n  .path-hero h1');
     const end = css.indexOf('\n.work > .study[id]', start);
     assert.ok(start > 0 && end > start);
