@@ -220,6 +220,7 @@ test('atlas changes preserve desktop markup and CSS except the approved presenta
     // The Home section-spacing fix is independent of the atlas presentation.
     css = css.replace('#projects:has(+ #education) > .study:last-child { margin-bottom: 0; }\n', '');
     css = css.replace(/\.(?:logo-placeholder|institution-logo)\{[^}]*\}\n/g, '');
+    css = css.replace(/\.credential (?:h3|p)\{[^}]*\}\n/g, '');
     css = css.replace('.atlas-desktop .perspective-node strong { min-block-size: 2lh; }\n', '');
     css = css.replace('.atlas-desktop .perspective-node small { min-block-size: 1lh; }\n', '');
     const start = css.indexOf('@media (max-width: 800px) {\n  .path-hero h1');

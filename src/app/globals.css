@@ -230,8 +230,8 @@ details.evidence{margin-top:22px;font-size:16px}
 .skill h3{font-size:26px;letter-spacing:-.02em;line-height:1.1;margin-bottom:14px}
 .skill p{color:var(--secondary);font-size:16px;margin:0}
 .credentials{display:grid;grid-template-columns:repeat(2,1fr);gap:28px 48px;margin-top:48px;padding-top:32px;border-top:1px solid var(--border)}
-.credential h3{font-family:var(--font-barlow);font-size:17px;line-height:1.4;letter-spacing:0;margin-bottom:8px}
-.credential p{font-size:16px;line-height:1.6;color:var(--secondary);margin:0}
+.credential h3{font-family:var(--font-barlow);font-size:20px;line-height:1.4;letter-spacing:0;margin-bottom:8px}
+.credential p{font-size:18px;line-height:1.6;color:var(--secondary);margin:0}
 .contact{padding:96px 0 72px}
 .contact-layout{display:grid;grid-template-columns:5fr 7fr;gap:64px}
 .contact h2{font-size:78px;max-width:400px;line-height:.96}

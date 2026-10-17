@@ -11,6 +11,5 @@ export function SkillList({ skills }: { skills: readonly Skill[] }) {
   const credentials = skills.filter(skill => secondary.has(skill.id));
   return <>{primary.length ? <div className="skills-grid">{primary.map(skill => <article key={skill.id} className="skill" data-skill={skill.id}><SkillIcon id={skill.id} /><h3>{skill.name}</h3>{skill.context ? <p>{skill.context}</p> : null}</article>)}</div> : null}
     {credentials.length ? <div className="credentials">{credentials.map(skill => <article key={skill.id} className="credential" data-skill={skill.id}><h3>{skill.name}</h3>{skill.context ? <p>{skill.context}</p> : null}</article>)}</div> : null}
-    <p className="caption skill-caption">Category pictograms accompany technology names; they are not brand logos.</p>
   </>;
 }
