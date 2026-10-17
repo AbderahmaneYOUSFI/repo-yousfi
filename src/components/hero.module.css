@@ -128,4 +128,15 @@
   }
   .globalLayout > .hero { min-width: 0; padding: 0; border-bottom: 0; }
   .globalLayout > .atlas { width: auto; max-width: none; margin: 0; padding: 0; }
+  .globalLayout .artwork {
+    right: -28%;
+    opacity: 0.18;
+    mask-image: linear-gradient(to right, transparent, black);
+  }
+  /* Opaque text zones keep decorative strokes out of every line and CTA,
+     including when the biography wraps differently at desktop widths. */
+  .globalLayout .content > * {
+    background-color: var(--canvas);
+    box-shadow: 0 0 0 6px var(--canvas);
+  }
 }
