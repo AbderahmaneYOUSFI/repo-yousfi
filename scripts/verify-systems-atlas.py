@@ -133,6 +133,7 @@ with ThreadPoolExecutor(max_workers=4) as pool:
 pages = {}
 for route, (status, html) in responses.items():
     check(status == 200, route + " HTTP 200")
+    check(not re.search(r'\bclass="[^"]*\b(?:undefined|null)\b', html), route + " CSS Module class names resolve in the production build")
     page = pages[route] = Page(html)
     check(len(page.ids) == len(set(page.ids)), route + " unique IDs")
     check(page.headings.count(1) == 1, route + " one H1")
