@@ -202,7 +202,7 @@ test('mobile rectangles expose a triangle and published metadata only for active
   }
 });
 
-test('atlas changes preserve desktop markup and CSS except the light project-name weight', () => {
+test('atlas changes preserve desktop markup and CSS except the approved presentation adjustments', () => {
   const beforeSource = execFileSync('git', ['show', '6fb33b2:src/components/systems-atlas.tsx'], { cwd: root, encoding: 'utf8' });
   const beforeInteraction = execFileSync('git', ['show', '6fb33b2:src/components/atlas-interaction.tsx'], { cwd: root, encoding: 'utf8' });
   load(resolve(root, 'src/components/before-mobile-interaction.test.tsx'), beforeInteraction);
@@ -219,12 +219,15 @@ test('atlas changes preserve desktop markup and CSS except the light project-nam
     css = css.replaceAll('\r\n', '\n');
     // The Home section-spacing fix is independent of the atlas presentation.
     css = css.replace('#projects:has(+ #education) > .study:last-child { margin-bottom: 0; }\n', '');
+    css = css.replace(/\.(?:logo-placeholder|institution-logo)\{[^}]*\}\n/g, '');
+    css = css.replace('.atlas-desktop .perspective-node strong { min-block-size: 2lh; }\n', '');
+    css = css.replace('.atlas-desktop .perspective-node small { min-block-size: 1lh; }\n', '');
     const start = css.indexOf('@media (max-width: 800px) {\n  .path-hero h1');
     const end = css.indexOf('\n.work > .study[id]', start);
     assert.ok(start > 0 && end > start);
     return (css.slice(0, start) + css.slice(end)).replace(lightNames, '').trimEnd();
   };
-  assert.equal(outsideMobile(afterCSS), outsideMobile(beforeCSS), 'outside mobile, only the scoped light-mode font-weight rule changes');
+  assert.equal(outsideMobile(afterCSS), outsideMobile(beforeCSS), 'only approved logo, alignment, spacing and light-mode weight rules change');
 });
 
 test('all nine project pages present confirmed work and approved resources without empty or provisional sections', async () => {

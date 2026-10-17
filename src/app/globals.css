@@ -220,7 +220,7 @@ details.evidence{margin-top:22px;font-size:16px}
 .education-item{position:relative;min-width:0;border-top:2px solid var(--home);padding:32px 0 16px}
 .degree-display{font-family:var(--font-barlow-condensed);font-size:68px;line-height:1.02;letter-spacing:-.04em;min-height:150px;margin:0 0 36px}
 .education-detail{display:grid;grid-template-columns:60px 1fr;gap:20px;align-items:start}
-.logo-placeholder{border:1px dashed var(--line);width:60px;min-height:60px;display:grid;place-items:center;text-align:center;font-size:12px;line-height:1.3;color:var(--secondary)}
+.institution-logo{display:block;width:60px;height:60px;object-fit:contain;background:#fff}
 .education-detail h3{font-size:29px;margin-bottom:12px}
 .education-detail p{font-size:16px;color:var(--secondary);margin:0 0 6px}
 .skills-band{background:var(--surface)}
@@ -393,7 +393,7 @@ to{opacity:1;transform:translateY(0)}
 .education-item{padding-top:28px}
 .degree-display{font-size:60px;min-height:0;margin-bottom:28px}
 .education-detail{grid-template-columns:48px 1fr;gap:16px}
-.logo-placeholder{width:48px;min-height:54px;font-size:11px}
+.institution-logo{width:48px;height:54px}
 .education-detail h3{font-size:28px}
 .education-detail p{font-size:15px}
 .skills-grid{grid-template-columns:1fr 1fr;gap:24px 20px}
@@ -440,7 +440,7 @@ to{opacity:1;transform:translateY(0)}
 }
 
 @media(max-width:800px){.education-detail{grid-template-columns:60px 1fr}
-.logo-placeholder{width:60px;font-size:11px}
+.institution-logo{width:60px}
 }
 
 .project-thais{top:61%;left:17%;width:140px}
@@ -468,6 +468,8 @@ to{opacity:1;transform:translateY(0)}
 .atlas-node.perspective-node{width:29%;max-width:none}
 .atlas-node.perspective-node strong{font-size:22px;line-height:1.08}
 .atlas-node.perspective-node small{font-size:12px;line-height:1.4}
+.atlas-desktop .perspective-node strong { min-block-size: 2lh; }
+.atlas-desktop .perspective-node small { min-block-size: 1lh; }
 
 .atlas-project{width:29%;max-width:none;font-size:16px;overflow-wrap:break-word;border-left:0;display:grid;gap:5px;padding:9px 8px;min-height:76px}
 
