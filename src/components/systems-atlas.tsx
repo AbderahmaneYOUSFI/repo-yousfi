@@ -1,7 +1,7 @@
 import { careerPaths, type CareerPathSlug } from "@/data/career-paths";
 import { projects } from "@/data/projects";
 import { atlasLabels, pathIdentity } from "./atlas-presentation";
-import { AtlasInteraction, AtlasPathControl, AtlasProjectLink } from "./atlas-interaction";
+import { AtlasInteraction, AtlasPathControl, AtlasProjectLink, AtlasProjectCount } from "./atlas-interaction";
 
 // Geometry from the approved prototype; relationships always derive from source data.
 const placement = ["picoxia", "reactis", "faraway", "forecasting", "thais-mcp-server", "icosnet", "database-simulation", "marble-madness", "angular-assignment-management"];
@@ -13,10 +13,10 @@ function position(id: string) {
 export function SystemsAtlas({ slug }: { slug?: CareerPathSlug }) {
   const published = projects.filter(project => project.published);
   const projectAnchor = (id: string) => `${slug ? "/" : ""}#${encodeURIComponent(id)}`;
-  const description = (path: CareerPathSlug) => `${careerPaths.find(entry => entry.slug === path)?.name}: ${published.filter(project => project.careerPaths.includes(path)).map(project => atlasLabels[project.id] ?? project.title).join(", ")}. Other projects remain visible; select another perspective or All projects to open them.`;
+  const description = (path: CareerPathSlug) => `${careerPaths.find(entry => entry.slug === path)?.name}: ${published.filter(project => project.careerPaths.includes(path)).length} active projects. ${published.filter(project => project.careerPaths.includes(path)).map(project => atlasLabels[project.id] ?? project.title).join(", ")}. Other projects remain visible; select another perspective or All projects to open them.`;
   const caption = `All ${published.length} published projects are available. Shared projects appear in each of their perspectives on mobile.`;
   return <AtlasInteraction selected={slug ?? null} caption={caption} descriptions={{ "ai-data": description("ai-data"), software: description("software"), digital: description("digital") }}>
-    <div className="atlas-top"><span className="atlas-word">Systems Atlas</span><span>{published.length} projects · {published.length} published</span></div>
+    <div className="atlas-top"><span className="atlas-word">Systems Atlas</span><AtlasProjectCount total={published.length} counts={{ "ai-data": published.filter(project => project.careerPaths.includes("ai-data")).length, software: published.filter(project => project.careerPaths.includes("software")).length, digital: published.filter(project => project.careerPaths.includes("digital")).length }} /></div>
     <div className="atlas-toolbar"><p>Choose a perspective, then open a highlighted project.</p><AtlasPathControl path={null} className="atlas-all">All projects</AtlasPathControl></div>
     <div className="atlas-plane atlas-desktop">
       <svg className="atlas-edges" viewBox="0 0 600 600" preserveAspectRatio="none" aria-hidden="true"><g className="edge-reveal">

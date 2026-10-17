@@ -2,6 +2,7 @@
 import { getCareerPath, type CareerPathSlug } from "@/data/career-paths";
 import { profile } from "@/data/profile";
 import { SystemsAtlas } from "./systems-atlas";
+import { AtlasGlobalProfile, AtlasSelectionProvider, HomeAtlasPresentation } from "./atlas-interaction";
 import styles from "./hero.module.css";
 
 const introductions: Record<CareerPathSlug, string> = {
@@ -56,21 +57,33 @@ function PersonalHero() {
   );
 }
 
-export function Hero({ slug }: { slug?: CareerPathSlug }) {
-  if (!slug) return <><PersonalHero /><div className={`wrap ${styles.atlas}`}><SystemsAtlas /></div></>;
-  const path = getCareerPath(slug);
-  return <div className={`hero wrap${path ? " path-hero" : ""}`}>
-    <div className="hero-copy">
-      <p className="hero-meta">{path ? `${path.name} perspective` : "Nice, France / M2 MIAGE Applied AI"}</p>
-      {path ? <><p className="personal-byline"><a href="/">{profile.name}</a></p><h1 className="entry-name">{path.name}.</h1></> :
-        <h1 className="entry-name">Abderrahmane<span className="surname">Yousfi.</span></h1>}
-      <div className="entry-support">
-        {!path ? <p className="hero-statement">Applied AI. Software.<br />Information systems.</p> : null}
-        <p className={`hero-intro${path ? " path-intro" : ""}`}>{slug ? introductions[slug] : "An Industrial Engineering graduate exploring how intelligent software connects technology, data and business."}</p>
-        <div className="actions"><a className="button primary" href="#projects">{path ? "Explore relevant work" : "Explore my work"}</a>{path ? <a className="text-link" href="/">Global profile</a> : <a className="text-link" href="#contact">Get in touch</a>}</div>
-        <p className="availability">{path ? "One profile. A focused perspective." : "Seeking an AI developer internship from January 2027."}</p>
-      </div>
+function CareerHero({ slug }: { slug: CareerPathSlug }) {
+  const path = getCareerPath(slug)!;
+  return <div className="hero-copy">
+    <p className="hero-meta">{path.name} perspective</p>
+    <p className="personal-byline"><a href="/">{profile.name}</a></p>
+    <h1 className="entry-name">{path.name}.</h1>
+    <div className="entry-support">
+      <p className="hero-intro path-intro">{introductions[slug]}</p>
+      <div className="actions"><a className="button primary" href="#projects">Explore relevant work</a><AtlasGlobalProfile /></div>
+      <p className="availability">One profile. A focused perspective.</p>
     </div>
+  </div>;
+}
+
+export function Hero({ slug }: { slug?: CareerPathSlug }) {
+  if (slug) return <div className="hero wrap path-hero">
+    <CareerHero slug={slug} />
     <SystemsAtlas slug={slug} />
   </div>;
+
+  return <AtlasSelectionProvider selected={null}>
+    <HomeAtlasPresentation personal={<PersonalHero />} perspectives={{
+      "ai-data": <CareerHero slug="ai-data" />,
+      software: <CareerHero slug="software" />,
+      digital: <CareerHero slug="digital" />,
+    }} atlasClassName={`wrap ${styles.atlas}`}>
+      <SystemsAtlas />
+    </HomeAtlasPresentation>
+  </AtlasSelectionProvider>;
 }

@@ -137,3 +137,38 @@ test('the three career Hero introductions and CTAs stay unchanged', () => {
     assert.equal(after, before, slug);
   }
 });
+
+test('one Home selection renders matching existing hero, active counts, controls and Home anchors in all four states', () => {
+  const { Hero } = load(resolve(root, 'src/components/hero.tsx'));
+  const initial = Hero({});
+  const edges = html => [...html.matchAll(/<path[^>]*data-path="[^"]+"[^>]*>/g)].map(match => match[0]);
+  const global = renderToStaticMarkup(initial);
+  // Seed the actual shared provider for SSR contracts. Browser clicks/layout are separate QA.
+  for (const selected of [null, 'ai-data', 'software', 'digital', null]) {
+    const html = renderToStaticMarkup(React.cloneElement(initial, { selected }));
+    const active = projects.filter(project => !selected || project.careerPaths.includes(selected));
+    const desktop = [...html.matchAll(/<(a|span)\b([^>]*data-project-id="[^"]+"[^>]*)>/g)]
+      .map(([, tag, attrs]) => ({ tag, ...attributes(attrs) })).filter(card => card.class.includes('atlas-node'));
+    assert.equal(desktop.filter(card => card.tag === 'a').length, active.length);
+    assert.deepEqual(desktop.filter(card => card.tag === 'a').map(card => card['data-project-id']), Array.from(active, project => project.id));
+    assert.ok(desktop.filter(card => card.tag === 'a').every(card => card.href === `#${card['data-project-id']}`), 'Home selection never changes anchor destinations');
+    assert.equal([...html.matchAll(/<h1\b/g)].length, 1, 'only the selected presentation is exposed');
+    assert.deepEqual(edges(html), edges(global), 'all twelve original connections stay identical');
+    assert.match(html, /aria-live="polite" aria-atomic="true"/);
+    assert.ok(html.includes(`data-selection="${selected ?? 'all'}"`));
+    const controls = [...html.matchAll(/<button\b([^>]*data-filter="[^"]+"[^>]*)>/g)].map(([, attrs]) => attributes(attrs));
+    assert.ok(controls.every(control => control.type === 'button' && control['aria-pressed'] === String(control['data-filter'] === (selected ?? 'all'))));
+    if (selected) {
+      const route = renderToStaticMarkup(React.createElement(Hero, { slug: selected }));
+      const copy = text => text.match(/<div class="hero-copy">[\s\S]*?<\/h1>[\s\S]*?<p class="availability">[\s\S]*?<\/p><\/div><\/div>/)?.[0];
+      assert.ok(copy(route));
+      assert.equal(copy(html), copy(route), 'Home reuses the exact route presentation, typography classes and CTAs');
+      assert.ok(html.includes(`data-identity="${pathIdentity[selected]}"`));
+      assert.ok(html.includes(`${active.length} active / 9 projects`));
+      assert.ok(html.includes(`${active.length} active projects.`), 'the live caption announces the current count');
+      assert.ok(!html.includes('id="hero-heading"'), 'the personal hero is not duplicated under the selected presentation');
+    } else {
+      assert.equal(html, global, 'returning to Global restores the full initial personal composition and graph');
+    }
+  }
+});
