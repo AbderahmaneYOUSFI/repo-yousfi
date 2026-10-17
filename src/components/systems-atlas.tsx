@@ -1,6 +1,6 @@
 import { careerPaths, type CareerPathSlug } from "@/data/career-paths";
 import { projects } from "@/data/projects";
-import { atlasLabels, pathIdentity, projectHref } from "./atlas-presentation";
+import { atlasLabels, pathIdentity } from "./atlas-presentation";
 import { AtlasInteraction, AtlasPathControl, AtlasProjectLink } from "./atlas-interaction";
 
 // Geometry from the approved prototype; relationships always derive from source data.
@@ -12,6 +12,7 @@ function position(id: string) {
 
 export function SystemsAtlas({ slug }: { slug?: CareerPathSlug }) {
   const published = projects.filter(project => project.published);
+  const projectAnchor = (id: string) => `${slug ? "/" : ""}#${encodeURIComponent(id)}`;
   const description = (path: CareerPathSlug) => `${careerPaths.find(entry => entry.slug === path)?.name}: ${published.filter(project => project.careerPaths.includes(path)).map(project => atlasLabels[project.id] ?? project.title).join(", ")}. Other projects remain visible; select another perspective or All projects to open them.`;
   const caption = `All ${published.length} published projects are available. Shared projects appear in each of their perspectives on mobile.`;
   return <AtlasInteraction selected={slug ?? null} caption={caption} descriptions={{ "ai-data": description("ai-data"), software: description("software"), digital: description("digital") }}>
@@ -34,7 +35,7 @@ export function SystemsAtlas({ slug }: { slug?: CareerPathSlug }) {
       {published.map(project => {
         const { x, y } = position(project.id);
         const memberships = project.careerPaths.map(path => careerPaths.find(entry => entry.slug === path)!.name).join(" + ");
-        return <div key={project.id} data-atlas-project={project.id}><AtlasProjectLink projectId={project.id} memberships={project.careerPaths} href={projectHref(project.id)} className={`atlas-node atlas-project ${pathIdentity[project.careerPaths[0]]}`} style={{ left: `${x / 6}%`, top: `${y / 6}%` }} label={`${project.title} · Published · ${memberships}`}>
+        return <div key={project.id} data-atlas-project={project.id}><AtlasProjectLink projectId={project.id} memberships={project.careerPaths} href={projectAnchor(project.id)} className={`atlas-node atlas-project ${pathIdentity[project.careerPaths[0]]}`} style={{ left: `${x / 6}%`, top: `${y / 6}%` }} label={`${project.title} · Published · ${memberships}`}>
           <span className="membership-marks" aria-hidden="true">{project.careerPaths.map(path => <i key={path} className={pathIdentity[path]} />)}</span>
           <span>{atlasLabels[project.id] ?? project.title}</span><small className="publication">Published</small>
         </AtlasProjectLink></div>;
@@ -45,7 +46,7 @@ export function SystemsAtlas({ slug }: { slug?: CareerPathSlug }) {
         <div className="mobile-path-heading"><AtlasPathControl path={path.slug} className="mobile-perspective">{path.name}</AtlasPathControl><span className="mobile-count">{published.filter(project => project.careerPaths.includes(path.slug)).length} projects · published</span></div>
         <ul className="mobile-projects" aria-label={`${path.name} project memberships`}>
           {published.filter(project => project.careerPaths.includes(path.slug)).map(project => <li key={project.id} className="mobile-association" data-mobile-path={path.slug} data-mobile-project={project.id}>
-            <AtlasProjectLink projectId={project.id} memberships={project.careerPaths} href={projectHref(project.id)} className="mobile-project" label={`${project.title} · Published · ${project.careerPaths.map(entry => careerPaths.find(path => path.slug === entry)!.name).join(" + ")}`}><span>{atlasLabels[project.id] ?? project.title}</span><small className="publication">Published</small>{project.careerPaths.length > 1 ? <span className="shared-note">Shared: {project.careerPaths.map(entry => careerPaths.find(path => path.slug === entry)!.name).join(" + ")}</span> : null}</AtlasProjectLink>
+            <AtlasProjectLink projectId={project.id} memberships={project.careerPaths} href={projectAnchor(project.id)} className="mobile-project" label={`${project.title} · Published · ${project.careerPaths.map(entry => careerPaths.find(path => path.slug === entry)!.name).join(" + ")}`}><span>{atlasLabels[project.id] ?? project.title}</span><small className="publication">Published</small>{project.careerPaths.length > 1 ? <span className="shared-note">Shared: {project.careerPaths.map(entry => careerPaths.find(path => path.slug === entry)!.name).join(" + ")}</span> : null}</AtlasProjectLink>
           </li>)}
         </ul>
       </div>)}

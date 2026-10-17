@@ -4,6 +4,7 @@ import { readFileSync, existsSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { dirname, resolve } from 'node:path';
 import vm from 'node:vm';
+import { execFileSync } from 'node:child_process';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import ts from 'typescript';
@@ -14,16 +15,21 @@ const cache = new Map();
 
 // Run the actual React components and source data with the existing compiler.
 // This exercises SSR and native control contracts; it does not simulate a browser layout.
-function load(file) {
+function load(file, sourceOverride) {
   if (cache.has(file)) return cache.get(file).exports;
   const entry = { exports: {} };
   cache.set(file, entry);
-  const source = readFileSync(file, 'utf8');
+  const source = sourceOverride ?? readFileSync(file, 'utf8');
   const output = ts.transpileModule(source, { compilerOptions: {
     module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020,
     jsx: ts.JsxEmit.ReactJSX, esModuleInterop: true,
   } }).outputText;
   const localRequire = name => {
+    if (name.endsWith('.module.css')) {
+      const css = readFileSync(resolve(dirname(file), name), 'utf8');
+      const styles = Object.fromEntries([...css.matchAll(/\.([a-zA-Z][\w-]*)/g)].map(([, className]) => [className, `scoped-${className}`]));
+      return { __esModule: true, default: styles };
+    }
     if (!name.startsWith('.') && !name.startsWith('@/')) return require(name);
     const base = name.startsWith('@/') ? resolve(root, 'src', name.slice(2)) : resolve(dirname(file), name);
     const target = ['.ts', '.tsx'].map(extension => base + extension).find(existsSync);
@@ -60,7 +66,7 @@ for (const slug of modes) {
       assert.equal(card['data-project-active'], String(active), project.id);
       if (active) {
         assert.equal(card.tag, 'a');
-        assert.equal(card.href, `/projects/${project.id}`);
+        assert.equal(card.href, `${slug ? '/' : ''}#${project.id}`);
         assert.equal(card['aria-disabled'], undefined);
       } else {
         assert.equal(card.tag, 'span');
@@ -73,7 +79,7 @@ for (const slug of modes) {
     }
     const expectedActive = projects.filter(project => !slug || project.careerPaths.includes(slug)).length;
     assert.equal(desktop.filter(card => card.tag === 'a').length, expectedActive);
-    assert.equal([...html.matchAll(/class="atlas-card-arrow"/g)].length, cards.filter(card => card.tag === 'a').length, 'only active cards have an arrow');
+    assert.ok(!html.includes('atlas-card-arrow'), 'compact project entries have no permanent chevrons');
 
     const controls = [...html.matchAll(/<button\b([^>]*data-filter="[^"]+"[^>]*)>/g)].map(([, attrs]) => attributes(attrs));
     assert.equal(controls.length, 7, 'one global control, three desktop controls, three mobile controls');
@@ -93,5 +99,41 @@ test('shared projects remain active in each of their real perspectives', () => {
       assert.equal(entries.length, 1 + project.careerPaths.length, `${project.id} in ${slug}: desktop and both mobile associations`);
       assert.ok(entries.every(card => card['data-project-active'] === 'true'));
     }
+  }
+});
+
+test('Home restores the e4efd46 personal composition, biography, CTAs and organic paths', () => {
+  const { Hero } = load(resolve(root, 'src/components/hero.tsx'));
+  const { profile } = load(resolve(root, 'src/data/profile.ts'));
+  const historicalSource = execFileSync('git', ['show', 'e4efd46:src/components/hero.tsx'], { cwd: root, encoding: 'utf8' });
+  const { Hero: HistoricalHero } = load(resolve(root, 'src/components/historical-hero.test.tsx'), historicalSource);
+  const html = renderToStaticMarkup(React.createElement(Hero));
+  const personal = html.match(/<section aria-labelledby="hero-heading"[\s\S]*?<\/section>/)?.[0];
+  assert.ok(personal, 'the historical full-width personal section is present');
+  const previous = renderToStaticMarkup(React.createElement(HistoricalHero));
+  assert.deepEqual([...personal.matchAll(/\sd="([^"]+)"/g)].map(match => match[1]), [...previous.matchAll(/\sd="([^"]+)"/g)].map(match => match[1]), 'all four historical organic paths are preserved');
+  for (const text of [profile.name, profile.role, profile.intro]) {
+    const escaped = renderToStaticMarkup(React.createElement(React.Fragment, null, text));
+    assert.ok(personal.includes(escaped), 'confirmed personal copy remains intact');
+  }
+  for (const cta of Object.values(profile.ctas)) {
+    assert.ok(personal.includes(`href="${cta.href}"`));
+    assert.ok(personal.includes(cta.label));
+  }
+  assert.equal([...personal.matchAll(/<a\b/g)].length, 2, 'the two historical CTAs are restored');
+  assert.ok(html.indexOf('</section>') < html.indexOf('<figure class="atlas"'), 'the validated atlas remains a separate component after the full-width hero');
+  const css = readFileSync(resolve(root, 'src/components/hero.module.css'), 'utf8');
+  assert.ok(css.includes('font-family: Georgia, "Times New Roman", serif;'));
+  assert.ok(!css.includes('--organic-') && !/#[0-9a-f]{3,8}\b/i.test(css), 'the restored hero uses existing V2 theme tokens only');
+});
+
+test('the three career Hero introductions and CTAs stay unchanged', () => {
+  const { Hero } = load(resolve(root, 'src/components/hero.tsx'));
+  const previousSource = execFileSync('git', ['show', 'b098a0b:src/components/hero.tsx'], { cwd: root, encoding: 'utf8' });
+  const { Hero: PreviousHero } = load(resolve(root, 'src/components/previous-career-hero.test.tsx'), previousSource);
+  for (const slug of modes.filter(Boolean)) {
+    const before = renderToStaticMarkup(React.createElement(PreviousHero, { slug })).split('<figure class="atlas"')[0];
+    const after = renderToStaticMarkup(React.createElement(Hero, { slug })).split('<figure class="atlas"')[0];
+    assert.equal(after, before, slug);
   }
 });

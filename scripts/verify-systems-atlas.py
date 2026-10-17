@@ -150,6 +150,8 @@ for route, (status, html) in responses.items():
             active = not slug or slug in project["careerPaths"]
             check(attrs["data-project-active"] == str(active).lower(), route + " correct initial card state: " + project["id"])
             check((tag == "a" and "href" in attrs) if active else (tag == "span" and "href" not in attrs and attrs.get("aria-disabled") == "true" and "tabindex" not in attrs), route + " correct navigation eligibility: " + project["id"])
+            if active:
+                check(attrs["href"] == ("/" if slug else "") + "#" + project["id"], route + " atlas targets the Home presentation: " + project["id"])
         check(len(page.atlas_controls) == 7, route + " accessible desktop/mobile/global controls")
         for tag, attrs in page.atlas_controls:
             check(tag == "button" and attrs.get("type") == "button" and attrs.get("aria-pressed") == str(attrs["data-filter"] == (slug or "all")).lower(), route + " native control and selected state")
@@ -162,6 +164,10 @@ for route, (status, html) in responses.items():
         check(page.meta.get("description") == project["description"], route + " project metadata")
         check(all(technology in visible for technology in project["technologies"]), route + " confirmed technologies")
         check(all(section in page.ids for section in ["context-heading", "scope-heading", "technology-heading", "resources-heading", "limits-heading"]), route + " detailed sections")
+
+for project in projects:
+    check(project["id"] in pages["/"].ids, "Stable Home presentation ID: " + project["id"])
+    check("/projects/" + project["id"] in pages["/"].links, "Home presentation still links to public details: " + project["id"])
 
 allowed = {link["href"] for project in projects for link in project["links"]}
 allowed.update({"mailto:yousfi.abderrahmane02@gmail.com", "https://github.com/AbderahmaneYOUSFI", "https://linkedin.com/in/abderrahmane02-yousfi"})

@@ -1,1 +1,114 @@
-/* Systems Atlas V2 Hero styles now live in src/app/globals.css with the shared page composition. */
+.hero {
+  /* Scope the historical composition to the existing V2 theme. */
+  --background: var(--canvas);
+  --foreground: var(--text);
+  --muted: var(--secondary);
+  --border: var(--secondary);
+  --surface-hover: var(--active);
+  --focus: var(--text);
+
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  color-scheme: inherit;
+  color: var(--foreground);
+  background: var(--background);
+  border-bottom: 1px solid var(--active);
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+.heading {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  letter-spacing: -0.045em;
+}
+
+.artwork {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+  width: clamp(22rem, 42vw, 42rem);
+  top: 50%;
+  right: -3%;
+  transform: translateY(-50%);
+}
+
+.artwork svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+.silhouette {
+  fill: var(--active);
+  opacity: 0.48;
+  transform-origin: 55% 50%;
+}
+
+.contour {
+  stroke: var(--home);
+  stroke-width: 1.25;
+  opacity: 0.65;
+  transform-origin: 55% 50%;
+}
+
+.stem {
+  stroke: var(--text);
+  stroke-width: 1;
+  opacity: 0.3;
+}
+
+@media (max-width: 63.999rem) {
+  .artwork {
+    right: -10rem;
+    opacity: 0.4;
+  }
+}
+
+@media (max-width: 39.999rem) {
+  .artwork {
+    top: 30%;
+    right: -14rem;
+    opacity: 0.3;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .silhouette,
+  .contour {
+    animation: none;
+  }
+}
+
+/* Historical e4efd46 composition, scoped so the V2 career pages stay intact.
+   Only current V2 tokens are used; the artwork stays still. */
+.hero { padding: 5rem 1.25rem; }
+.content { width: 100%; max-width: 72rem; margin-inline: auto; }
+.role { margin: 0 0 1.5rem; font-size: .75rem; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--secondary); }
+.heading { max-width: 56rem; font-size: 3rem; line-height: 1.08; overflow-wrap: break-word; }
+.intro { margin: 1.5rem 0 0; max-width: 42rem; font-size: 1.125rem; line-height: 2rem; color: var(--secondary); }
+.actions { margin-top: 2.25rem; display: flex; flex-direction: column; gap: .75rem; }
+.actions a { display: inline-flex; min-height: 3rem; align-items: center; justify-content: center; border: 1px solid var(--line); border-radius: .5rem; padding: .75rem 1.25rem; font-size: .875rem; font-weight: 600; line-height: 1.25rem; text-decoration: none; color: var(--text); }
+.actions a:first-child { border-color: var(--text); background: var(--text); color: var(--canvas); }
+.actions a:focus-visible { outline: 2px solid var(--home-ink); outline-offset: 4px; }
+.actions a:active { outline: 1px solid var(--home-ink); outline-offset: 2px; }
+.atlas { max-width: 600px; padding-block: 3rem; }
+@media (hover: hover) and (pointer: fine) {
+  .actions a:hover { background: var(--active); }
+  .actions a:first-child:hover { border-color: var(--secondary); background: var(--secondary); }
+}
+@media (min-width: 40rem) {
+  .hero { padding: 7rem 2rem; }
+  .heading { font-size: 3.75rem; }
+  .intro { font-size: 1.25rem; line-height: 2.25rem; }
+  .actions { flex-direction: row; }
+}
+@media (min-width: 64rem) {
+  .hero { padding: 9rem 3rem; }
+  .heading { font-size: 4.5rem; }
+}

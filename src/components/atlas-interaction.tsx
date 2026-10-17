@@ -65,7 +65,6 @@ export function AtlasProjectLink({ memberships, href, label, className, style, p
 }) {
   const { selected } = useAtlas();
   const active = selected === null || memberships.includes(selected);
-  const content = <>{children}{active ? <svg className="atlas-card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg> : null}</>;
   const props = {
     className,
     style,
@@ -74,12 +73,13 @@ export function AtlasProjectLink({ memberships, href, label, className, style, p
     "aria-label": active ? label : `${label} · Outside selected perspective`,
   };
 
-  if (!active) return <span {...props} role="link" aria-disabled="true">{content}</span>;
+  if (!active) return <span {...props} role="link" aria-disabled="true">{children}</span>;
 
   return <a {...props} href={href} onClick={event => {
+    if (href.startsWith("#")) return;
     // Carry the appearance choice when selection creates a new active anchor.
     const target = new URL(href, location.href);
     target.searchParams.set("appearance", readPreference());
     event.currentTarget.href = `${target.pathname}${target.search}${target.hash}`;
-  }}>{content}</a>;
+  }}>{children}</a>;
 }
