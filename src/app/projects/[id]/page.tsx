@@ -40,7 +40,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[id]"
         {detail.work.length ? <section aria-labelledby="scope-heading"><h2 id="scope-heading">Work &amp; deliverables.</h2><ul className="documented-work">{detail.work.map(item => <li key={item}>{item}</li>)}</ul></section> : null}
         {project.technologies.length ? <section aria-labelledby="technology-heading"><h2 id="technology-heading">Technologies.</h2><ProjectTechnologies project={project} /></section> : null}
         {project.links.length ? <section aria-labelledby="resources-heading"><h2 id="resources-heading">Resources.</h2><ProjectResources project={project} /></section> : null}
-        {detail.focus ? <section aria-labelledby="limits-heading"><h2 id="limits-heading">Engineering focus.</h2><p>{detail.focus}</p></section> : null}
+        {detail.focus ? <section aria-labelledby="limits-heading"><h2 id="limits-heading">Results.</h2><p>{detail.focus}</p></section> : null}
       </div>
       <a href={`/#${project.id}`} className="text-link">Back to the project catalogue</a>
     </article>

@@ -232,8 +232,9 @@ test('all nine project pages present confirmed work and approved resources witho
   for (const project of projects) {
     const props = { params: Promise.resolve({ id: project.id }) };
     const html = renderToStaticMarkup(await ProjectPage(props));
+    assert.ok(html.includes('href="https://drive.google.com/file/d/1SlqpGjUtvP79uAcxwJXQQo4XrqjjrYMl/view?usp=sharing" class="text-link">View CV</a>'), 'the CV opens the supplied Drive viewer without a download attribute');
     const article = html.split('</article>')[0];
-    assert.ok(article.includes('Work &amp; deliverables.') && article.includes('Engineering focus.'), project.id);
+    assert.ok(article.includes('Work &amp; deliverables.') && article.includes('Results.'), project.id);
     assert.equal(article.includes('id="technology-heading"'), project.technologies.length > 0, project.id);
     assert.equal(article.includes('id="resources-heading"'), project.links.length > 0, project.id);
     assert.doesNotMatch(article, /has not been supplied|have not been supplied|owner-provided|remain to be confirmed|To be confirmed|No measured|No model scores|Results &amp; limitations/);
@@ -243,7 +244,7 @@ test('all nine project pages present confirmed work and approved resources witho
       assert.ok(article.includes(`href="${link.href}"`), `${project.id}: ${link.href}`);
       assert.ok(article.includes(link.label === 'GitHub' ? 'GitHub repository' : link.label));
     }
-    assert.ok(!article.includes('Live demo repository'));
+    assert.ok(!article.includes('Live app repository'));
     assert.ok(article.includes(`href="/#${project.id}"`), 'return link still targets the existing Home presentation');
     assert.equal((await generateMetadata(props)).description, project.description);
   }

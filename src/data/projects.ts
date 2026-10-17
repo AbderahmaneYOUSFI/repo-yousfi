@@ -70,7 +70,7 @@ export const projects: readonly Project[] = [
     description: "A physical card game adapted into a multiplayer web application, with authentication, lobby, game and AI microservices, Python bots, real-time WebSockets and Docker CI/CD.",
     technologies: ["Angular", "Spring Boot", "Spring Cloud", "Python", "FastAPI", "PostgreSQL", "MongoDB", "Redis", "WebSockets", "JWT", "Google OAuth", "Eureka", "Docker"],
     careerPaths: ["software", "digital"],
-    links: [{ label: "GitHub", href: "https://github.com/AbderahmaneYOUSFI/faraway_web_game" }, { label: "Live demo", href: "http://89.167.89.79:4200/" }],
+    links: [{ label: "GitHub", href: "https://github.com/AbderahmaneYOUSFI/faraway_web_game" }, { label: "Live app", href: "http://89.167.89.79:4200/" }],
   },
   {
     id: "database-simulation",
@@ -97,7 +97,7 @@ export const projects: readonly Project[] = [
     description: "An assignment management application built with Angular 20, RxJS, routing and forms, deployed on Render.",
     technologies: ["Angular 20", "TypeScript", "RxJS", "Render"],
     careerPaths: ["software"],
-    links: [{ label: "GitHub", href: "https://github.com/AbderahmaneYOUSFI/assignment_web_app" }, { label: "Live demo", href: "https://angular-25-26-abderahmaneyousfi.onrender.com/" }],
+    links: [{ label: "GitHub", href: "https://github.com/AbderahmaneYOUSFI/assignment_web_app" }, { label: "Live app", href: "https://angular-25-26-abderahmaneyousfi.onrender.com/" }],
   },
 ];
 

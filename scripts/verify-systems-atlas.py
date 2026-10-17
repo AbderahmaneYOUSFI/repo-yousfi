@@ -169,7 +169,7 @@ for route, (status, html) in responses.items():
         check(all(section in page.ids for section in ["context-heading", "scope-heading", "limits-heading"]), route + " substantive project sections")
         check(("technology-heading" in page.ids) == bool(project["technologies"]), route + " no empty technologies section")
         check(("resources-heading" in page.ids) == bool(project["links"]), route + " no empty resources section")
-        check("Engineering focus." in visible and "Results & limitations." not in visible, route + " achievement-focused editorial heading")
+        check("Results." in visible and "Results & limitations." not in visible, route + " achievement-focused editorial heading")
         check(not re.search(r"has not been supplied|have not been supplied|owner-provided|remain to be confirmed|No model scores|No measured", visible), route + " no provisional editorial copy")
         for link in project["links"]:
             check(link["href"] in page.links, route + " approved project resource: " + link["href"])
@@ -179,7 +179,7 @@ for project in projects:
     check("/projects/" + project["id"] in pages["/"].links, "Home presentation still links to public details: " + project["id"])
 
 allowed = {link["href"] for project in projects for link in project["links"]}
-allowed.update({"mailto:yousfi.abderrahmane02@gmail.com", "https://github.com/AbderahmaneYOUSFI", "https://linkedin.com/in/abderrahmane02-yousfi"})
+allowed.update({"mailto:yousfi.abderrahmane02@gmail.com", "https://github.com/AbderahmaneYOUSFI", "https://linkedin.com/in/abderrahmane02-yousfi", "https://drive.google.com/file/d/1SlqpGjUtvP79uAcxwJXQQo4XrqjjrYMl/view?usp=sharing"})
 for route, page in pages.items():
     for href in page.links:
         url = urlsplit(urljoin(BASE + route, href))

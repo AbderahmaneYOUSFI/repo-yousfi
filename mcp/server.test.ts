@@ -76,7 +76,7 @@ test("project resources match the owner-approved repositories and live applicati
     const expected = repository ? [{
       label: "GitHub", href: `https://github.com/AbderahmaneYOUSFI/${repository}`,
     }] : project.id === "marble-madness" ? [{ label: "GitHub", href: "https://github.com/Tzk91/Marble-Madness" }] : [];
-    if (demos[project.id]) expected.push({ label: "Live demo", href: demos[project.id] });
+    if (demos[project.id]) expected.push({ label: "Live app", href: demos[project.id] });
     assert.deepEqual(project.links, expected);
   }
 });

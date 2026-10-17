@@ -2,14 +2,15 @@ export type ProfileContact = {
   readonly email?: `${string}@${string}`;
   readonly github?: `https://${string}`;
   readonly linkedin?: `https://${string}`;
-  readonly cv?: `/${string}.pdf`;
+  readonly cv?: `/${string}.pdf` | `https://${string}`;
 };
 
-// Add only confirmed personal destinations and an existing PDF from public/.
+// Add only confirmed personal destinations and CV links.
 const contact: ProfileContact = {
   email: "yousfi.abderrahmane02@gmail.com",
   github: "https://github.com/AbderahmaneYOUSFI",
   linkedin: "https://linkedin.com/in/abderrahmane02-yousfi",
+  cv: "https://drive.google.com/file/d/1SlqpGjUtvP79uAcxwJXQQo4XrqjjrYMl/view?usp=sharing",
 };
 
 export const profile = {
