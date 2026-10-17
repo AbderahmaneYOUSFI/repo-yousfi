@@ -13,7 +13,7 @@ This document tracks unresolved editorial decisions and the rationale for CV int
 
 ## Projects and path review
 
-The owner corrected the approved inventory to nine distinct project records: six published and three unpublished. The nine retained projects preserve their IDs, URLs, verified descriptions and technologies from commit `1db8329`. These owner-confirmed memberships describe relevance, not additional achievements:
+The owner has explicitly approved publication of all nine distinct project records (17 October 2026). This supersedes the earlier six-published / three-unpublished policy. The nine retained projects preserve their IDs, URLs, verified descriptions and technologies from commit `1db8329`. These owner-confirmed memberships describe relevance, not additional achievements:
 
 | Project (stable ID) | Status | Career paths | Content boundaries |
 | --- | --- | --- | --- |
@@ -23,11 +23,11 @@ The owner corrected the approved inventory to nine distinct project records: six
 | Faraway (`faraway`) | Published | Software Engineering, Digital Transformation | Physical card game adapted into a multiplayer web application. |
 | Mini-SGBD — Oracle Simulation (`database-simulation`) | Published | Software Engineering | FSGDB is an alias of this educational DBMS, not another project. |
 | Sustainable Software Engineering @ ICOSNET (`icosnet`) | Published | Digital Transformation | One project combining SSE research and its industrial e-commerce case study; expected impact evaluated through simulation, without a proven deployment claim. Paper, poster and thesis are related deliverables. |
-| Réactis (`reactis`) | Unpublished | AI & Data, Digital Transformation | Research and benchmarking across functional/business testing, including a Claude Code agent benchmark. No verified improvements, metrics or completed outcomes. |
-| Marble Madness (`marble-madness`) | Unpublished | Software Engineering | 3D browser physics game; keyboard/mobile controls, levels, scoring and enemies. |
-| Angular Assignment Management (`angular-assignment-management`) | Unpublished | Software Engineering | Angular 20 application deployed on Render; no deployment URL supplied. |
+| Réactis (`reactis`) | Published | AI & Data, Digital Transformation | Research and benchmarking across functional/business testing, including a Claude Code agent benchmark. No verified improvements, metrics or completed outcomes. |
+| Marble Madness (`marble-madness`) | Published | Software Engineering | 3D browser physics game; keyboard/mobile controls, levels, scoring and enemies. |
+| Angular Assignment Management (`angular-assignment-management`) | Published | Software Engineering | Angular 20 application deployed on Render; no deployment URL supplied. |
 
-Published counts remain AI & Data **3**, Software Engineering **3**, Digital Transformation **2**. If all three drafts are approved for publication, the target counts will be respectively **4**, **5** and **3**, matching the full catalogue memberships; overlapping memberships are intentional. Réactis, Marble Madness and Angular Assignment Management remain unpublished and require explicit owner approval before publication. They are excluded from public lists and MCP details. `getProjectsForPath` still selects all memberships; public consumers apply the existing publication filter.
+Published counts are AI & Data **4**, Software Engineering **5**, Digital Transformation **3**. The twelve memberships intentionally overlap. All nine projects are available in public lists, project detail routes and MCP details. `getProjectsForPath` selects all memberships; public consumers retain the publication filter for future unpublished entries. Publication of Reactis, Marble Madness and Angular Assignment Management changes only their visibility, not their confirmed facts or outcomes.
 
 Big Data Project (`big-data`), Spring Boot Web Application (`spring-boot-web-application`) and Quiz Game (`quiz-game`) are excluded from the active catalogue by owner instruction. They are not publication candidates in this inventory and must not appear in generated routes or MCP results. Their previous records remain available in Git history.
 
@@ -45,7 +45,7 @@ Skills are grouped using the existing name/context cards. Group-level path membe
 
 - Confirm Réactis findings, implementation stack and personal contributions before adding outcomes.
 - Supply missing project repositories/demos and a public CV PDF if desired.
-- Approve each unpublished project's publication explicitly when ready.
+- Publication of all nine current projects is approved. Future unpublished projects still require explicit approval.
 - Provide any project dates, personal responsibility boundaries, limitations or measured outcomes before adding them.
 
-This integration supersedes the initial empty-data assumptions in Features 003, 005 and 006; their architecture and rendering conventions are preserved.
+This integration supersedes the initial empty-data assumptions in Features 003, 005 and 006; their data boundaries are preserved; Feature 007 defines the current UI and public project routes.

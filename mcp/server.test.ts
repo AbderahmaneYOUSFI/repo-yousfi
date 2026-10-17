@@ -16,23 +16,18 @@ function data(name: string, args?: unknown) {
 }
 
 test("confirmed catalogue preserves unique stable ids, publication policy and memberships", () => {
-  const publishedIds = ["picoxia", "forecasting", "icosnet", "thais-mcp-server", "faraway", "database-simulation"];
-  const draftIds = ["reactis", "marble-madness", "angular-assignment-management"];
+  const publishedIds = ["picoxia", "reactis", "forecasting", "icosnet", "thais-mcp-server", "faraway", "database-simulation", "marble-madness", "angular-assignment-management"];
   assert.equal(projects.length, 9);
   assert.equal(new Set(projects.map((project) => project.id)).size, 9);
   assert.deepEqual(projects.filter((project) => project.published).map((project) => project.id), publishedIds);
-  assert.deepEqual(projects.filter((project) => !project.published).map((project) => project.id), draftIds);
+  assert.deepEqual(projects.filter((project) => !project.published), []);
 
   const memberships = {
     "ai-data": ["picoxia", "reactis", "forecasting", "thais-mcp-server"],
     software: ["picoxia", "faraway", "database-simulation", "marble-madness", "angular-assignment-management"],
     digital: ["reactis", "icosnet", "faraway"],
   } as const;
-  const publicMemberships = {
-    "ai-data": ["picoxia", "forecasting", "thais-mcp-server"],
-    software: ["picoxia", "faraway", "database-simulation"],
-    digital: ["icosnet", "faraway"],
-  } as const;
+  const publicMemberships = memberships;
   const targetCounts = { "ai-data": 4, software: 5, digital: 3 } as const;
   for (const path of careerPaths) {
     const selected = getProjectsForPath(path.slug);

@@ -1,16 +1,20 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import { profile } from "@/data/profile";
 import "./globals.css";
+import { appearanceBoot } from "@/components/appearance-boot";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const barlow = localFont({
+  src: [{ path: "./fonts/barlow-400.ttf", weight: "400" }, { path: "./fonts/barlow-600.ttf", weight: "600" }],
+  variable: "--font-barlow",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const condensed = localFont({
+  src: "./fonts/barlow-semi-condensed-600.ttf",
+  weight: "600",
+  variable: "--font-barlow-condensed",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -22,9 +26,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${barlow.variable} ${condensed.variable}`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <head><meta name="theme-color" content="#F6F6F5" suppressHydrationWarning /><script dangerouslySetInnerHTML={{ __html: appearanceBoot }} /></head>
+      <body>{children}</body>
     </html>
   );
 }

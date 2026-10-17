@@ -1,29 +1,14 @@
 import { careerPaths, careerPathHref } from "@/data/career-paths";
-import { careerPathStyles, careerPathTextStyles } from "@/components/career-path-styles";
+import { getProjectsForPath } from "@/data/projects";
+import { pathIdentity } from "./atlas-presentation";
+import { PathSymbol } from "./path-symbol";
 
 export function CareerPathCards() {
-  return (
-    <section aria-labelledby="career-paths-heading" className="portfolio-section">
-      <div className="mx-auto max-w-6xl">
-        <h2 id="career-paths-heading" className="section-heading">One profile. Multiple perspectives.</h2>
-        <p className="mt-4 max-w-2xl leading-7 text-muted">Choose a career path to explore the connection between technology, data and business.</p>
-        <ul className="mt-8 grid gap-4 lg:grid-cols-3">
-          {careerPaths.map((path) => (
-            <li key={path.slug} className="min-w-0">
-              <a
-                href={careerPathHref(path.slug)}
-                className={`flex h-full flex-col rounded-xl border border-t-2 border-border bg-surface p-6 transition-colors hover:bg-surface-hover ${careerPathStyles[path.accent]}`}
-              >
-                <h3 className="text-xl font-semibold leading-snug tracking-tight">{path.name}</h3>
-                <p className="mt-3 leading-7 text-muted">{path.description}</p>
-                <span className={`mt-auto pt-6 text-sm font-medium ${careerPathTextStyles[path.accent]}`}>
-                  Explore path <span aria-hidden="true">→</span>
-                </span>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-  );
+  return <section className="perspectives-section wrap" aria-labelledby="perspectives-heading">
+    <div className="perspectives-intro"><h2 id="perspectives-heading">Three ways into the work.</h2><p>Complementary disciplines. One engineering profile.</p></div>
+    <div className="perspectives">{careerPaths.map(path => <article key={path.slug} className={`perspective ${pathIdentity[path.slug]}`}>
+      <PathSymbol identity={pathIdentity[path.slug]} />
+      <div className="perspective-body"><h3><a href={careerPathHref(path.slug)}>{path.name}</a></h3><p>{path.description}</p><span className="evidence-label">{getProjectsForPath(path.slug).filter(project => project.published).length} catalogue projects</span><a className="text-link" href={careerPathHref(path.slug)}>Explore this perspective</a></div>
+    </article>)}</div>
+  </section>;
 }

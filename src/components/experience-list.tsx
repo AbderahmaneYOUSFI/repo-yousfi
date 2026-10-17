@@ -1,22 +1,9 @@
+/* eslint-disable @next/next/no-html-link-for-pages -- Preserve the portfolio's native navigation and storage-independent appearance URLs. */
 import type { Experience } from "@/data/experiences";
 
 export function ExperienceList({ experiences }: { experiences: readonly Experience[] }) {
-  if (experiences.length === 0) {
-    return <p className="mt-6 max-w-2xl leading-7 text-muted">Professional internships are presented in the Digital Transformation perspective and on the homepage.</p>;
-  }
-
-  return (
-    <ul className="mt-8 grid gap-4 md:grid-cols-2">
-      {experiences.map((experience) => (
-        <li key={experience.id} className="min-w-0">
-          <article className="h-full rounded-xl border border-border bg-surface p-6">
-            <h3 className="break-words text-xl font-semibold leading-snug tracking-tight">{experience.organization}</h3>
-            {experience.role && <p className="mt-3 break-words font-medium leading-7">{experience.role}</p>}
-            {experience.period && <p className="mt-2 text-sm leading-6 text-muted">{experience.period}</p>}
-            {experience.summary && <p className="mt-3 break-words leading-7 text-muted">{experience.summary}</p>}
-          </article>
-        </li>
-      ))}
-    </ul>
-  );
+  if (!experiences.length) return <div className="experience-context"><h3>Industrial engineering.<br />Information systems.</h3><div><p>My internships cover information systems management at ICOSNET and quality analysis and production processes at Schneider Electric Algeria.</p><p>No internship is currently assigned to this perspective.</p><a className="text-link" href="/paths/digital#experiences">Explore Digital Transformation experience</a><br /><a className="text-link" href="/#experiences">View all professional experience</a></div></div>;
+  return <>{experiences.map(experience => <article key={experience.id} className="experience-row" data-experience={experience.id}>
+    <div className="experience-year" aria-hidden="true">{experience.period?.match(/\d{4}/)?.[0]}</div><div className="experience-main"><h3>{experience.organization}</h3>{experience.role ? <span className="role">{experience.role}</span> : null}{experience.period ? <p className="experience-period">{experience.period}</p> : null}</div>{experience.summary ? <p>{experience.summary}</p> : null}
+  </article>)}</>;
 }

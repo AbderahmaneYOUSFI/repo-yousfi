@@ -1,0 +1,16 @@
+{
+  "light": {
+    "canvas": "#F6F6F5", "surface": "#FFFFFF", "active": "#EAEAE7",
+    "text": "#202227", "secondary": "#555861", "border": "#DADAD6", "line": "#777B86",
+    "home": "#777B86", "ai": "#008F9C", "software": "#4865D8", "digital": "#198568",
+    "home-ink": "#555861", "ai-ink": "#00636C", "software-ink": "#354DAE", "digital-ink": "#125F4A",
+    "on-identity": "#FFFFFF"
+  },
+  "dark": {
+    "canvas": "#141519", "surface": "#1C1E23", "active": "#272A31",
+    "text": "#F2F2F3", "secondary": "#B8BAC2", "border": "#3B3E46", "line": "#A5A8B0",
+    "home": "#A5A8B0", "ai": "#59D6DC", "software": "#94A9FF", "digital": "#65D6AD",
+    "home-ink": "#A5A8B0", "ai-ink": "#59D6DC", "software-ink": "#94A9FF", "digital-ink": "#65D6AD",
+    "on-identity": "#141519"
+  }
+}

@@ -29,7 +29,7 @@ export const projects: readonly Project[] = [
   },
   {
     id: "reactis",
-    published: false,
+    published: true,
     title: "Réactis — Generative AI for Functional Testing",
     description: "Research and benchmarking on generative AI across functional and business testing: requirements, test cases, test data, execution, result judgment, failure analysis and campaign management. Includes a Claude Code agent benchmark; outcomes remain to be confirmed.",
     technologies: [],
@@ -83,7 +83,7 @@ export const projects: readonly Project[] = [
   },
   {
     id: "marble-madness",
-    published: false,
+    published: true,
     title: "Marble Madness",
     description: "A 3D browser physics game with keyboard and mobile controls, levels, scoring and enemies.",
     technologies: ["TypeScript", "Babylon.js", "Havok Physics", "Vite", "Blender", "GLB"],
@@ -92,7 +92,7 @@ export const projects: readonly Project[] = [
   },
   {
     id: "angular-assignment-management",
-    published: false,
+    published: true,
     title: "Angular Assignment Management",
     description: "An assignment management application built with Angular 20, RxJS, routing and forms, deployed on Render.",
     technologies: ["Angular 20", "TypeScript", "RxJS", "Render"],

@@ -1,49 +1,27 @@
 import type { Project } from "@/data/projects";
+import { careerPathHref, getCareerPath } from "@/data/career-paths";
+import { pathIdentity, projectHref } from "./atlas-presentation";
+import { ProjectArtwork } from "./project-artwork";
+
+export function ProjectRelationships({ project }: { project: Project }) {
+  return <div className="study-paths" aria-label="Career relationships">{project.careerPaths.map(slug => <a key={slug} href={careerPathHref(slug)} className={`relationship ${pathIdentity[slug]}`}>{getCareerPath(slug).name}</a>)}</div>;
+}
+
+export function ProjectTechnologies({ project }: { project: Project }) {
+  return project.technologies.length ? <ul className="stack" aria-label={`Technologies for ${project.title}`}>{project.technologies.map(technology => <li key={technology}><span>{technology}</span></li>)}</ul> : <p className="caption">Technologies have not been confirmed.</p>;
+}
+
+export function ProjectResources({ project }: { project: Project }) {
+  return project.links.length ? <ul className="resource-links" aria-label={`Resources for ${project.title}`}>{project.links.map(link => <li key={link.href}><a href={link.href} className="text-link">{link.label} repository</a></li>)}</ul> : <p>No repository or demo link has been supplied for this project.</p>;
+}
 
 export function ProjectList({ projects }: { projects: readonly Project[] }) {
-  const publishedProjects = projects.filter((project) => project.published);
-
-  if (publishedProjects.length === 0) {
-    return <p className="mt-6 leading-7 text-muted">No projects listed for this path yet.</p>;
-  }
-
-  return (
-    <ul className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {publishedProjects.map((project) => (
-        <li key={project.id} className="min-w-0">
-          <article className="flex h-full flex-col rounded-xl border border-border bg-surface p-6">
-            <h3 className="break-words text-xl font-semibold leading-snug tracking-tight">{project.title}</h3>
-            <p className="mt-3 break-words leading-7 text-muted">{project.description}</p>
-            <div className="mt-6">
-              <p className="text-xs font-medium text-muted">Technologies</p>
-              {project.technologies.length > 0 ? (
-                <ul aria-label={`Technologies for ${project.title}`} className="mt-2 flex flex-wrap gap-2">
-                  {project.technologies.map((technology) => (
-                    <li key={technology} className="max-w-full break-words rounded-md border border-border px-2 py-1 font-mono text-xs leading-5 text-muted">{technology}</li>
-                  ))}
-                </ul>
-              ) : (
-                <p className="mt-2 text-sm leading-6 text-muted">Technologies to be confirmed</p>
-              )}
-            </div>
-            <div className="mt-auto pt-6">
-              <div className="border-t border-border pt-3">
-                {project.links.length > 0 ? (
-                  <ul aria-label={`Links for ${project.title}`} className="flex flex-wrap gap-x-2 gap-y-1">
-                    {project.links.map((link) => (
-                      <li key={link.href} className="min-w-0 max-w-full">
-                        <a href={link.href} aria-label={`${link.label}: ${project.title}`} className="inline-flex min-h-11 max-w-full items-center break-words rounded-md px-3 py-2 text-sm font-medium underline decoration-muted underline-offset-4 transition-colors hover:bg-surface-hover">{link.label}</a>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p className="flex min-h-11 items-center text-sm leading-6 text-muted">Project links to be confirmed</p>
-                )}
-              </div>
-            </div>
-          </article>
-        </li>
-      ))}
-    </ul>
-  );
+  const published = projects.filter(project => project.published);
+  if (!published.length) return <p>No projects listed for this path yet.</p>;
+  return <>{published.map(project => <article key={project.id} id={project.id} className={`study ${project.id} ${pathIdentity[project.careerPaths[0]]}`} data-publication="published" data-memberships={project.careerPaths.join(" ")}>
+    <figure className="study-figure"><div className="art" aria-hidden="true"><ProjectArtwork id={project.id} /></div><figcaption>Conceptual artwork from documented terms / not a verified architecture or product screenshot.</figcaption></figure>
+    <div className="study-copy"><div className="study-meta"><ProjectRelationships project={project} /><span className="study-status">Published</span></div><h3><a href={projectHref(project.id)}>{project.title}</a></h3><div><p className="description">{project.description}</p><ProjectTechnologies project={project} /></div>
+      <div className="study-actions"><a className="text-link" href={projectHref(project.id)}>Explore project</a><details className="evidence"><summary>Explore engineering notes</summary><div className="detail-body"><p>Documented technologies: {project.technologies.join(", ") || "To be confirmed"}.</p><ProjectResources project={project} /></div></details></div>
+    </div>
+  </article>)}</>;
 }

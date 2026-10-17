@@ -1,0 +1,25 @@
+// Conceptual artwork ported from the approved V2 prototype.
+export function ProjectArtwork({ id }: { id: string }) {
+  switch (id) {
+    case "picoxia":
+      return <><svg viewBox="0 0 536 320" aria-hidden="true"><text x="32" y="42">PicoxIA</text><text x="32" y="66" className="subtext">Multilingual dictation &amp; local NLP</text><path d="M38 131v10" stroke="currentColor" strokeWidth="3"></path><path d="M50 124v24" stroke="currentColor" strokeWidth="3"></path><path d="M62 112v48" stroke="currentColor" strokeWidth="3"></path><path d="M74 121v30" stroke="currentColor" strokeWidth="3"></path><path d="M86 104v64" stroke="currentColor" strokeWidth="3"></path><path d="M98 93v86" stroke="currentColor" strokeWidth="3"></path><path d="M110 116v40" stroke="currentColor" strokeWidth="3"></path><path d="M122 84v104" stroke="currentColor" strokeWidth="3"></path><path d="M134 70v132" stroke="currentColor" strokeWidth="3"></path><path d="M146 98v76" stroke="currentColor" strokeWidth="3"></path><path d="M158 116v40" stroke="currentColor" strokeWidth="3"></path><path d="M170 87v98" stroke="currentColor" strokeWidth="3"></path><path d="M182 101v70" stroke="currentColor" strokeWidth="3"></path><path d="M194 122v28" stroke="currentColor" strokeWidth="3"></path><path d="M206 108v56" stroke="currentColor" strokeWidth="3"></path><path d="M218 120v32" stroke="currentColor" strokeWidth="3"></path><path d="M230 128v16" stroke="currentColor" strokeWidth="3"></path><path d="M242 123v26" stroke="currentColor" strokeWidth="3"></path><path d="M254 130v12" stroke="currentColor" strokeWidth="3"></path><path d="M266 133v6" stroke="currentColor" strokeWidth="3"></path><path className="stroke" d="M282 136h36m-8-7 8 7-8 7"></path><rect x="342" y="94" width="154" height="87" rx="4" className="fill"></rect><text x="360" y="125">Local AI</text><text x="360" y="151" className="subtext">qwen2.5 / Ollama</text><path className="hair" d="M32 234h464"></path><text x="32" y="266" className="subtext">Whisper / Vosk</text><text x="346" y="266" className="subtext">14 languages</text></svg></>;
+    case "forecasting":
+      return <><svg viewBox="0 0 536 320" aria-hidden="true"><text x="24" y="42">Energy consumption</text><text x="20" y="150" style={{fontFamily: "var(--font-barlow-condensed)", fontSize: "100px", fill: "var(--identity-ink)"}}>Forecast.</text><path d="M40 208h420" className="stroke"></path><g fill="var(--identity)"><circle cx="40" cy="208" r="5"></circle><circle cx="230" cy="208" r="5"></circle><circle cx="460" cy="208" r="5"></circle></g><text x="24" y="245">ETL</text><text x="190" y="245">Modeling</text><text x="398" y="245">Evaluation</text><text x="24" y="296" className="subtext">ARIMA / Prophet / XGBoost / Streamlit</text></svg></>;
+    case "icosnet":
+      return <><div><div className="art-title">SSE</div><div className="art-rule"></div><div className="art-subtitle">Sustainability research<br />ICOSNET case study · simulation</div></div><span className="art-note">ICOSNET</span></>;
+    case "thais-mcp-server":
+      return <><div><div className="art-title">MCP</div><div className="art-rule"></div><div className="art-subtitle">Hotel PMS integration<br />Node.js / TypeScript / JWT</div></div><span className="art-note">Thaïs</span></>;
+    case "faraway":
+      return <><svg viewBox="0 0 536 320" aria-hidden="true"><text x="32" y="42">Faraway</text><text x="32" y="66" className="subtext">Multiplayer card game</text><g transform="translate(156 100)"><rect width="100" height="140" rx="8" className="fill" stroke="currentColor" strokeWidth="1.5" transform="rotate(-12 50 70)"></rect><rect x="58" y="-4" width="100" height="140" rx="8" fill="var(--surface)" stroke="currentColor" strokeWidth="1.5" transform="rotate(8 100 65)"></rect><path d="m104 42 20 26-20 26-20-26z" className="stroke"></path></g><text x="32" y="278" className="subtext">Auth / Lobby / Game / AI services</text></svg></>;
+    case "database-simulation":
+      return <><svg viewBox="0 0 536 320" aria-hidden="true"><text x="32" y="42">Database internals</text><ellipse cx="270" cy="108" rx="104" ry="28" className="fill" stroke="currentColor" strokeWidth="2"></ellipse><path d="M166 108v106c0 38 208 38 208 0V108m-208 52c0 38 208 38 208 0" className="stroke"></path><text x="32" y="284" className="subtext">Buffer / Transactions / ACID</text></svg></>;
+    case "reactis":
+      return <div><div className="art-title">Test.</div><div className="art-rule" /><p className="art-subtitle">Generative AI<br />Functional &amp; business testing</p></div>;
+    case "marble-madness":
+      return <div><div className="art-title">Play.</div><div className="art-rule" /><p className="art-subtitle">3D browser physics<br />Babylon.js / Havok Physics</p></div>;
+    case "angular-assignment-management":
+      return <div><div className="art-title">Assign.</div><div className="art-rule" /><p className="art-subtitle">Assignment management<br />Angular 20 / RxJS</p></div>;
+    default:
+      return null;
+  }
+}
