@@ -33,14 +33,14 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[id]"
       <nav className="project-breadcrumb" aria-label="Breadcrumb"><a href="/">Global profile</a><span aria-hidden="true">/</span><a href="/#projects">All projects</a></nav>
       <header className="project-heading"><p className="section-kicker">Engineering project · Published</p><h1>{project.title}</h1><p className="project-overview">{project.description}</p><ProjectRelationships project={project} /></header>
       <div className="project-detail-grid">
-        <figure className="study-figure"><div className="art" aria-hidden="true"><ProjectArtwork id={project.id} /></div><figcaption>Conceptual artwork from documented terms / not a verified architecture or product screenshot.</figcaption></figure>
-        <section aria-labelledby="context-heading"><h2 id="context-heading">Context &amp; purpose.</h2><p>{detail.context}</p></section>
+        <figure className="study-figure"><div className="art" aria-hidden="true"><ProjectArtwork id={project.id} /></div><figcaption>Conceptual project illustration.</figcaption></figure>
+        {detail.context ? <section aria-labelledby="context-heading"><h2 id="context-heading">Context &amp; purpose.</h2><p>{detail.context}</p></section> : null}
       </div>
       <div className="project-notes">
-        <section aria-labelledby="scope-heading"><h2 id="scope-heading">Documented work.</h2>{detail.work.length ? <ul className="documented-work">{detail.work.map(item => <li key={item}>{item}</li>)}</ul> : <p>Further implementation details have not been supplied.</p>}</section>
-        <section aria-labelledby="technology-heading"><h2 id="technology-heading">Technologies.</h2><ProjectTechnologies project={project} /></section>
-        <section aria-labelledby="resources-heading"><h2 id="resources-heading">Resources.</h2><ProjectResources project={project} /></section>
-        <section aria-labelledby="limits-heading"><h2 id="limits-heading">Results &amp; limitations.</h2><p>{detail.limits}</p></section>
+        {detail.work.length ? <section aria-labelledby="scope-heading"><h2 id="scope-heading">Work &amp; deliverables.</h2><ul className="documented-work">{detail.work.map(item => <li key={item}>{item}</li>)}</ul></section> : null}
+        {project.technologies.length ? <section aria-labelledby="technology-heading"><h2 id="technology-heading">Technologies.</h2><ProjectTechnologies project={project} /></section> : null}
+        {project.links.length ? <section aria-labelledby="resources-heading"><h2 id="resources-heading">Resources.</h2><ProjectResources project={project} /></section> : null}
+        {detail.focus ? <section aria-labelledby="limits-heading"><h2 id="limits-heading">Engineering focus.</h2><p>{detail.focus}</p></section> : null}
       </div>
       <a href={`/#${project.id}`} className="text-link">Back to the project catalogue</a>
     </article>

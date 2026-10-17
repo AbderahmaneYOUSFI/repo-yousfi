@@ -57,19 +57,27 @@ test("excluded projects are absent from the active catalogue and MCP", () => {
   }
 });
 
-test("project links match only owner-supplied repositories", () => {
+test("project resources match the owner-approved repositories and live applications", () => {
   const repositories: Readonly<Record<string, string>> = {
     picoxia: "picoxia_LLM",
     forecasting: "energy_predection_repo",
     icosnet: "SustainableSoftwareEngineering",
     "thais-mcp-server": "ModelContextProtocol_Thais_API",
-    "angular-assignment-management": "yousfiFirstRepoM1miage2025",
+    faraway: "faraway_web_game",
+    "database-simulation": "SGBD_ORACLE_Simulation",
+    "angular-assignment-management": "assignment_web_app",
+  };
+  const demos: Readonly<Record<string, string>> = {
+    faraway: "http://89.167.89.79:4200/",
+    "angular-assignment-management": "https://angular-25-26-abderahmaneyousfi.onrender.com/",
   };
   for (const project of projects) {
     const repository = repositories[project.id];
-    assert.deepEqual(project.links, repository ? [{
+    const expected = repository ? [{
       label: "GitHub", href: `https://github.com/AbderahmaneYOUSFI/${repository}`,
-    }] : []);
+    }] : project.id === "marble-madness" ? [{ label: "GitHub", href: "https://github.com/Tzk91/Marble-Madness" }] : [];
+    if (demos[project.id]) expected.push({ label: "Live demo", href: demos[project.id] });
+    assert.deepEqual(project.links, expected);
   }
 });
 

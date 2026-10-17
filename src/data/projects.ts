@@ -31,7 +31,7 @@ export const projects: readonly Project[] = [
     id: "reactis",
     published: true,
     title: "Réactis — Generative AI for Functional Testing",
-    description: "Research and benchmarking on generative AI across functional and business testing: requirements, test cases, test data, execution, result judgment, failure analysis and campaign management. Includes a Claude Code agent benchmark; outcomes remain to be confirmed.",
+    description: "Research and benchmarking on generative AI across functional and business testing: requirements, test cases, test data, execution, result judgment, failure analysis and campaign management. Includes a Claude Code agent benchmark.",
     technologies: [],
     careerPaths: ["ai-data", "digital"],
     links: [],
@@ -70,7 +70,7 @@ export const projects: readonly Project[] = [
     description: "A physical card game adapted into a multiplayer web application, with authentication, lobby, game and AI microservices, Python bots, real-time WebSockets and Docker CI/CD.",
     technologies: ["Angular", "Spring Boot", "Spring Cloud", "Python", "FastAPI", "PostgreSQL", "MongoDB", "Redis", "WebSockets", "JWT", "Google OAuth", "Eureka", "Docker"],
     careerPaths: ["software", "digital"],
-    links: [],
+    links: [{ label: "GitHub", href: "https://github.com/AbderahmaneYOUSFI/faraway_web_game" }, { label: "Live demo", href: "http://89.167.89.79:4200/" }],
   },
   {
     id: "database-simulation",
@@ -79,7 +79,7 @@ export const projects: readonly Project[] = [
     description: "An educational Python DBMS, also known as FSGDB, exploring disk pages, buffer management, locking, ACID transactions, write-ahead logging (WAL), rollback and REDO/UNDO crash recovery.",
     technologies: ["Python"],
     careerPaths: ["software"],
-    links: [],
+    links: [{ label: "GitHub", href: "https://github.com/AbderahmaneYOUSFI/SGBD_ORACLE_Simulation" }],
   },
   {
     id: "marble-madness",
@@ -88,7 +88,7 @@ export const projects: readonly Project[] = [
     description: "A 3D browser physics game with keyboard and mobile controls, levels, scoring and enemies.",
     technologies: ["TypeScript", "Babylon.js", "Havok Physics", "Vite", "Blender", "GLB"],
     careerPaths: ["software"],
-    links: [],
+    links: [{ label: "GitHub", href: "https://github.com/Tzk91/Marble-Madness" }],
   },
   {
     id: "angular-assignment-management",
@@ -97,7 +97,7 @@ export const projects: readonly Project[] = [
     description: "An assignment management application built with Angular 20, RxJS, routing and forms, deployed on Render.",
     technologies: ["Angular 20", "TypeScript", "RxJS", "Render"],
     careerPaths: ["software"],
-    links: [{ label: "GitHub", href: "https://github.com/AbderahmaneYOUSFI/yousfiFirstRepoM1miage2025" }],
+    links: [{ label: "GitHub", href: "https://github.com/AbderahmaneYOUSFI/assignment_web_app" }, { label: "Live demo", href: "https://angular-25-26-abderahmaneyousfi.onrender.com/" }],
   },
 ];
 

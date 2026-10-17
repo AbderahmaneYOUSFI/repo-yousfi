@@ -224,3 +224,27 @@ test('atlas changes preserve desktop markup and CSS except the light project-nam
   };
   assert.equal(outsideMobile(afterCSS), outsideMobile(beforeCSS), 'outside mobile, only the scoped light-mode font-weight rule changes');
 });
+
+test('all nine project pages present confirmed work and approved resources without empty or provisional sections', async () => {
+  const { default: ProjectPage, generateMetadata, generateStaticParams } = load(resolve(root, 'src/app/projects/[id]/page.tsx'));
+  const { getProjectDetail } = load(resolve(root, 'src/data/project-details.ts'));
+  assert.equal(generateStaticParams().length, 9);
+  for (const project of projects) {
+    const props = { params: Promise.resolve({ id: project.id }) };
+    const html = renderToStaticMarkup(await ProjectPage(props));
+    const article = html.split('</article>')[0];
+    assert.ok(article.includes('Work &amp; deliverables.') && article.includes('Engineering focus.'), project.id);
+    assert.equal(article.includes('id="technology-heading"'), project.technologies.length > 0, project.id);
+    assert.equal(article.includes('id="resources-heading"'), project.links.length > 0, project.id);
+    assert.doesNotMatch(article, /has not been supplied|have not been supplied|owner-provided|remain to be confirmed|To be confirmed|No measured|No model scores|Results &amp; limitations/);
+    const detail = getProjectDetail(project.id);
+    assert.ok(detail.context && detail.work.length && detail.focus, project.id);
+    for (const link of project.links) {
+      assert.ok(article.includes(`href="${link.href}"`), `${project.id}: ${link.href}`);
+      assert.ok(article.includes(link.label === 'GitHub' ? 'GitHub repository' : link.label));
+    }
+    assert.ok(!article.includes('Live demo repository'));
+    assert.ok(article.includes(`href="/#${project.id}"`), 'return link still targets the existing Home presentation');
+    assert.equal((await generateMetadata(props)).description, project.description);
+  }
+});

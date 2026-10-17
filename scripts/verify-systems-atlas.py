@@ -117,8 +117,11 @@ def fetch(path):
 data = source_data()
 projects = data["current"]
 check(len(projects) == 9 and all(project["published"] is True for project in projects), "Nine public projects")
-without_status = lambda records: [{key: value for key, value in project.items() if key != "published"} for project in records]
-check(without_status(projects) == without_status(data["baseline"]), "All source facts preserved; only publication changes")
+stable_facts = lambda records: [{key: value for key, value in project.items() if key not in ("published", "links", "description")} for project in records]
+check(stable_facts(projects) == stable_facts(data["baseline"]), "Project identities, technologies and memberships preserved")
+for current, original in zip(projects, data["baseline"]):
+    expected_description = original["description"].replace("; outcomes remain to be confirmed.", ".") if current["id"] == "reactis" else original["description"]
+    check(current["description"] == expected_description, "Only the approved provisional description was removed: " + current["id"])
 check(sum(a["published"] != b["published"] for a, b in zip(projects, data["baseline"])) == 3, "Only three approved statuses changed")
 expected_edges = Counter((slug, project["id"]) for project in projects for slug in project["careerPaths"])
 check(sum(expected_edges.values()) == 12, "Twelve memberships")
@@ -163,7 +166,13 @@ for route, (status, html) in responses.items():
         check(project["description"] in visible, route + " confirmed description")
         check(page.meta.get("description") == project["description"], route + " project metadata")
         check(all(technology in visible for technology in project["technologies"]), route + " confirmed technologies")
-        check(all(section in page.ids for section in ["context-heading", "scope-heading", "technology-heading", "resources-heading", "limits-heading"]), route + " detailed sections")
+        check(all(section in page.ids for section in ["context-heading", "scope-heading", "limits-heading"]), route + " substantive project sections")
+        check(("technology-heading" in page.ids) == bool(project["technologies"]), route + " no empty technologies section")
+        check(("resources-heading" in page.ids) == bool(project["links"]), route + " no empty resources section")
+        check("Engineering focus." in visible and "Results & limitations." not in visible, route + " achievement-focused editorial heading")
+        check(not re.search(r"has not been supplied|have not been supplied|owner-provided|remain to be confirmed|No model scores|No measured", visible), route + " no provisional editorial copy")
+        for link in project["links"]:
+            check(link["href"] in page.links, route + " approved project resource: " + link["href"])
 
 for project in projects:
     check(project["id"] in pages["/"].ids, "Stable Home presentation ID: " + project["id"])
