@@ -17,7 +17,7 @@ export function PortfolioPage({ slug }: { slug?: CareerPathSlug }) {
   const selectedProjects = (slug ? getProjectsForPath(slug) : projects).filter(project => project.published);
   const selectedExperiences = slug ? getExperiencesForPath(slug) : experiences;
   const experienceSection = <section id="experiences" className="section experience-band" aria-labelledby="experience-heading"><div className="wrap">
-      <SectionHeading id="experience-heading" title={selectedExperiences.length ? <>Professional<br />experience.</> : <>Experience,<br />in context.</>} kicker="Organizations & systems" />
+      <SectionHeading id="experience-heading" title={selectedExperiences.length ? <>Professional<br />experience.</> : <>Experience,<br />in context.</>} note={selectedExperiences.length ? "Information systems, quality and production. Three internships, each with a different view of how organizations work." : "Professional experience is kept within its documented career perspective."} />
       <ExperienceList experiences={selectedExperiences} />
     </div></section>;
   return <SiteFrame identity={slug ? pathIdentity[slug] : "home"}>
@@ -25,7 +25,7 @@ export function PortfolioPage({ slug }: { slug?: CareerPathSlug }) {
     {slug ? <nav className="path-nav wrap" aria-label="Career perspectives">{careerPaths.map(path => <a key={path.slug} href={careerPathHref(path.slug)} className={pathIdentity[path.slug]} aria-current={path.slug === slug ? "page" : undefined}>{path.name}{path.slug === slug ? " (Current)" : ""}</a>)}</nav> : <CareerPathCards />}
     {!slug ? experienceSection : null}
     <section id="projects" className="section work wrap" aria-labelledby="projects-heading">
-      <SectionHeading id="projects-heading" title={<>Engineering,<br />made concrete.</>} kicker={`${selectedProjects.length} projects · ${selectedProjects.length} published`} />
+      <SectionHeading id="projects-heading" title={<>Engineering,<br />made concrete.</>} note="Projects spanning useful software, intelligent systems and organizational processes." />
       <ProjectList projects={selectedProjects} />
     </section>
     {slug ? experienceSection : null}
