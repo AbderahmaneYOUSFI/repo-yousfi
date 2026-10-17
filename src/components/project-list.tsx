@@ -19,7 +19,7 @@ export function ProjectList({ projects }: { projects: readonly Project[] }) {
   const published = projects.filter(project => project.published);
   if (!published.length) return <p>No projects listed for this path yet.</p>;
   return <>{published.map(project => <article key={project.id} id={project.id} className={`study ${project.id} ${pathIdentity[project.careerPaths[0]]}`} data-publication="published" data-memberships={project.careerPaths.join(" ")}>
-    <figure className="study-figure"><div className="art" aria-hidden="true"><ProjectArtwork id={project.id} /></div><figcaption>Conceptual project illustration.</figcaption></figure>
+    <figure className="study-figure"><div className="art" aria-hidden="true"><ProjectArtwork id={project.id} /></div></figure>
     <div className="study-copy"><div className="study-meta"><ProjectRelationships project={project} /><span className="study-status">Published</span></div><h3><a href={projectHref(project.id)}>{project.title}</a></h3><div><p className="description">{project.description}</p><ProjectTechnologies project={project} /></div>
       <div className="study-actions"><a className="text-link" href={projectHref(project.id)}>Explore project</a>{project.technologies.length || project.links.length ? <details className="evidence"><summary>Explore engineering notes</summary><div className="detail-body">{project.technologies.length ? <p>Technologies: {project.technologies.join(", ")}.</p> : null}<ProjectResources project={project} /></div></details> : null}</div>
     </div>

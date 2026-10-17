@@ -33,7 +33,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[id]"
       <nav className="project-breadcrumb" aria-label="Breadcrumb"><a href="/">Global profile</a><span aria-hidden="true">/</span><a href="/#projects">All projects</a></nav>
       <header className="project-heading"><p className="section-kicker">Engineering project · Published</p><h1>{project.title}</h1><p className="project-overview">{project.description}</p><ProjectRelationships project={project} /></header>
       <div className="project-detail-grid">
-        <figure className="study-figure"><div className="art" aria-hidden="true"><ProjectArtwork id={project.id} /></div><figcaption>Conceptual project illustration.</figcaption></figure>
+        <figure className="study-figure"><div className="art" aria-hidden="true"><ProjectArtwork id={project.id} /></div></figure>
         {detail.context ? <section aria-labelledby="context-heading"><h2 id="context-heading">Context &amp; purpose.</h2><p>{detail.context}</p></section> : null}
       </div>
       <div className="project-notes">
