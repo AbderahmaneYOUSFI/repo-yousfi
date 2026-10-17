@@ -104,17 +104,22 @@ export function AtlasPathControl({ path, className, style, children }: {
   </button>;
 }
 
-export function AtlasProjectLink({ memberships, href, label, className, style, projectId, children }: {
+export function AtlasProjectLink({ memberships, href, label, className, style, projectId, mobileDetails, children }: {
   memberships: readonly CareerPathSlug[];
   href: string;
   label: string;
   className: string;
   style?: CSSProperties;
   projectId: string;
+  mobileDetails?: string;
   children: ReactNode;
 }) {
   const { selected } = useAtlas();
   const active = selected === null || memberships.includes(selected);
+  const content = mobileDetails ? <>{children}
+    <small className="publication">{active ? "Published" : "Other perspective"} · {mobileDetails}</small>
+    {active ? <span className="mobile-project-triangle" aria-hidden="true">▸</span> : null}
+  </> : children;
   const props = {
     className,
     style,
@@ -123,7 +128,7 @@ export function AtlasProjectLink({ memberships, href, label, className, style, p
     "aria-label": active ? label : `${label} · Outside selected perspective`,
   };
 
-  if (!active) return <span {...props} role="link" aria-disabled="true">{children}</span>;
+  if (!active) return <span {...props} role="link" aria-disabled="true">{content}</span>;
 
   return <a {...props} href={href} onClick={event => {
     if (href.startsWith("#")) return;
@@ -131,5 +136,5 @@ export function AtlasProjectLink({ memberships, href, label, className, style, p
     const target = new URL(href, location.href);
     target.searchParams.set("appearance", readPreference());
     event.currentTarget.href = `${target.pathname}${target.search}${target.hash}`;
-  }}>{children}</a>;
+  }}>{content}</a>;
 }

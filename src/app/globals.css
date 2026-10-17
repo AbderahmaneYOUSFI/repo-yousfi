@@ -588,9 +588,43 @@ to{opacity:1;transform:translateY(0)}
   .path-hero h1 { font-size: clamp(44px, 14vw, 72px); }
   .path-hero .hero-intro { min-block-size: 6lh; }
   .atlas .mobile-perspective { width: 100%; border: 0; background: transparent; padding: 8px 6px; gap: 10px; justify-content: space-between; }
-  .atlas a.mobile-project > span:first-child { text-decoration: underline dotted var(--line); text-underline-offset: 4px; }
+  /* Card accents must not inherit the muted color of an unrelated parent branch. */
+  .atlas[data-active=ai] .atlas-mobile { --mobile-selection-accent: var(--ai); }
+  .atlas[data-active=software] .atlas-mobile { --mobile-selection-accent: var(--software); }
+  .atlas[data-active=digital] .atlas-mobile { --mobile-selection-accent: var(--digital); }
+  .atlas .mobile-project {
+    --mobile-card-accent: var(--mobile-selection-accent, var(--identity));
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    min-height: 64px;
+    padding: 14px 28px 8px 10px;
+    gap: 2px;
+    border: 1px solid var(--mobile-card-accent);
+    border-radius: 6px;
+    background: var(--canvas);
+    color: var(--text);
+    text-decoration: none;
+    touch-action: manipulation;
+  }
+  .atlas .mobile-project > span:first-child { max-width: 100%; text-decoration: none; }
+  .atlas .mobile-project .publication { max-width: 100%; font-size: 12px; overflow-wrap: anywhere; }
+  .atlas .mobile-card-marks { position: absolute; left: 10px; top: 6px; display: flex; gap: 3px; }
+  .atlas .mobile-card-marks i { width: 12px; height: 3px; background: var(--mobile-card-accent); }
+  .atlas[data-selection=all] .mobile-card-marks i { background: var(--identity); }
+  .atlas .mobile-project-triangle { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 18px; color: var(--mobile-card-accent); }
+  .atlas .mobile-project[data-project-active=false] { border-color: var(--line); color: var(--secondary); }
+  .atlas .mobile-project[data-project-active=false] .mobile-card-marks { display: none; }
   .atlas a.mobile-project:active { background: var(--active); }
-  .atlas a.mobile-project:focus-visible { outline: 3px solid var(--identity-ink); outline-offset: 3px; }
+  .atlas a.mobile-project:focus-visible { outline: 2px solid var(--mobile-card-accent); outline-offset: 3px; }
+  @media (hover: hover) and (pointer: fine) {
+    .atlas a.mobile-project:hover { background: var(--active); text-decoration: none; }
+  }
+  @media (forced-colors: active) {
+    .atlas .mobile-project { border-color: LinkText; }
+    .atlas .mobile-project[data-project-active=false] { border-color: GrayText; }
+    .atlas a.mobile-project:focus-visible { outline-color: Highlight; }
+  }
   .atlas-toolbar { align-items: flex-start; }
 }
 

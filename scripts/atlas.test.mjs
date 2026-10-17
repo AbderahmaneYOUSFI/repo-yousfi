@@ -32,7 +32,7 @@ function load(file, sourceOverride) {
     }
     if (!name.startsWith('.') && !name.startsWith('@/')) return require(name);
     const base = name.startsWith('@/') ? resolve(root, 'src', name.slice(2)) : resolve(dirname(file), name);
-    const target = ['.ts', '.tsx'].map(extension => base + extension).find(existsSync);
+    const target = ['.ts', '.tsx'].map(extension => base + extension).find(target => cache.has(target) || existsSync(target));
     assert.ok(target, `Resolvable source module: ${name}`);
     return load(target);
   };
@@ -79,7 +79,7 @@ for (const slug of modes) {
     }
     const expectedActive = projects.filter(project => !slug || project.careerPaths.includes(slug)).length;
     assert.equal(desktop.filter(card => card.tag === 'a').length, expectedActive);
-    assert.ok(!html.includes('atlas-card-arrow'), 'compact project entries have no permanent chevrons');
+    assert.ok(!html.split('<div class="atlas-mobile">')[0].includes('mobile-project-triangle'), 'mobile navigation indicators do not affect desktop nodes');
 
     const controls = [...html.matchAll(/<button\b([^>]*data-filter="[^"]+"[^>]*)>/g)].map(([, attrs]) => attributes(attrs));
     assert.equal(controls.length, 7, 'one global control, three desktop controls, three mobile controls');
@@ -171,4 +171,54 @@ test('one Home selection renders matching existing hero, active counts, controls
       assert.equal(html, global, 'returning to Global restores the full initial personal composition and graph');
     }
   }
+});
+
+test('mobile rectangles expose a triangle and published metadata only for active projects in every selection', () => {
+  const { Hero } = load(resolve(root, 'src/components/hero.tsx'));
+  const home = Hero({});
+  for (const selected of [null, 'ai-data', 'software', 'digital']) {
+    for (const tree of [React.cloneElement(home, { selected }), React.createElement(SystemsAtlas, { slug: selected ?? undefined })]) {
+      const html = renderToStaticMarkup(tree);
+      const entries = [...html.matchAll(/<li class="mobile-association"[^>]*>([\s\S]*?)<\/li>/g)].map(match => match[1]);
+      assert.equal(entries.length, 12, 'all memberships retain their positions');
+      for (const entry of entries) {
+        const [, tag, raw] = entry.match(/^<(a|span)\b([^>]*)>/);
+        const attrs = attributes(raw);
+        const project = projects.find(project => project.id === attrs['data-project-id']);
+        const active = !selected || project.careerPaths.includes(selected);
+        assert.equal(attrs.class, `mobile-project ${pathIdentity[project.careerPaths[0]]}`, 'Global accent derives from project data, not the containing branch');
+        assert.equal(entry.includes('class="mobile-project-triangle" aria-hidden="true"'), active, project.id);
+        assert.equal(entry.includes('Other perspective'), !active, project.id);
+        assert.equal(entry.includes('class="publication">Published'), active, project.id);
+        assert.equal(tag, active ? 'a' : 'span');
+        if (!active) {
+          assert.equal(attrs.href, undefined);
+          assert.equal(attrs.tabindex, undefined);
+          assert.equal(attrs['aria-disabled'], 'true');
+        }
+        assert.equal([...entry.matchAll(/<i class="/g)].length, project.careerPaths.length, 'Global retains all real membership color marks');
+      }
+    }
+  }
+});
+
+test('mobile-only changes preserve desktop atlas markup and CSS outside the mobile media query', () => {
+  const beforeSource = execFileSync('git', ['show', '6fb33b2:src/components/systems-atlas.tsx'], { cwd: root, encoding: 'utf8' });
+  const beforeInteraction = execFileSync('git', ['show', '6fb33b2:src/components/atlas-interaction.tsx'], { cwd: root, encoding: 'utf8' });
+  load(resolve(root, 'src/components/before-mobile-interaction.test.tsx'), beforeInteraction);
+  const { SystemsAtlas: BeforeAtlas } = load(resolve(root, 'src/components/before-mobile-atlas.test.tsx'), beforeSource.replace('"./atlas-interaction"', '"./before-mobile-interaction.test"'));
+  for (const slug of modes) {
+    const prefix = Component => renderToStaticMarkup(React.createElement(Component, { slug })).split('<div class="atlas-mobile">')[0];
+    assert.equal(prefix(SystemsAtlas), prefix(BeforeAtlas), `desktop markup and connections: ${slug ?? 'Global'}`);
+  }
+  const beforeCSS = execFileSync('git', ['show', '6fb33b2:src/app/globals.css'], { cwd: root, encoding: 'utf8' });
+  const afterCSS = readFileSync(resolve(root, 'src/app/globals.css'), 'utf8');
+  const outsideMobile = css => {
+    css = css.replaceAll('\r\n', '\n');
+    const start = css.indexOf('@media (max-width: 800px) {\n  .path-hero h1');
+    const end = css.indexOf('\n.work > .study[id]', start);
+    assert.ok(start > 0 && end > start);
+    return css.slice(0, start) + css.slice(end);
+  };
+  assert.equal(outsideMobile(afterCSS), outsideMobile(beforeCSS), 'desktop stylesheet stays unchanged (apart from line endings)');
 });
