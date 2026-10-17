@@ -73,7 +73,7 @@ export const skills: readonly Skill[] = [
   {
     id: "software-certifications",
     name: "Software & cloud certifications",
-    context: "Green Computing & Sustainable Software Engineering; AWS Academy Cloud Foundations & Cloud Developing.",
+    context: "Green Computing & Sustainable Software Engineering\nAWS Academy Cloud Foundations & Cloud Developing.",
     careerPaths: ["software"],
   },
   {

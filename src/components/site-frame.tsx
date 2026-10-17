@@ -8,7 +8,7 @@ import { SectionMotion } from "./section-motion";
 import { pathIdentity, type Identity } from "./atlas-presentation";
 
 function NavigationLinks() {
-  return <>{[["Work", "projects"], ["Experience", "experiences"], ["Education", "education"], ["Contact", "contact"]].map(([label, anchor]) =>
+  return <>{[["Experience", "experiences"], ["Work", "projects"], ["Education", "education"], ["Skills", "skills"], ["Contact", "contact"]].map(([label, anchor]) =>
     <a key={anchor} href={`/#${anchor}`}>{label}</a>)}</>;
 }
 
