@@ -109,7 +109,7 @@ test('Home restores the e4efd46 personal composition, biography, CTAs and organi
   const { Hero: HistoricalHero } = load(resolve(root, 'src/components/historical-hero.test.tsx'), historicalSource);
   const html = renderToStaticMarkup(React.createElement(Hero));
   const personal = html.match(/<section aria-labelledby="hero-heading"[\s\S]*?<\/section>/)?.[0];
-  assert.ok(personal, 'the historical full-width personal section is present');
+  assert.ok(personal, 'the historical personal section is present');
   const previous = renderToStaticMarkup(React.createElement(HistoricalHero));
   assert.deepEqual([...personal.matchAll(/\sd="([^"]+)"/g)].map(match => match[1]), [...previous.matchAll(/\sd="([^"]+)"/g)].map(match => match[1]), 'all four historical organic paths are preserved');
   for (const text of [profile.name, profile.role, profile.intro]) {
@@ -121,7 +121,7 @@ test('Home restores the e4efd46 personal composition, biography, CTAs and organi
     assert.ok(personal.includes(cta.label));
   }
   assert.equal([...personal.matchAll(/<a\b/g)].length, 2, 'the two historical CTAs are restored');
-  assert.ok(html.indexOf('</section>') < html.indexOf('<figure class="atlas"'), 'the validated atlas remains a separate component after the full-width hero');
+  assert.ok(html.indexOf('</section>') < html.indexOf('<figure class="atlas"'), 'the validated atlas remains a separate component after the personal hero in DOM order');
   const css = readFileSync(resolve(root, 'src/components/hero.module.css'), 'utf8');
   assert.ok(css.includes('font-family: Georgia, "Times New Roman", serif;'));
   assert.ok(!css.includes('--organic-') && !/#[0-9a-f]{3,8}\b/i.test(css), 'the restored hero uses existing V2 theme tokens only');

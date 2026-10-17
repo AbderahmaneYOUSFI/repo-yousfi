@@ -112,3 +112,20 @@
   .hero { padding: 9rem 3rem; }
   .heading { font-size: 4.5rem; }
 }
+
+/* Match the career hero's desktop grid without applying its heading styles.
+   Below this breakpoint, retain the personal hero's existing stacked layout. */
+@media (min-width: 1101px) {
+  .globalLayout {
+    display: grid;
+    grid-template-columns: 1.12fr 1fr;
+    gap: 28px;
+    align-items: center;
+    width: min(1200px, calc(100% - 96px));
+    margin-inline: auto;
+    padding: 64px 0 48px;
+    min-height: 720px;
+  }
+  .globalLayout > .hero { min-width: 0; padding: 0; border-bottom: 0; }
+  .globalLayout > .atlas { width: auto; max-width: none; margin: 0; padding: 0; }
+}

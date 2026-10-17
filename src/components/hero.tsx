@@ -82,7 +82,7 @@ export function Hero({ slug }: { slug?: CareerPathSlug }) {
       "ai-data": <CareerHero slug="ai-data" />,
       software: <CareerHero slug="software" />,
       digital: <CareerHero slug="digital" />,
-    }} atlasClassName={`wrap ${styles.atlas}`}>
+    }} atlasClassName={`wrap ${styles.atlas}`} globalClassName={styles.globalLayout}>
       <SystemsAtlas />
     </HomeAtlasPresentation>
   </AtlasSelectionProvider>;

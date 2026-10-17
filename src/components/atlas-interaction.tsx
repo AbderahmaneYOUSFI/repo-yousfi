@@ -27,14 +27,15 @@ export function AtlasSelectionProvider({ selected: initialSelection, children }:
   return <AtlasContext value={{ selected, select }}>{children}</AtlasContext>;
 }
 
-export function HomeAtlasPresentation({ personal, perspectives, atlasClassName, children }: {
+export function HomeAtlasPresentation({ personal, perspectives, atlasClassName, globalClassName, children }: {
   personal: ReactNode;
   perspectives: Record<CareerPathSlug, ReactNode>;
   atlasClassName: string;
+  globalClassName: string;
   children: ReactNode;
 }) {
   const { selected } = useAtlas();
-  return <div className={selected ? "hero wrap path-hero" : undefined}
+  return <div className={selected ? "hero wrap path-hero" : globalClassName}
     data-identity={selected ? pathIdentity[selected] : "home"}>
     {selected ? perspectives[selected] : personal}
     <div className={selected ? undefined : atlasClassName} style={{ minWidth: 0 }}>{children}</div>
