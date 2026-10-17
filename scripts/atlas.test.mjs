@@ -202,7 +202,7 @@ test('mobile rectangles expose a triangle and published metadata only for active
   }
 });
 
-test('mobile-only changes preserve desktop atlas markup and CSS outside the mobile media query', () => {
+test('atlas changes preserve desktop markup and CSS except the light project-name weight', () => {
   const beforeSource = execFileSync('git', ['show', '6fb33b2:src/components/systems-atlas.tsx'], { cwd: root, encoding: 'utf8' });
   const beforeInteraction = execFileSync('git', ['show', '6fb33b2:src/components/atlas-interaction.tsx'], { cwd: root, encoding: 'utf8' });
   load(resolve(root, 'src/components/before-mobile-interaction.test.tsx'), beforeInteraction);
@@ -213,12 +213,14 @@ test('mobile-only changes preserve desktop atlas markup and CSS outside the mobi
   }
   const beforeCSS = execFileSync('git', ['show', '6fb33b2:src/app/globals.css'], { cwd: root, encoding: 'utf8' });
   const afterCSS = readFileSync(resolve(root, 'src/app/globals.css'), 'utf8');
+  const lightNames = ':root:not([data-theme="dark"]) .atlas .atlas-project > .membership-marks + span,\n:root:not([data-theme="dark"]) .atlas .mobile-project > span:first-child { font-weight: 600; }';
+  assert.ok(afterCSS.replaceAll('\r\n', '\n').includes(lightNames), 'only project names in light mode receive the weight adjustment');
   const outsideMobile = css => {
     css = css.replaceAll('\r\n', '\n');
     const start = css.indexOf('@media (max-width: 800px) {\n  .path-hero h1');
     const end = css.indexOf('\n.work > .study[id]', start);
     assert.ok(start > 0 && end > start);
-    return css.slice(0, start) + css.slice(end);
+    return (css.slice(0, start) + css.slice(end)).replace(lightNames, '').trimEnd();
   };
-  assert.equal(outsideMobile(afterCSS), outsideMobile(beforeCSS), 'desktop stylesheet stays unchanged (apart from line endings)');
+  assert.equal(outsideMobile(afterCSS), outsideMobile(beforeCSS), 'outside mobile, only the scoped light-mode font-weight rule changes');
 });

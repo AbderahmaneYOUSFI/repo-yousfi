@@ -594,13 +594,14 @@ to{opacity:1;transform:translateY(0)}
   .atlas[data-active=digital] .atlas-mobile { --mobile-selection-accent: var(--digital); }
   .atlas .mobile-project {
     --mobile-card-accent: var(--mobile-selection-accent, var(--identity));
+    --mobile-link-accent: var(--mobile-card-accent);
     position: relative;
     width: 100%;
     min-width: 0;
     min-height: 64px;
     padding: 14px 28px 8px 10px;
     gap: 2px;
-    border: 1px solid var(--mobile-card-accent);
+    border: 1px solid var(--mobile-link-accent);
     border-radius: 6px;
     background: var(--canvas);
     color: var(--text);
@@ -608,12 +609,12 @@ to{opacity:1;transform:translateY(0)}
     touch-action: manipulation;
   }
   .atlas .mobile-project > span:first-child { max-width: 100%; text-decoration: none; }
-  .atlas[data-selection=all] .mobile-project { border-color: var(--line); }
+  .atlas[data-selection=all] .mobile-project { --mobile-link-accent: var(--line); }
   .atlas .mobile-project .publication { max-width: 100%; font-size: 12px; overflow-wrap: anywhere; }
   .atlas .mobile-card-marks { position: absolute; left: 10px; top: 6px; display: flex; gap: 3px; }
   .atlas .mobile-card-marks i { width: 12px; height: 3px; background: var(--mobile-card-accent); }
   .atlas[data-selection=all] .mobile-card-marks i { background: var(--identity); }
-  .atlas .mobile-project-triangle { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 18px; color: var(--mobile-card-accent); }
+  .atlas .mobile-project-triangle { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 18px; color: var(--mobile-link-accent); }
   .atlas .mobile-project[data-project-active=false] { border-color: var(--line); color: var(--secondary); }
   .atlas .mobile-project[data-project-active=false] .mobile-card-marks { display: none; }
   .atlas a.mobile-project:active { background: var(--active); }
@@ -638,3 +639,6 @@ to{opacity:1;transform:translateY(0)}
   .atlas button[aria-pressed=true] { outline-color: Highlight; }
   .atlas .relation { stroke: LinkText; }
 }
+
+:root:not([data-theme="dark"]) .atlas .atlas-project > .membership-marks + span,
+:root:not([data-theme="dark"]) .atlas .mobile-project > span:first-child { font-weight: 600; }
