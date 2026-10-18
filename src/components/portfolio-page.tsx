@@ -12,6 +12,7 @@ import { SkillList } from "./skill-list";
 import { ContactSection } from "./contact-section";
 import { SectionHeading } from "./section-heading";
 import { pathIdentity } from "./atlas-presentation";
+import { BackToTop } from "./back-to-top";
 
 export function PortfolioPage({ slug }: { slug?: CareerPathSlug }) {
   const selectedProjects = (slug ? getProjectsForPath(slug) : projects).filter(project => project.published);
@@ -35,5 +36,6 @@ export function PortfolioPage({ slug }: { slug?: CareerPathSlug }) {
       <SkillList skills={slug ? getSkillsForPath(slug) : skills} />
     </div></section>
     <ContactSection />
+    {!slug ? <BackToTop /> : null}
   </SiteFrame>;
 }

@@ -44,6 +44,16 @@ const { SystemsAtlas } = load(resolve(root, 'src/components/systems-atlas.tsx'))
 const { projects } = load(resolve(root, 'src/data/projects.ts'));
 const { pathIdentity } = load(resolve(root, 'src/components/atlas-presentation.ts'));
 const modes = [undefined, 'ai-data', 'software', 'digital'];
+test('Back to top is mounted exclusively on Home, outside perspective pages', () => {
+  const { PortfolioPage } = load(resolve(root, 'src/components/portfolio-page.tsx'));
+  const { BackToTop } = load(resolve(root, 'src/components/back-to-top.tsx'));
+  for (const slug of modes) {
+    const page = PortfolioPage({ slug });
+    const buttons = React.Children.toArray(page.props.children)
+      .filter(child => React.isValidElement(child) && child.type === BackToTop);
+    assert.equal(buttons.length, slug ? 0 : 1);
+  }
+});
 const attributes = text => Object.fromEntries([...text.matchAll(/([\w-]+)="([^"]*)"/g)].map(([, name, value]) => [name, value]));
 
 for (const slug of modes) {

@@ -1,0 +1,38 @@
+.control {
+  position: fixed;
+  right: calc(1.25rem + env(safe-area-inset-right, 0px));
+  bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px));
+  z-index: 5;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--text);
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.control:focus-visible {
+  outline: 3px solid var(--home-ink);
+  outline-offset: 4px;
+}
+
+.control:active {
+  background: var(--active);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .control:hover {
+    background: var(--active);
+    border-color: var(--home-ink);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .control {
+    transition: none;
+  }
+}
