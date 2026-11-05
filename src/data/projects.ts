@@ -8,6 +8,7 @@ export type ProjectLink = Readonly<{
 export type Project = Readonly<{
   id: string;
   published: boolean;
+  status?: "In progress";
   title: string;
   description: string;
   technologies: readonly string[];
@@ -21,7 +22,7 @@ export const projects: readonly Project[] = [
   {
     id: "picoxia",
     published: true,
-    title: "PicoxIA — Multilingual veterinary dictation",
+    title: "Multilingual veterinary dictation — PicoxIA",
     description: "An open-source veterinary dictation and NLP tool supporting 14 languages, with hybrid Whisper/Vosk transcription and local AI enrichment using Qwen 2.5.",
     technologies: ["React 19", "TypeScript", "Vite", "RSuite", "Python", "Flask", "Vosk", "Whisper", "Ollama", "Qwen 2.5", "MongoDB"],
     careerPaths: ["ai-data", "software"],
@@ -30,8 +31,9 @@ export const projects: readonly Project[] = [
   {
     id: "reactis",
     published: true,
-    title: "Réactis — Generative AI for Functional Testing",
-    description: "Research and benchmarking on generative AI across functional and business testing: requirements, test cases, test data, execution, result judgment, failure analysis and campaign management. Includes a Claude Code agent benchmark.",
+    status: "In progress",
+    title: "Generative AI for Functional Testing — Réactis",
+    description: "Ongoing research and benchmarking on generative AI across functional and business testing: requirements, test cases, test data, execution, result judgment, failure analysis and campaign management. Includes a Claude Code agent benchmark; work is still in progress.",
     technologies: [],
     careerPaths: ["ai-data", "digital"],
     links: [],
@@ -98,6 +100,15 @@ export const projects: readonly Project[] = [
     technologies: ["Angular 20", "TypeScript", "RxJS", "Render"],
     careerPaths: ["software"],
     links: [{ label: "GitHub", href: "https://github.com/AbderahmaneYOUSFI/assignment_web_app" }, { label: "Live app", href: "https://angular-25-26-abderahmaneyousfi.onrender.com/" }],
+  },
+  {
+    id: "ez-repo",
+    published: true,
+    title: "ez-repo — Local GraphRAG code assistant",
+    description: "A local GraphRAG assistant for asking questions about public Python GitHub repositories, with answers citing source files and lines. Combines semantic search and a Neo4j code graph with Ollama, without API keys or paid AI services. Analyzed code is read as text and never executed.",
+    technologies: ["Python 3.11", "Tree-sitter", "Neo4j", "GraphRAG", "all-MiniLM-L6-v2", "Ollama", "Qwen 2.5 Coder 3B", "LangChain", "FastAPI", "Streamlit", "Docker", "Git", "Pytest", "Ruff"],
+    careerPaths: ["ai-data", "software"],
+    links: [{ label: "GitHub", href: "https://github.com/AbderahmaneYOUSFI/ezRepo_RAG.git" }],
   },
 ];
 

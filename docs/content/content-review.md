@@ -13,6 +13,12 @@ This document tracks unresolved editorial decisions and the rationale for CV int
 
 ## Projects and path review
 
+Owner update (5 November 2026): titles for veterinary dictation and generative AI functional testing lead with the project topic, followed by PicoxIA and Réactis respectively. Réactis is still in progress; this work status is separate from its public visibility. Final findings remain unconfirmed.
+
+The owner also supplied the ez-repo README and repository URL on 5 November 2026 and requested its addition. The catalogue now contains ten public projects: AI & Data **5**, Software Engineering **6**, Digital Transformation **3**, across fourteen memberships. ez-repo belongs to AI & Data and Software Engineering. Its local GraphRAG workflow, Python-repository scope, source citations and listed technologies come from that supplied README; no accuracy, adoption or benchmark results are claimed. The supplied repository URL is preserved exactly.
+
+The atlas is a curated selection of nine projects, separate from the full catalogue. By owner request, ez-repo replaces Réactis in the diagram only, using its own AI/Software memberships. Réactis remains public in the catalogue, detail page, original AI/Digital paths and MCP. Atlas counts describe the selection (AI **4**, Software **6**, Digital **2**) and distinguish it from the ten-project catalogue. The earlier nine-project counts below describe the October inventory.
+
 The owner has explicitly approved publication of all nine distinct project records (17 October 2026). This supersedes the earlier six-published / three-unpublished policy. The nine retained projects preserve their IDs, URLs, verified descriptions and technologies from commit `1db8329`. These owner-confirmed memberships describe relevance, not additional achievements:
 
 | Project (stable ID) | Status | Career paths | Content boundaries |

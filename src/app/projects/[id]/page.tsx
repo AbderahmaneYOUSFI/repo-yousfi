@@ -31,7 +31,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[id]"
   return <SiteFrame identity={pathIdentity[project.careerPaths[0]]}>
     <article className={`project-detail wrap ${pathIdentity[project.careerPaths[0]]}`}>
       <nav className="project-breadcrumb" aria-label="Breadcrumb"><a href="/">Global profile</a><span aria-hidden="true">/</span><a href="/#projects">All projects</a></nav>
-      <header className="project-heading"><p className="section-kicker">Engineering project · Published</p><h1>{project.title}</h1><p className="project-overview">{project.description}</p><ProjectRelationships project={project} /></header>
+      <header className="project-heading"><p className="section-kicker">Engineering project · {project.status ?? "Published"}</p><h1>{project.title}</h1><p className="project-overview">{project.description}</p><ProjectRelationships project={project} /></header>
       <div className="project-detail-grid">
         <figure className="study-figure"><div className="art" aria-hidden="true"><ProjectArtwork id={project.id} /></div></figure>
         {detail.context ? <section aria-labelledby="context-heading"><h2 id="context-heading">Context &amp; purpose.</h2><p>{detail.context}</p></section> : null}

@@ -8,10 +8,11 @@ export const pathIdentity: Record<CareerPathSlug, Exclude<Identity, "home">> = {
 
 // Presentation labels only. Facts, publication and memberships come from projects.ts.
 export const atlasLabels: Readonly<Record<string, string>> = {
-  picoxia: "PicoxIA", reactis: "Réactis", forecasting: "Energy forecasting",
+  picoxia: "Veterinary dictation", reactis: "GenAI functional testing", forecasting: "Energy forecasting",
   icosnet: "SSE @ ICOSNET", "thais-mcp-server": "Thaïs Hotel MCP", faraway: "Faraway",
   "database-simulation": "Mini-SGBD", "marble-madness": "Marble Madness",
   "angular-assignment-management": "Angular Assignment Management",
+  "ez-repo": "ez-repo · GraphRAG",
 };
 
 export function projectHref(id: string) {

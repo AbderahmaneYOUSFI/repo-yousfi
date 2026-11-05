@@ -7,15 +7,26 @@ export type ProjectDetail = Readonly<{
 }>;
 
 const details: Readonly<Record<string, ProjectDetail>> = {
+  "ez-repo": {
+    context: "ez-repo helps developers explore public Python GitHub repositories through natural-language questions, with answers linked to source files and line numbers. Indexing and inference run locally without an API key or paid AI service; analyzed repository code is only read as text and never executed.",
+    work: [
+      "Shallow-clone repositories with Git and parse Python files with Tree-sitter to identify classes, functions, imports and calls without executing the analyzed code.",
+      "Store code entities and CALLS, IMPORTS and INHERITS relationships in Neo4j, alongside 384-dimensional embeddings from all-MiniLM-L6-v2.",
+      "Combine exact-name lookup, semantic search and graph-neighbor traversal to retrieve relevant code and its dependencies.",
+      "Use LangChain and Qwen 2.5 Coder 3B through Ollama to generate answers grounded in retrieved code, with GitHub file and line citations.",
+      "Separate a FastAPI backend with background indexing from a Streamlit chat interface; use Docker for Neo4j and Pytest/Ruff for testing and code checks.",
+    ],
+    focus: "A local code-questioning workflow from repository indexing to cited answers, combining structural code relationships with semantic retrieval. The application supports public Python repositories and runs its language model locally through Ollama. Initial setup downloads the models, and repository ingestion requires GitHub access.",
+  },
   picoxia: {
     context: "Veterinary dictation brings together speech recognition, multilingual text and local language processing. PicoxIA supports dictation in 14 languages.",
     work: ["Hybrid transcription with Whisper and Vosk.", "Local AI enrichment with Qwen 2.5 through Ollama.", "React and TypeScript interface with a Python/Flask backend and MongoDB storage."],
     focus: "A veterinary dictation tool supporting 14 languages, with hybrid Whisper/Vosk transcription and local Qwen 2.5 enrichment. The application brings speech input, language processing and report storage together in a React and Python workflow.",
   },
   reactis: {
-    context: "Réactis investigates how generative AI can support functional and business testing across a testing campaign.",
+    context: "This ongoing project at Réactis investigates how generative AI can support functional and business testing across a testing campaign.",
     work: ["Research and benchmarking covering requirements, test cases and test data.", "Scope includes test execution, result judgment, failure analysis and campaign management.", "Includes a Claude Code agent benchmark."],
-    focus: "Research and benchmarking across the functional testing campaign, from requirements and test-case design to execution, failure analysis and campaign management, including a Claude Code agent benchmark.",
+    focus: "Work is still in progress. Research and benchmarking cover the functional testing campaign, from requirements and test-case design to execution, failure analysis and campaign management, including a Claude Code agent benchmark. Final findings are not yet available.",
   },
   forecasting: {
     context: "Energy consumption forecasting connects data preparation, model comparison and an interface for exploring predictions over a seven-day horizon.",

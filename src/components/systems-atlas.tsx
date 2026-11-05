@@ -3,25 +3,26 @@ import { projects } from "@/data/projects";
 import { atlasLabels, pathIdentity } from "./atlas-presentation";
 import { AtlasInteraction, AtlasPathControl, AtlasProjectLink, AtlasProjectCount } from "./atlas-interaction";
 
-// Geometry from the approved prototype; relationships always derive from source data.
-const placement = ["picoxia", "reactis", "faraway", "forecasting", "thais-mcp-server", "icosnet", "database-simulation", "marble-madness", "angular-assignment-management"];
+// Curated atlas selection; catalogue visibility and career memberships stay independent.
+const placement = ["picoxia", "ez-repo", "faraway", "forecasting", "thais-mcp-server", "icosnet", "database-simulation", "marble-madness", "angular-assignment-management"];
 function position(id: string) {
   const index = placement.indexOf(id);
   return { x: 100 + 200 * (index % 3), y: 210 + 150 * Math.floor(index / 3) };
 }
 
 export function SystemsAtlas({ slug }: { slug?: CareerPathSlug }) {
-  const published = projects.filter(project => project.published);
+  const catalogue = projects.filter(project => project.published);
+  const featured = catalogue.filter(project => placement.includes(project.id));
   const projectAnchor = (id: string) => `${slug ? "/" : ""}#${encodeURIComponent(id)}`;
-  const description = (path: CareerPathSlug) => `${careerPaths.find(entry => entry.slug === path)?.name}: ${published.filter(project => project.careerPaths.includes(path)).length} active projects. ${published.filter(project => project.careerPaths.includes(path)).map(project => atlasLabels[project.id] ?? project.title).join(", ")}. Other projects remain visible; select another perspective or All projects to open them.`;
-  const caption = `Global perspective: ${published.length} active projects.`;
+  const description = (path: CareerPathSlug) => `${careerPaths.find(entry => entry.slug === path)?.name}: ${featured.filter(project => project.careerPaths.includes(path)).length} active projects in this selection. ${featured.filter(project => project.careerPaths.includes(path)).map(project => atlasLabels[project.id] ?? project.title).join(", ")}. Select another perspective or All featured projects to explore this selection. The full catalogue is available below.`;
+  const caption = `Global perspective: ${featured.length} featured projects from a catalogue of ${catalogue.length}.`;
   return <AtlasInteraction selected={slug ?? null} caption={caption} descriptions={{ "ai-data": description("ai-data"), software: description("software"), digital: description("digital") }}>
-    <div className="atlas-top"><span className="atlas-word">Systems Atlas</span><AtlasProjectCount total={published.length} counts={{ "ai-data": published.filter(project => project.careerPaths.includes("ai-data")).length, software: published.filter(project => project.careerPaths.includes("software")).length, digital: published.filter(project => project.careerPaths.includes("digital")).length }} /></div>
-    <div className="atlas-toolbar"><p>Choose a perspective, then open a highlighted project.</p><AtlasPathControl path={null} className="atlas-all">All projects</AtlasPathControl></div>
+    <div className="atlas-top"><span className="atlas-word">Systems Atlas</span><AtlasProjectCount total={featured.length} catalogueTotal={catalogue.length} counts={{ "ai-data": featured.filter(project => project.careerPaths.includes("ai-data")).length, software: featured.filter(project => project.careerPaths.includes("software")).length, digital: featured.filter(project => project.careerPaths.includes("digital")).length }} /></div>
+    <div className="atlas-toolbar"><p>Choose a perspective, then open a highlighted project.</p><AtlasPathControl path={null} className="atlas-all">All featured projects</AtlasPathControl></div>
     <div className="atlas-plane atlas-desktop">
       <svg className="atlas-edges" viewBox="0 0 600 600" preserveAspectRatio="none" aria-hidden="true"><g className="edge-reveal">
         {careerPaths.map((path, index) => <g key={path.slug} className={`relation ${pathIdentity[path.slug]}`}>
-          {published.filter(project => project.careerPaths.includes(path.slug)).map(project => {
+          {featured.filter(project => project.careerPaths.includes(path.slug)).map(project => {
             const { x, y } = position(project.id);
             return <path key={project.id} d={`M${100 + index * 200} 110 C${100 + index * 200} ${y - 45} ${x} 130 ${x} ${y - 38}`} data-path={path.slug} data-project={project.id} />;
           })}
@@ -29,24 +30,24 @@ export function SystemsAtlas({ slug }: { slug?: CareerPathSlug }) {
       </g></svg>
       <div role="group" aria-label="Filter atlas projects" className="atlas-desktop-controls">
       {careerPaths.map((path, index) => <AtlasPathControl key={path.slug} path={path.slug} className={`atlas-node perspective-node ${pathIdentity[path.slug]}`} style={{ left: `${(100 + index * 200) / 6}%`, top: "10%" }}>
-        <strong>{path.name}</strong><small>{published.filter(project => project.careerPaths.includes(path.slug)).length} projects · published</small>
+        <strong>{path.name}</strong><small>{featured.filter(project => project.careerPaths.includes(path.slug)).length} featured projects</small>
       </AtlasPathControl>)}
       </div>
-      {published.map(project => {
+      {featured.map(project => {
         const { x, y } = position(project.id);
         const memberships = project.careerPaths.map(path => careerPaths.find(entry => entry.slug === path)!.name).join(" + ");
-        return <div key={project.id} data-atlas-project={project.id}><AtlasProjectLink projectId={project.id} memberships={project.careerPaths} href={projectAnchor(project.id)} className={`atlas-node atlas-project ${pathIdentity[project.careerPaths[0]]}`} style={{ left: `${x / 6}%`, top: `${y / 6}%` }} label={`${project.title} · Published · ${memberships}`}>
+        return <div key={project.id} data-atlas-project={project.id}><AtlasProjectLink projectId={project.id} memberships={project.careerPaths} href={projectAnchor(project.id)} className={`atlas-node atlas-project ${pathIdentity[project.careerPaths[0]]}`} style={{ left: `${x / 6}%`, top: `${y / 6}%` }} label={`${project.title} · ${project.status ?? "Published"} · ${memberships}`}>
           <span className="membership-marks" aria-hidden="true">{project.careerPaths.map(path => <i key={path} className={pathIdentity[path]} />)}</span>
-          <span>{atlasLabels[project.id] ?? project.title}</span><small className="publication">Published</small>
+          <span>{atlasLabels[project.id] ?? project.title}</span><small className="publication">{project.status ?? "Published"}</small>
         </AtlasProjectLink></div>;
       })}
     </div>
     <div className="atlas-mobile"><div className="mobile-branches" role="group" aria-label="Filter atlas projects">
       {careerPaths.map(path => <div key={path.slug} className={`mobile-group ${pathIdentity[path.slug]}`}>
-        <div className="mobile-path-heading"><AtlasPathControl path={path.slug} className="mobile-perspective">{path.name}</AtlasPathControl><span className="mobile-count">{published.filter(project => project.careerPaths.includes(path.slug)).length} projects · published</span></div>
+        <div className="mobile-path-heading"><AtlasPathControl path={path.slug} className="mobile-perspective">{path.name}</AtlasPathControl><span className="mobile-count">{featured.filter(project => project.careerPaths.includes(path.slug)).length} featured projects</span></div>
         <ul className="mobile-projects" aria-label={`${path.name} project memberships`}>
-          {published.filter(project => project.careerPaths.includes(path.slug)).map(project => <li key={project.id} className="mobile-association" data-mobile-path={path.slug} data-mobile-project={project.id}>
-            <AtlasProjectLink projectId={project.id} memberships={project.careerPaths} href={projectAnchor(project.id)} className={`mobile-project ${pathIdentity[project.careerPaths[0]]}`} mobileDetails={project.careerPaths.map(entry => careerPaths.find(path => path.slug === entry)!.name).join(" + ")} label={`${project.title} · Published · ${project.careerPaths.map(entry => careerPaths.find(path => path.slug === entry)!.name).join(" + ")}`}><span>{atlasLabels[project.id] ?? project.title}</span><span className="mobile-card-marks" aria-hidden="true">{project.careerPaths.map(entry => <i key={entry} className={pathIdentity[entry]} />)}</span></AtlasProjectLink>
+          {featured.filter(project => project.careerPaths.includes(path.slug)).map(project => <li key={project.id} className="mobile-association" data-mobile-path={path.slug} data-mobile-project={project.id}>
+            <AtlasProjectLink projectId={project.id} memberships={project.careerPaths} href={projectAnchor(project.id)} className={`mobile-project ${pathIdentity[project.careerPaths[0]]}`} status={project.status} mobileDetails={project.careerPaths.map(entry => careerPaths.find(path => path.slug === entry)!.name).join(" + ")} label={`${project.title} · ${project.status ?? "Published"} · ${project.careerPaths.map(entry => careerPaths.find(path => path.slug === entry)!.name).join(" + ")}`}><span>{atlasLabels[project.id] ?? project.title}</span><span className="mobile-card-marks" aria-hidden="true">{project.careerPaths.map(entry => <i key={entry} className={pathIdentity[entry]} />)}</span></AtlasProjectLink>
           </li>)}
         </ul>
       </div>)}

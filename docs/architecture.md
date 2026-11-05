@@ -29,7 +29,7 @@ Unknown or unpublished project IDs are rejected by the narrow `/projects/:path*`
 | `src/data/experiences.ts` | Three internships, assigned only to Digital Transformation. |
 | `src/data/skills.ts` | Skill groups and contexts without proficiency ratings. |
 
-All nine current projects are published by explicit owner decision. Public counts are AI 4 / Software 5 / Digital 3 across twelve memberships. PicoxIA spans AI/Software, Faraway Software/Digital, Reactis AI/Digital. Selectors preserve shared source order. Public renderers, static route generation, proxy and MCP retain publication checks for future unpublished entries.
+All ten current projects are published by explicit owner decision. Public catalogue counts are AI 5 / Software 6 / Digital 3 across fourteen memberships. PicoxIA and ez-repo span AI/Software, Faraway Software/Digital, Reactis AI/Digital. The atlas independently curates nine projects: ez-repo occupies Reactis's former position with its own AI/Software links, while Reactis remains in the catalogue and its original paths. Atlas counts describe featured projects, with the full catalogue total shown separately. Selectors preserve shared source order. Public renderers, static route generation, proxy and MCP retain publication checks for future unpublished entries.
 
 Only the three formerly unpublished booleans changed. Details distinguish scope from verified outcomes: Reactis results and implementation technologies remain unconfirmed; ICOSNET expected impact is evaluated through simulation. Repository links exist for five projects; missing repository/demo URLs are stated without invention. `ContactSection` renders confirmed channels and only offers a PDF download when configured; no CV PDF is currently available.
 

@@ -52,12 +52,13 @@ export function AtlasGlobalProfile() {
   } : undefined}>Global profile</a>;
 }
 
-export function AtlasProjectCount({ total, counts }: {
+export function AtlasProjectCount({ total, catalogueTotal, counts }: {
   total: number;
+  catalogueTotal: number;
   counts: Record<CareerPathSlug, number>;
 }) {
   const { selected } = useAtlas();
-  return <span>{selected ? `${counts[selected]} active / ${total} projects` : `${total} projects · ${total} published`}</span>;
+  return <span>{selected ? `${counts[selected]} active / ${total} featured` : `${total} featured / ${catalogueTotal} projects`}</span>;
 }
 
 export function AtlasInteraction({ selected: initialSelection, ...props }: {
@@ -104,7 +105,7 @@ export function AtlasPathControl({ path, className, style, children }: {
   </button>;
 }
 
-export function AtlasProjectLink({ memberships, href, label, className, style, projectId, mobileDetails, children }: {
+export function AtlasProjectLink({ memberships, href, label, className, style, projectId, mobileDetails, status = "Published", children }: {
   memberships: readonly CareerPathSlug[];
   href: string;
   label: string;
@@ -112,12 +113,13 @@ export function AtlasProjectLink({ memberships, href, label, className, style, p
   style?: CSSProperties;
   projectId: string;
   mobileDetails?: string;
+  status?: string;
   children: ReactNode;
 }) {
   const { selected } = useAtlas();
   const active = selected === null || memberships.includes(selected);
   const content = mobileDetails ? <>{children}
-    <small className="publication">{active ? "Published" : "Other perspective"} · {mobileDetails}</small>
+    <small className="publication">{active ? status : "Other perspective"} · {mobileDetails}</small>
     {active ? <span className="mobile-project-triangle" aria-hidden="true">▸</span> : null}
   </> : children;
   const props = {

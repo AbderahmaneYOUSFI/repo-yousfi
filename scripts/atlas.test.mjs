@@ -44,6 +44,7 @@ const { SystemsAtlas } = load(resolve(root, 'src/components/systems-atlas.tsx'))
 const { projects } = load(resolve(root, 'src/data/projects.ts'));
 const { pathIdentity } = load(resolve(root, 'src/components/atlas-presentation.ts'));
 const modes = [undefined, 'ai-data', 'software', 'digital'];
+const featured = projects.filter(project => project.published && project.id !== 'reactis');
 test('Back to top is mounted exclusively on Home, outside perspective pages', () => {
   const { PortfolioPage } = load(resolve(root, 'src/components/portfolio-page.tsx'));
   const { BackToTop } = load(resolve(root, 'src/components/back-to-top.tsx'));
@@ -87,7 +88,7 @@ for (const slug of modes) {
         assert.match(card['aria-label'], /Outside selected perspective/);
       }
     }
-    const expectedActive = projects.filter(project => !slug || project.careerPaths.includes(slug)).length;
+    const expectedActive = featured.filter(project => !slug || project.careerPaths.includes(slug)).length;
     assert.equal(desktop.filter(card => card.tag === 'a').length, expectedActive);
     assert.ok(!html.split('<div class="atlas-mobile">')[0].includes('mobile-project-triangle'), 'mobile navigation indicators do not affect desktop nodes');
 
@@ -101,7 +102,7 @@ for (const slug of modes) {
 }
 
 test('shared projects remain active in each of their real perspectives', () => {
-  for (const project of projects.filter(project => project.careerPaths.length > 1)) {
+  for (const project of featured.filter(project => project.careerPaths.length > 1)) {
     for (const slug of project.careerPaths) {
       const html = renderToStaticMarkup(React.createElement(SystemsAtlas, { slug }));
       const entries = [...html.matchAll(/<a\b([^>]*data-project-id="[^"]+"[^>]*)>/g)]
@@ -156,14 +157,14 @@ test('one Home selection renders matching existing hero, active counts, controls
   // Seed the actual shared provider for SSR contracts. Browser clicks/layout are separate QA.
   for (const selected of [null, 'ai-data', 'software', 'digital', null]) {
     const html = renderToStaticMarkup(React.cloneElement(initial, { selected }));
-    const active = projects.filter(project => !selected || project.careerPaths.includes(selected));
+    const active = featured.filter(project => !selected || project.careerPaths.includes(selected));
     const desktop = [...html.matchAll(/<(a|span)\b([^>]*data-project-id="[^"]+"[^>]*)>/g)]
       .map(([, tag, attrs]) => ({ tag, ...attributes(attrs) })).filter(card => card.class.includes('atlas-node'));
     assert.equal(desktop.filter(card => card.tag === 'a').length, active.length);
     assert.deepEqual(desktop.filter(card => card.tag === 'a').map(card => card['data-project-id']), Array.from(active, project => project.id));
     assert.ok(desktop.filter(card => card.tag === 'a').every(card => card.href === `#${card['data-project-id']}`), 'Home selection never changes anchor destinations');
     assert.equal([...html.matchAll(/<h1\b/g)].length, 1, 'only the selected presentation is exposed');
-    assert.deepEqual(edges(html), edges(global), 'all twelve original connections stay identical');
+    assert.deepEqual(edges(html), edges(global), 'all twelve featured connections stay identical');
     assert.match(html, /aria-live="polite" aria-atomic="true"/);
     assert.ok(html.includes(`data-selection="${selected ?? 'all'}"`));
     const controls = [...html.matchAll(/<button\b([^>]*data-filter="[^"]+"[^>]*)>/g)].map(([, attrs]) => attributes(attrs));
@@ -174,8 +175,8 @@ test('one Home selection renders matching existing hero, active counts, controls
       assert.ok(copy(route));
       assert.equal(copy(html), copy(route), 'Home reuses the exact route presentation, typography classes and CTAs');
       assert.ok(html.includes(`data-identity="${pathIdentity[selected]}"`));
-      assert.ok(html.includes(`${active.length} active / 9 projects`));
-      assert.ok(html.includes(`${active.length} active projects.`), 'the live caption announces the current count');
+      assert.ok(html.includes(`${active.length} active / 9 featured`));
+      assert.ok(html.includes(`${active.length} active projects in this selection.`), 'the live caption announces the current count');
       assert.ok(!html.includes('id="hero-heading"'), 'the personal hero is not duplicated under the selected presentation');
     } else {
       assert.equal(html, global, 'returning to Global restores the full initial personal composition and graph');
@@ -199,7 +200,7 @@ test('mobile rectangles expose a triangle and published metadata only for active
         assert.equal(attrs.class, `mobile-project ${pathIdentity[project.careerPaths[0]]}`, 'Global accent derives from project data, not the containing branch');
         assert.equal(entry.includes('class="mobile-project-triangle" aria-hidden="true"'), active, project.id);
         assert.equal(entry.includes('Other perspective'), !active, project.id);
-        assert.equal(entry.includes('class="publication">Published'), active, project.id);
+        assert.equal(entry.includes(`class="publication">${project.status ?? 'Published'}`), active, project.id);
         assert.equal(tag, active ? 'a' : 'span');
         if (!active) {
           assert.equal(attrs.href, undefined);
@@ -212,14 +213,22 @@ test('mobile rectangles expose a triangle and published metadata only for active
   }
 });
 
-test('atlas changes preserve desktop markup and CSS except the approved presentation adjustments', () => {
-  const beforeSource = execFileSync('git', ['show', '6fb33b2:src/components/systems-atlas.tsx'], { cwd: root, encoding: 'utf8' });
-  const beforeInteraction = execFileSync('git', ['show', '6fb33b2:src/components/atlas-interaction.tsx'], { cwd: root, encoding: 'utf8' });
-  load(resolve(root, 'src/components/before-mobile-interaction.test.tsx'), beforeInteraction);
-  const { SystemsAtlas: BeforeAtlas } = load(resolve(root, 'src/components/before-mobile-atlas.test.tsx'), beforeSource.replace('"./atlas-interaction"', '"./before-mobile-interaction.test"'));
-  for (const slug of modes) {
-    const prefix = Component => renderToStaticMarkup(React.createElement(Component, { slug })).split('<div class="atlas-mobile">')[0];
-    assert.equal(prefix(SystemsAtlas), prefix(BeforeAtlas), `desktop markup and connections: ${slug ?? 'Global'}`);
+test('curated atlas preserves nine positions and uses real project memberships', () => {
+  const html = renderToStaticMarkup(React.createElement(SystemsAtlas));
+  assert.ok(html.includes('9 featured / 10 projects'));
+  assert.ok(!html.includes('data-project-id="reactis"'));
+  const { ProjectList } = load(resolve(root, 'src/components/project-list.tsx'));
+  const catalogue = renderToStaticMarkup(React.createElement(ProjectList, { projects }));
+  assert.ok(catalogue.includes('id="reactis"') && catalogue.includes('id="ez-repo"'));
+  assert.ok(catalogue.includes('class="study-status">In progress</span>'));
+  const ezRepo = html.match(/<a\b([^>]*data-project-id="ez-repo"[^>]*)>/);
+  assert.ok(ezRepo);
+  assert.equal(attributes(ezRepo[1]).style, 'left:50%;top:35%');
+  const edges = [...html.matchAll(/<path\b([^>]*data-project="[^"]+"[^>]*)>/g)]
+    .map(([, attrs]) => attributes(attrs));
+  assert.deepEqual(edges.filter(edge => edge['data-project'] === 'ez-repo').map(edge => edge['data-path']), ['ai-data', 'software']);
+  for (const project of featured) {
+    assert.deepEqual(edges.filter(edge => edge['data-project'] === project.id).map(edge => edge['data-path']).sort(), Array.from(project.careerPaths).sort());
   }
   const beforeCSS = execFileSync('git', ['show', '6fb33b2:src/app/globals.css'], { cwd: root, encoding: 'utf8' });
   const afterCSS = readFileSync(resolve(root, 'src/app/globals.css'), 'utf8');
@@ -241,10 +250,10 @@ test('atlas changes preserve desktop markup and CSS except the approved presenta
   assert.equal(outsideMobile(afterCSS), outsideMobile(beforeCSS), 'only approved logo, alignment, spacing and light-mode weight rules change');
 });
 
-test('all nine project pages present confirmed work and approved resources without empty or provisional sections', async () => {
+test('all ten project pages present confirmed work and approved resources without empty or provisional sections', async () => {
   const { default: ProjectPage, generateMetadata, generateStaticParams } = load(resolve(root, 'src/app/projects/[id]/page.tsx'));
   const { getProjectDetail } = load(resolve(root, 'src/data/project-details.ts'));
-  assert.equal(generateStaticParams().length, 9);
+  assert.equal(generateStaticParams().length, 10);
   for (const project of projects) {
     const props = { params: Promise.resolve({ id: project.id }) };
     const html = renderToStaticMarkup(await ProjectPage(props));
